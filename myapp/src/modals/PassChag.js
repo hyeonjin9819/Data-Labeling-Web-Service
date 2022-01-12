@@ -4,9 +4,9 @@ import '../bootstrap.min.css';
 import '../App.css';
 
 const onChange = () => {
-  var current = document.Password.cp.value;
-  var new_Pass = document.Password.np.value;
-  var con_Pass = document.Password.cnp.value;
+  var current = document.Password_form.cp.value;
+  var new_Pass = document.Password_form.np.value;
+  var con_Pass = document.Password_form.cnp.value;
 
   if(current.length < 1 || new_Pass < 1 || con_Pass < 1)  {
     alert('빈칸을 입력해주세요')
@@ -28,7 +28,7 @@ export const PassChag = ({show, onHide}) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <form name = 'Password'>
+        <form name = 'Password_form'>
         <div className='password_change'>
         <input className='cp' name = 'cp' type = "text" placeholder='Current Password'></input>
         <input className = 'np' name = 'np' type = "text" placeholder='New Password'></input>
