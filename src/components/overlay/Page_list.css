@@ -1,3 +1,4 @@
+/*페이지 리스트에 대한 전반적인 디자인*/
 .page {
     text-align: center;
 }
@@ -27,7 +28,7 @@
 .last{
     margin-left: 15px;
 }
-.first:hover, .last:hover, .left:hover, .right:hover{
+.first:hover, .last:hover, .left:hover, .right:hover{ /*커서를 갖다댈 시 파란색으로 폰트 출력*/
     color:blue;
 }
 .pagenation a.active{

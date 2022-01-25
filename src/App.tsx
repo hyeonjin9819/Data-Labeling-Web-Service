@@ -1,3 +1,5 @@
+/*컴포넌트들을 모아서 실행시켜주는 메인 app파일*/
+
 import React, { Component } from 'react';
 import './App.css';
 import Header from './components/overlay/Header';
@@ -54,7 +56,7 @@ interface State {
 }
 */
 class App extends Component {
-    render(){
+    render(){/*이 함수가 있어야 컴포넌트들이 웹페이지로 실행이 된다.*/
             return(
                     <div>
                     <Sidebar>

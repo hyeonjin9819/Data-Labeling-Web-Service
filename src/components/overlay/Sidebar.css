@@ -1,7 +1,8 @@
+/* sidebar에 대한 전박적인 디자인 */
 HTML CSSResult Skip Results Iframe EDIT ON body,
 ul,
 a {
-  color: rgb(255, 1, 2);
+  color: rgb(255, 1, 2); 
   text-decoration: none;
 }
 
@@ -11,14 +12,14 @@ a {
   top: 0;
   left: 100%;
   background-color: #cf0000;
-  z-index:1;
+  z-index:1;/*사이드바를 우선순위로 설정해주는 코드, 양숫값이 높을수록 우선순위가 높아짐*/
 }
 
-body {
+body {/*sidebar의 높이를 설정해주는 코드, sticky만 써도될거같은데 일단 넣음*/
   height: 500px;
 }
 
-.left-side-bar {
+.left-side-bar { /*사이드바에 대한 전반적인 디자인 및 기능을 구현해주는 코드*/
   background-color: rgba(233, 51, 51, 1);
   height: 100%;
   width: 180px;

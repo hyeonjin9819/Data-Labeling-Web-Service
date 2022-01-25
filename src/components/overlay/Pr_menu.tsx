@@ -1,6 +1,8 @@
+/*프로젝트 테이블을 만들어주는 타입스크립트 파일, 리액트 연결*/
+
 import React, { Component } from 'react';
 import square from './images/square.png';
-import { Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap'; /*부트스트랩 테이블을 import해주는 명령어*/
 
 class PjList extends Component {
   render(){

@@ -1,3 +1,5 @@
+/*페이지 이동하는 버튼에 대한 타입스크립트,리액트 연결 파일*/
+
 import React, { Component } from 'react';
 import './Page_list.css';
 

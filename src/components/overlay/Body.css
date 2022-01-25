@@ -1,11 +1,13 @@
-.Body {
+/* body 클래스에 대한 css를 설정해주는 파일*/
+
+.Body { /*body className에 대한 전반적인 디자인을 설정*/
   padding: 30px;
   margin-left: 20px;
   position:relative;
-  z-index: -10;
+  z-index: -10; 
 }
 
-.pro_search{
+.pro_search{ /*검색창에 대한 디자인 설정해주는 값, float는 수평으로 우측 배치*/
   width:200px;
   height: 20px;
   float:right;

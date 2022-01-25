@@ -1,6 +1,8 @@
-.Header {
-  border-bottom: 1px solid gray;
-  margin-left: 25px;
+/*Header 클래스에 대한 css파일*/
+
+.Header { /*Header에 대한 전반적인 디자인*/
+  border-bottom: 1px solid gray; /*헤더 아래에 경계선 선언, 1픽셀, 회색*/
+  margin-left: 25px; 
   padding-left: 10px;
   position: relative;
   vertical-align: middle;
@@ -10,7 +12,7 @@
   z-index: -5;
   
 }
-.Page {
+.Page { /*페이지에 대한 디자인*/
   margin-top: 10px;
   float: left;
   vertical-align: middle;
