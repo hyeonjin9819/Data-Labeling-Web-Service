@@ -1,0 +1,12 @@
+.Body {
+  padding: 30px;
+  margin-left: 20px;
+  position:relative;
+  z-index: -10;
+}
+
+.pro_search{
+  width:200px;
+  height: 20px;
+  float:right;
+}

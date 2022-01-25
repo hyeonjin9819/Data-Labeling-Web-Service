@@ -1,0 +1,63 @@
+.page {
+    text-align: center;
+}
+
+.pagenation {
+    list-style: none;
+    display: inline-block;
+    padding: 0;
+    margin-top: 20px;
+}
+.pagenation li {
+    display: inline;
+    text-align: center;
+}
+.pagenation a {
+    float:left;
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 5px 12px;
+    color: rgb(0, 0, 0);
+    line-height: 1.5;
+}
+.first{
+    margin-right: 15px;
+}
+.last{
+    margin-left: 15px;
+}
+.first:hover, .last:hover, .left:hover, .right:hover{
+    color:blue;
+}
+.pagenation a.active{
+    cursor: default;
+    color: white;
+}
+.pagenation a:active{
+    outline:none;
+}
+
+.modal .num {
+    margin-left: 3px;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.modal .num:hover {
+    background: rosybrown;
+    color:white;
+}
+.modal .num.active, .modal .num:active{
+    background: royalblue;
+    cursor: pointer;
+}
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid rgb(143, 86, 40);
+}

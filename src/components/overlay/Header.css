@@ -1,0 +1,39 @@
+.Header {
+  border-bottom: 1px solid gray;
+  margin-left: 25px;
+  padding-left: 10px;
+  position: relative;
+  vertical-align: middle;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  z-index: -5;
+  
+}
+.Page {
+  margin-top: 10px;
+  float: left;
+  vertical-align: middle;
+  flex-grow: 1;
+}
+.Top-li {
+  float: left;
+  margin-left: 30px;
+  color: black;
+}
+img {
+  width: 25px;
+  height: 25px;
+}
+ul {
+  list-style: none;
+}
+h5{
+  font-family: 'Sunflower', sans-serif;
+}
+.font{
+  font-size: 20px;
+  text-align: left;
+  vertical-align: middle;
+}
+
