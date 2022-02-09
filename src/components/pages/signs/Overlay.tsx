@@ -12,7 +12,7 @@ class Overlay extends Component<Props> {
             <div className="overlay-container">
                 <div className="overlay">
                     <div className="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
+                        <h1 className="overlay-subject">Welcome Back!</h1>
                         <p className="overlay-description">
                             이미 가입한 회원이시라면,<br/>
                             로그인 후 더 많은 서비스를 이용할 수 있습니다.

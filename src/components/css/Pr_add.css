@@ -1,0 +1,63 @@
+.Pr_add {
+  position: relative;
+  margin: 50px;
+  height: 250px;
+  text-align: center;
+}
+.pr {
+  position: relative;
+  width: 400px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px 1px 5px 1px;
+  margin-left: 200px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.p_a {
+  width: 250px;
+  height: 100px;
+  margin-left: 25px;
+  text-align: center;
+  background-color: turquoise;
+}
+.img {
+  width: 50px;
+  height: 50px;
+  margin-left: 5px;
+}
+
+.make {
+  margin: 100px;
+  float: right;
+}
+
+.label_list {
+  text-align: center;
+}
+.label_menu {
+  margin-left: 20px;
+  border: 1px solid white;
+  list-style: none;
+  display: inline-block;
+}
+.top {
+  float: left;
+}
+.cl {
+  float: right;
+  margin-left: 550px;
+  margin-top: 25px;
+}
+.test {
+  float: right;
+  margin-left: 200px;
+}
+.body_sub{
+  margin-left: 40px;
+}
+.footer_sub{
+  margin-left: 60px;
+  margin-bottom: 40px;
+}

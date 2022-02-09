@@ -1,0 +1,18 @@
+.view {
+  margin-left: 150px;
+}
+.dashboard {
+  float: left;
+  margin: 20px;
+}
+.welcome {
+  float: right;
+  margin: 20px;
+}
+.logout{
+  border:none;
+  background-color: transparent;
+  float:right;
+  margin-left: 20px;
+  margin-top: 25px;
+}

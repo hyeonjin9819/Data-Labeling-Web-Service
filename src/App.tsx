@@ -1,20 +1,21 @@
 /*컴포넌트들을 모아서 실행시켜주는 메인 app파일*/
 
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
+import {BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import './App.css';
-import Header from './components/overlay/Header';
-import Body from './components/overlay/Body';
-import Sidebar from './components/overlay/Sidebar';
-import Pr_menu from './components/overlay/Pr_menu';
-import Page_list from './components/overlay/Page_list';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
-import Overlay from './Overlay';
+import Pr_add from './components/pages/mainview/Pr_add';
+import SignUp from './components/pages/signs/SignUp';
+import SignIn from './components/pages/signs/SignIn';
+import Overlay from './components/pages/signs/Overlay';
+import Pr_main from './components/pages/mainview/Pr_main';
+import Mainview from './components/pages/mainview/Mainview';
 import './bootstrap.min.css';
 
 interface State {
   rightPanelActive: boolean,
 }
+
+/*로그인 페이지 컴포넌트 및 앱파일*/
 
 /*class App extends Component<{}, State> {
   constructor() {
@@ -55,20 +56,43 @@ interface State {
   }
 }
 */
+
+/*
 class App extends Component {
-    render(){/*이 함수가 있어야 컴포넌트들이 웹페이지로 실행이 된다.*/
+    render(){
             return(
-                    <div>
-                    <Sidebar>
+            <div>
+                  <Sidebar>
                         </Sidebar>
-                            <Header>
-                            </Header>
-                                <Body>
-                                </Body>
-                            <Pr_menu>
-                        </Pr_menu>
-                    <Page_list>
-                </Page_list>     
+                        <Pr_main>
+                        </Pr_main>         
+            </div>
+        );
+    }
+}
+
+export default App;
+*/
+
+/*
+<BrowserRouter>
+<Routes>
+<Route path='/main' element={<Pr_main/>} />
+</Routes>
+</BrowserRouter>
+*/
+
+
+class App extends Component {
+    render(){
+            return(
+            <div>
+              <Router>
+                  <Routes>
+                      <Route path ="/" element = {<Mainview/>}/>
+                      <Route path="/Pr_main" element = {<Pr_main/>}/>
+                  </Routes>
+              </Router>        
             </div>
         );
     }

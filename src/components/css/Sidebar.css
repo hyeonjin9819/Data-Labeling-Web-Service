@@ -1,0 +1,53 @@
+/* sidebar에 대한 전박적인 디자인 */
+.sidebar {
+  /*사이드바에 대한 전반적인 디자인 및 기능을 구현해주는 코드*/
+  background-color: #e93333;
+  height: 800px;
+  width: 150px;
+  position: fixed;
+  z-index: 10px;
+  /*left: -155px;*/
+}
+.menu {
+  list-style: none;
+}
+.menu:hover {
+  display: block;
+}
+.list {
+  margin-bottom: 20px;
+  margin-left: -40px;
+  text-align: left;
+  color: black;
+}
+.btn {
+  width: 180px;
+}
+.btn:hover {
+  background-color: white;
+  transition: background 0.5s;
+  opacity: 0.5;
+  display: block;
+}
+.icon {
+  margin-right: 20px;
+  width: 25px;
+  height: 25px;
+}
+.sub_list {
+  background-color: transparent;
+  border: transparent;
+}
+.sub_list:hover {
+  display: block;
+  background-color: black;
+  transition: background 0.2s;
+  opacity: 0.5;
+}
+.sub_menu {
+  list-style: none;
+}
+.link {
+  text-decoration: none;
+  color: black;
+}
