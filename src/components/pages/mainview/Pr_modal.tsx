@@ -12,8 +12,9 @@
        <>
        <div className="Body">
        <Pr_add show ={proModal} onHide={()=>setproModal(false)} />
+          <input className="pro_search" placeholder='프로젝트 검색'></input>
          <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >프로젝트 생성 </button> 
-         <input className="pro_search" placeholder='프로젝트 검색'></input>
+      
      </div>
      </>
      );

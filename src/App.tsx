@@ -10,14 +10,15 @@ import Overlay from './components/pages/signs/Overlay';
 import Pr_main from './components/pages/mainview/Pr_main';
 import Mainview from './components/pages/mainview/Mainview';
 import './bootstrap.min.css';
+import Teamview from './components/pages/mainview/Teamview';
 
 interface State {
   rightPanelActive: boolean,
 }
 
 /*로그인 페이지 컴포넌트 및 앱파일*/
-
-/*class App extends Component<{}, State> {
+/*
+class App extends Component<{}, State> {
   constructor() {
       // @ts-ignore
       super();
@@ -55,8 +56,8 @@ interface State {
       );
   }
 }
+export default App;
 */
-
 /*
 class App extends Component {
     render(){
@@ -91,6 +92,7 @@ class App extends Component {
                   <Routes>
                       <Route path ="/" element = {<Mainview/>}/>
                       <Route path="/Pr_main" element = {<Pr_main/>}/>
+                      <Route path="/Teamview" element={<Teamview/>}></Route>
                   </Routes>
               </Router>        
             </div>

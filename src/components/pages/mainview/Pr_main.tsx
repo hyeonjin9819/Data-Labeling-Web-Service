@@ -1,100 +1,69 @@
-import React, { Component} from 'react';
+import React, { useState } from 'react';
 import '../../css/Pr_main.css';
-import Body from './Body';
+import Body from './Pr_modal';
 import Sidebar from '../../navs/Sidebar';
 import profile from '../../images/profile.png';
 import bell from '../../images/bell.png';
 import square from '../../images/square.png';
 import { Table } from 'react-bootstrap';
 
-class Pr_main extends Component {
-    render() {
-        return(
-            <div>
-              <nav>
-                <Sidebar></Sidebar>
-              </nav>
-                <head className="pr_header">   
-                    <div className="pr_pages">
-                        <h5>프로젝트 페이지</h5>
-                    </div>
-                  <ul>
-                    <li className="h_img">
-                  <a href="#"><img src={bell}></img></a> 
-                    </li>
-                    <li className="h_img">
-                    <a href="#"><img src={profile}></img></a>
-                    </li>
-                  </ul>
-                </head>
-                    <body className="pr_tables">
-                        <Body>
+/*프로젝트 페이지로 넘어가면 나오는 페이지*/
+const Pr_main = () =>{
+  const [subject] = useState("프로젝트 페이지");
+  const[projects_list] = useState({
+      pr_num: "기본값 번호",
+      pr_name: "기본값 프로젝트 명",
+      label_type: <img src = {square}></img>,
+      pr_update: "기본값 갱신일",
+      pr_description:"기본 프로젝트입니다.",
+  });
+  return(
+    <div >
+    <nav className="sidebar">
+   <Sidebar>                                        
+       </Sidebar>
+    </nav>
+        <header>
+            <title>프로젝트 페이지</title>
+            </header>
+                <body  className="view">
+                    <div className="view_header">
+                    <h2 className="dashboard" >{subject}</h2>
+                    <button  className="logout"><img className="icon" src={profile}></img></button>
+                    <button  className="logout"><img className="icon" src={bell}></img></button>
+                    <Body>
                         </Body>
-                          <Table responsive="sm">
-                          <thead>
+                    </div>
+                    
+                    <div className="tables">
+                        
+                    <Table striped bordered hover>
+                        <thead>
                             <tr>
-                              <th>#</th>
-                              <th>프로젝트 이름</th>
-                              <th>레이블링 기법</th>
-                              <th>레이블링 횟수</th>
-                              <th> 프로젝트 생성 날짜</th>
-                              <th>마지막 수정일</th>
-                              <th></th>
+                            <th>프로젝트 번호</th>
+                            <th>프로젝트 명</th>
+                            <th>레이블링 타입</th>
+                            <th>마지막 갱신일</th>
+                            <th>프로젝트 설명</th>
                             </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="pr_table">
-                              <td>1</td>
-                              <td>프로젝트1</td>
-                              <td><img src={square}></img></td>
-                              <td>1</td>
-                              <td>2022.01.23</td>
-                              <td>2일 전</td>
-                              <td></td>
-                            </tr>
+                        </thead>
+                        <tbody>
                             <tr>
-                              <td>2</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td></td>
+                            <td>{projects_list.pr_num}</td>
+                            <td>{projects_list.pr_name}</td>
+                            <td>{projects_list.label_type}</td>
+                            <td>{projects_list.pr_update}</td>
+                            <td>{projects_list.pr_description}</td>
                             </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td>Table cell</td>
-                              <td></td>
-                            </tr>
-                          </tbody>
+                        </tbody>
                         </Table>
-                    </body>
-                    <footer>
-                        <div className="pr_navs">
-                            <ul className="pr_pagenation">
-                              <li className="page_btn"><a href="#" className="first">처음 페이지</a></li>
-                              <li className="page_btn"><a href="#" className="arrow_left">\\</a></li>
-                              <li className="page_btn"><a href="#" className="cur_num">1</a></li>
-                              <li className="page_btn"><a href="#" className="num">2</a></li>
-                              <li className="page_btn"><a href="#" className="num">3</a></li>
-                              <li className="page_btn"><a href="#" className="num">4</a></li>
-                              <li className="page_btn"><a href="#" className="num">5</a></li>
-                              <li className="page_btn"><a href="#" className="num">6</a></li>
-                              <li className="page_btn"><a href="#" className="num">7</a></li>
-                              <li className="page_btn"><a href="#" className="num">8</a></li>
-                              <li className="page_btn"><a href="#" className="num">9</a></li>
-                              <li className="page_btn"><a href="#" className="arrrow_right">//</a></li>
-                              <li className="page_btn"><a href="#" className="last">끝 페이지</a></li>
-                            </ul>
-                        </div>
-                    </footer>
-            </div>
-        );
-    }
+                    </div>
+                </body> 
+                <footer>
+                
+                </footer>
+    </div>
+  );
 }
 
 export default Pr_main;

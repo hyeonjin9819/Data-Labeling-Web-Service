@@ -1,3 +1,4 @@
+/*프로젝트 생성 modal창에 대한 디자인을 해주는 css코드*/
 .Pr_add {
   position: relative;
   margin: 50px;
@@ -20,7 +21,7 @@
   height: 100px;
   margin-left: 25px;
   text-align: center;
-  background-color: turquoise;
+  
 }
 .img {
   width: 50px;

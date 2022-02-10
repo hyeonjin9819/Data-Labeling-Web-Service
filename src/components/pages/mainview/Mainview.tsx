@@ -4,6 +4,7 @@ import logout from '../../images/logout.png';
 import Sidebar from '../../navs/Sidebar';
 import '../../css/Mainview.css';
 
+/*로그인 시 나오는 메인뷰 페이지를 구현해주는 타입스크립트 파일*/
 const Mainview=()=> {
     const [dashboard] = useState("dash board");
     const [user_name] = useState("기본 이름");

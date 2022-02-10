@@ -1,17 +1,16 @@
 import React, {Component, PropsWithChildren, ReactElement } from 'react';
-import '../../css/Pr_add.css';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
 import close from '../../images/close.png';
 
-/*프로젝트 생성 modal 버튼을 구현해주는 파일*/
+/*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
   show: boolean; 
   onHide: () => void; // 함수 타입 정의할 때 }
 }
 
-const Pr_add = (props: props): ReactElement => {
+const Team_add = (props: props): ReactElement => {
   const { show, onHide } = props;
   return (
     <Modal
@@ -24,7 +23,6 @@ const Pr_add = (props: props): ReactElement => {
     <div className="top">
     <Modal.Header>
       <Modal.Title id="contained-modal-title-vcenter">
-      <Button className="p_ad" variant="danger">images<img className="img" src = {image}></img></Button> 
       <div className="cl">
       <button onClick={onHide} className="close"><img src={close}></img></button>
       </div>
@@ -33,24 +31,20 @@ const Pr_add = (props: props): ReactElement => {
     </div>
     <Modal.Body>
       <div>
-      <h1 className="body_sub">프로젝트 명</h1>
-    <input className="pr" type="" placeholder="이름을 입력하세요."></input>
-        <h1 className="body_sub">프로젝트 설명</h1>
-            <input className="pr" type="" placeholder="설명을 입력하세요."></input>
+      <h1 className="body_sub">팀 명</h1>
+    <input className="pr" type="" placeholder="팀 명을 입력하세요."></input>
+        <h1 className="body_sub">팀 설명</h1>
+            <input className="pr" type="" placeholder="팀 설명을 입력하세요."></input>
             </div>
     </Modal.Body>
-    <h1 className="footer_sub">레이블링 타입</h1>
-    <ul className="label_list">
-                <li className="label_menu"><a href="#"><img src={box}></img></a></li>
-                <li className="label_menu">레이블링 2</li>
-                <li className="label_menu">레이블링 3</li>
-                <li className="label_menu">레이블링 4</li>
-    </ul>
+
     <Modal.Footer>
+        <div className="team_foot">
     <Button className="make"variant="danger">프로젝트 생성</Button>
+    </div>
     </Modal.Footer>
   </Modal>
   );
 }
 
-export default Pr_add;
+export default Team_add;
