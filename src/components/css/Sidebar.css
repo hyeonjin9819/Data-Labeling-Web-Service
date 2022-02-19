@@ -1,17 +1,26 @@
 /* sidebar에 대한 전박적인 디자인 */
 .sidebar {
   /*사이드바에 대한 전반적인 디자인 및 기능을 구현해주는 코드*/
-  background-color: #e93333;
+  background-color: #e933339d;
   height: 800px;
   width: 150px;
   position: fixed;
 }
 .list {
   margin-left: -40px;
-
 }
-.btn {
- 
+
+/*파란색 뜨는거 해결하기*/
+.hi {
+  color: transparent;
+  text-decoration: none;
+}
+.hi:hover {
+  color: transparent;
+  text-decoration: none;
+}
+.list > .btn {
+  text-decoration: none;
 }
 .btn:hover {
   background-color: white;

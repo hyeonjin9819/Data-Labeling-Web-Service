@@ -8,9 +8,12 @@ import SignUp from './components/pages/signs/SignUp';
 import SignIn from './components/pages/signs/SignIn';
 import Overlay from './components/pages/signs/Overlay';
 import Pr_main from './components/pages/mainview/Pr_main';
-import Mainview from './components/pages/mainview/Mainview';
+import MainPage from './components/pages/mainview/MainPage';
 import './bootstrap.min.css';
 import Teamview from './components/pages/mainview/Teamview';
+import Labeling_tool from './components/pages/mainview/Labeling_tool'
+import Label_page from './components/pages/mainview/Label_page';
+
 
 interface State {
   rightPanelActive: boolean,
@@ -83,16 +86,17 @@ export default App;
 </BrowserRouter>
 */
 
-
+/*
 class App extends Component {
     render(){
             return(
             <div>
               <Router>
                   <Routes>
-                      <Route path ="/" element = {<Mainview/>}/>
+                      <Route path ="/" element = {<MainPage/>}/>
                       <Route path="/Pr_main" element = {<Pr_main/>}/>
                       <Route path="/Teamview" element={<Teamview/>}></Route>
+                      <Route path="/Label_page/:no" element={<Label_page/>}></Route>
                   </Routes>
               </Router>        
             </div>
@@ -101,3 +105,17 @@ class App extends Component {
 }
 
 export default App;
+*/
+
+class App extends Component {
+    render(){
+            return(
+            <div>
+                <Label_page></Label_page>
+            </div>
+        );
+    }
+}
+
+export default App;
+

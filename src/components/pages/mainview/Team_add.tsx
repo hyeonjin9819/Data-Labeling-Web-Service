@@ -40,7 +40,7 @@ const Team_add = (props: props): ReactElement => {
 
     <Modal.Footer>
         <div className="team_foot">
-    <Button className="make"variant="danger">프로젝트 생성</Button>
+    <Button className="make"variant="danger">팀 생성</Button>
     </div>
     </Modal.Footer>
   </Modal>

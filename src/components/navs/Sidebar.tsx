@@ -23,7 +23,7 @@ const Sidebar=(any:any)=> {
             <div className="sidebar">
             <ul className="menu">
             <li className="list">
-                <Link to="/">
+                <Link className="hi" to="/">
                     <button className="btn"> <img className="icon" src = {home}></img>메인 뷰</button>'
                     </Link>
                 </li>

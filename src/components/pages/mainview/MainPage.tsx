@@ -5,10 +5,10 @@ import Sidebar from '../../navs/Sidebar';
 import '../../css/Mainview.css';
 
 /*로그인 시 나오는 메인뷰 페이지를 구현해주는 타입스크립트 파일*/
-const Mainview=()=> {
+const MainPage=()=> {
     const [dashboard] = useState("dash board");
     const [user_name] = useState("기본 이름");
-    const[projects] = useState({
+    const[projects]:any[] = useState({
         num: "기본값 숫자",
         project_name: "기본값 프로젝트",
         team_name: "기본값 팀",
@@ -56,4 +56,4 @@ const Mainview=()=> {
                 </div>
         );
 }
-export default Mainview;
+export default MainPage;

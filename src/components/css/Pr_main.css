@@ -25,21 +25,20 @@ img {
 ul {
   list-style: none;
 }
-.pr_add_btn{
+.pr_add_btn {
   float: right;
   background-color: #e93333;
-  border:transparent;
-  color:white;
+  border: transparent;
+  color: white;
   font-weight: bold;
   border-radius: 4px 4px 4px 4px;
-  
 }
 /* body 클래스에 대한 css를 설정해주는 파일*/
 
 .Body {
   /*body className에 대한 전반적인 디자인을 설정*/
   padding: 30px;
-  
+
   position: relative;
 }
 
@@ -111,7 +110,6 @@ ul {
   text-align: center;
 }
 
-
 /*modal창 디자인*/
 .modal .num {
   margin-left: 3px;
@@ -137,4 +135,7 @@ ul {
   border-bottom: 10px solid transparent;
   border-right: 10px solid rgb(143, 86, 40);
 }
-
+img {
+  width: 25px;
+  height: 25px;
+}
