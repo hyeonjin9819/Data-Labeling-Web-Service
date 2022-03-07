@@ -27,8 +27,8 @@
 * 호스팅 환경
   * AWS
 
-# 개발일정
-![image](https://user-images.githubusercontent.com/88416797/157064866-5af8a4f6-94db-4550-bafa-9af964f1912c.png)
+# 시스템 구성도
+![image](https://user-images.githubusercontent.com/88416797/157065524-81f44a09-aa75-4d17-86a5-e33bb1e94a94.png)
 
 
 
