@@ -1,8 +1,7 @@
-![waving](https://capsule-render.vercel.app/api?type=waving&height=200&text=Data%20Labeling%20Web%20Service%20&fontAlign=80&fontAlignY=40&color=gradient)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=250&section=header&text=Data%20Labeling%20Web%20Service&fontSize=55)
 
 # Data Labeling Web Service
 본 서비스는 한국공학대학교 졸업작품 AI 학습용 데이터 레이블링 시스템입니다. 
-
 
 # Members
 이름|학과
@@ -27,3 +26,4 @@
 
 * 호스팅 환경
   * AWS
+
