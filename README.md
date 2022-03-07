@@ -1,4 +1,4 @@
-![waving](https://capsule-render.vercel.app/api?type=waving&height=200&text=Data Labeling Web Service&fontAlign=80&fontAlignY=40&color=gradient)
+![waving](https://capsule-render.vercel.app/api?type=waving&height=200&text=```Data Labeling Web Service```&fontAlign=80&fontAlignY=40&color=gradient)
 
 # Data Labeling Web Service
 
