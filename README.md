@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=100&section=header&text= Data\nLabeling\nWeb\nService&fontSize=20)
+![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=100&section=header&text= DataLabelingWebService&fontSize=20)
 
 # Data Labeling Web Service
 
