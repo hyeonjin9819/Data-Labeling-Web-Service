@@ -10,6 +10,8 @@ import RegisterPage from './components/views/RegisterPage/RegisterPage';
 import ProjectPage from './components/views/ProjectPage/ProjectPage';
 import TeamMainView from './components/views/TeamMainView/TeamMainView';
 import MyProfile from './components/views/MyProfile/MyProfile';
+import DataDetails from './components/views/ProjectPage/DataDetails'
+
 function App(){
   return (
     <Router>
@@ -19,6 +21,9 @@ function App(){
         <Route path="/ProjectPage" element = {<ProjectPage/>}/>
         <Route path="/TeamMainView" element = {<TeamMainView/>}/>
         <Route path="/MyProfile" element = {<MyProfile/>}/>
+        {/* 프로젝트 리스트 동적 라우팅 */}
+        <Route path = "ProjectPage/:projectId" element={<DataDetails/>}/>
+
        </Routes>
      </div>
    </Router>

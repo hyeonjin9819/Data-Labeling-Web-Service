@@ -6,8 +6,9 @@ import profile from '../../images/profile.png';
 import bell from '../../images/bell.png';
 import square from '../../images/square.png';
 import box from '../../images/box.png';
-import { Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Row, Table } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import Test from '../SideBar/Test';
 
 /*프로젝트 페이지로 넘어가면 나오는 페이지*/
 const ProjectPage = () =>{
@@ -18,32 +19,41 @@ const ProjectPage = () =>{
     let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
   const [subject, setsubject] = useState("프로젝트 페이지");
   const [proModal, setproModal] = useState(false);
+  const [num, setNum] = useState(0)
 
   const [projects_list, setproject] = useState<any>([
     {
-    pr_id : 1,
+    //pr_id : 1,
     pr_name : "지윤", 
     pr_de : "레이블링" ,
     pr_date : "2월 17일",
     pr_tool : "square",
     pr_category : "의료",
     pr_upload : "Image",
-    },
-    {
-    pr_id : 2,
-    pr_name : "지윤", 
-    pr_de : "레이블링" ,
-    pr_date : "2월 17일",
-    pr_tool : "box",
-    pr_category : "농업",
-    pr_upload : "Text",
     }
+    // {
+    // pr_id : 2,
+    // pr_name : "지윤", 
+    // pr_de : "레이블링" ,
+    // pr_date : "2월 17일",
+    // pr_tool : "box",
+    // pr_category : "농업",
+    // pr_upload : "Text",
+    // }
 ])
   const nextId = projects_list.length // list 개수
   console.log('next',nextId)
   const getName = (user:any)=>{
     setproject ([...projects_list, user])
   }
+
+  // 프로젝트 목록에서 한줄 클릭하면 그 줄에 해당하는 페이지로 이동시키기 위한 onclick 이벤트
+  const navigate = useNavigate();
+  const handleRowClick = (e:any) => {
+      console.log(e)
+      navigate(`/ProjectPage/${e+1}`)
+  }
+
 //  <Test projects_list = {projects_list} />
   return(
    <div>
@@ -80,13 +90,12 @@ const ProjectPage = () =>{
                                 </tr>
                             </thead>
                             <tbody id="tables">
-                                
                                 {
-                                    projects_list.map(
-                                        (project: any) => (
+                                    projects_list?.map(
+                                        (project: { pr_name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_category: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_upload: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_tool: any; pr_date: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_de: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; } ,num: number) => (
                                             <>
-                                            <tr>
-                                            <td>{project.pr_id}</td>
+                                            <tr onClick={()=> handleRowClick(num)}>
+                                            <td>{num+1}</td>
                                             <td>{project.pr_name}</td>
                                             <td>{project.pr_category}</td>
                                             <td>{project.pr_upload}</td>
@@ -95,7 +104,6 @@ const ProjectPage = () =>{
                                             </td>
                                             <td>{project.pr_date}</td>
                                             <td>{project.pr_de}</td>
-                                            
                                             </tr>
                                             </>
                                         )
