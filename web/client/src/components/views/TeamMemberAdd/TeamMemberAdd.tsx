@@ -21,7 +21,7 @@ const TeamMemberAdd = (props: props): ReactElement => {
     aria-labelledby="contained-modal-title-vcenter"
     centered
   >
-    <div className="top">
+    {/* <div className="top">
     <Modal.Header>
       <Modal.Title id="contained-modal-title-vcenter">
       <div className="cl">
@@ -29,7 +29,7 @@ const TeamMemberAdd = (props: props): ReactElement => {
       </div>
       </Modal.Title>
     </Modal.Header>
-    </div>
+    </div> */}
     <Modal.Body>
       <div>
       <h1 className="body_sub">팀원 초대</h1>

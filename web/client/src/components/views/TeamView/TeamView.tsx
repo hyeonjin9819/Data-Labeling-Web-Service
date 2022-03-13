@@ -4,9 +4,11 @@ import {Table} from 'react-bootstrap';
 import '../../css/Mainview.css';
 import TeamViewAdd from '../TeamViewAdd/TeamViewAdd';
 import TeamMemberAdd from '../TeamMemberAdd/TeamMemberAdd';
+import { useParams } from 'react-router-dom';
 
 /*팀 페이지에 대한 구현을 해준 타입스크립트 파일*/
 const TeamView = ()=> {
+    const {teamId} = useParams()
     const [proModal, setproModal] = useState(false);
     const [subject, setsubject] = useState("팀 1");
     const[teams, setteams] = useState({
@@ -26,11 +28,8 @@ const TeamView = ()=> {
                     </header>
                         <body  className="view">
                             <div className="view_header">
-                            <h2 className="dashboard" >{subject}</h2>
+                            <h2 className="dashboard" >{teamId}</h2>
                             <div>
-                            <div>
-                            {teams.name}
-                            </div>
                             <TeamMemberAdd show ={proModal} onHide={()=>setproModal(false)} />
                             <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >팀원 초대 </button> 
                             </div>
