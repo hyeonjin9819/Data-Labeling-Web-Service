@@ -6,16 +6,17 @@ import image from '../../images/image.png';
 import text from '../../images/text.png';
 import close from '../../images/close.png';
 import square from '../../images/square.png';
+import { fail } from 'assert';
 
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
 interface props { 
   show: boolean; 
-  getName: (a:any) => void;
   onHide: () => void; // 함수 타입 정의할 때 }
+  getName: (a:any) => void;
   nextId : number;
 }
 
-const Pr_add = (props: props): ReactElement => {
+const ProjectAddPage = (props: props): ReactElement => {
   let today = new Date(); //날짜를 계산해주는 Date 함수
   let year = today.getFullYear(); // 현재 년도를 가져와주는 getFullYear 함수
   let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
@@ -45,7 +46,6 @@ const Pr_add = (props: props): ReactElement => {
   const add= () =>{
     if(pr_text?.pr_name === null || pr_text?.pr_de ===null){
       alert("프로젝트명 혹은 설명을 입력해주세요");
-   
     }
     else {
     console.log('함수',pr_text?.pr_name); 
@@ -59,11 +59,16 @@ const Pr_add = (props: props): ReactElement => {
     })
     onHide();
     }
-    // 프로젝트 생성
-    // 사이드바에 프로젝트를 추가해야해
-    // 그러려면
-    // 어떻게 하면 좋을까?
   }
+
+const cus_input = (e: any) => {
+  const category = e.target.value;
+
+  setText ({
+   ...pr_text,
+   pr_category : category
+ })
+}
 
   const ontool = (e:any) => {
       const tool = e.target.value;
@@ -84,12 +89,19 @@ const onupload = (e:any) => {
 }
 
 const oncategory = (e:any) => {
-  const category = e.target.value;
-  console.log('category', category);
+  const category2 = e.target.value;
+  console.log('category234', category2);
+  (document.getElementById('as') as HTMLInputElement).value = '';
   setText ({
     ...pr_text,
-    pr_category : category
+    pr_category : category2
   })
+  document.getElementById('as')?.setAttribute('disabled', 'true');
+}
+
+const dis_check = () => {
+   const cc = document.getElementById('as')
+   cc?.removeAttribute("disabled");
 }
 
   return (
@@ -112,7 +124,7 @@ const oncategory = (e:any) => {
   </Modal.Header>*/}
     </div>
     <Modal.Body>
-      <div>
+      <div >
       <h4 className="body_sub" style = {{marginTop: '5px'}}>프로젝트 명</h4>
       <input name = "pr_name"  className="pr" placeholder="이름을 입력하세요." onChange={onChangeText} style = {{width : '50%'}}></input>
         <h4 className="body_sub">프로젝트 설명</h4>
@@ -120,15 +132,23 @@ const oncategory = (e:any) => {
             </div>
             </Modal.Body>
        <h4 className="footer_sub">카테고리 선택</h4>
-       <div className="te">
+       <div className="te" style = {{textAlign : 'center'}}>
        <label className="labels"  htmlFor="asdf">
        <input  onClick={oncategory} name="category" type="radio" value= "의료" className="label_method"></input>
        <div>의료</div>
-     
        </label>
        <label className="labels"  htmlFor="asdf">
        <input name="category" type="radio" value= "농업" className="label_method" onClick={oncategory}></input>
        <div>농업</div>
+       </label>
+
+       <label className="labels"  htmlFor="asdf" style={{display :'inlineBlock'}}>
+       <input name="category" type="radio" id = "label_" value= "사용자입력"  className="label_" onClick={dis_check}></input>
+       <div>사용자 입력</div>
+      
+       </label>
+       <label>
+       <input type = "text" id = "as" name = "as" className = "text1" style={{display :'inlineBlock'}} onChange = {cus_input} disabled></input>
        </label>
        </div>
      <h4 className="footer_sub">업로드 타입</h4>
@@ -136,7 +156,6 @@ const oncategory = (e:any) => {
     <label className="labels"  htmlFor="asdf">
     <input  onClick={onupload} name="upload" type="radio" value= "Image" className="label_method"></input>
     <div>Image</div>
-
     </label>
     <label className="labels"  htmlFor="asdf">
     <input name="upload" type="radio" value= "text" className="label_method" onClick={onupload}></input>
@@ -162,7 +181,6 @@ const oncategory = (e:any) => {
   <div className="box"></div>
   </label>
   </div>
-
     <Modal.Footer>
     <Button onClick={add} className="make">프로젝트 생성</Button>
     </Modal.Footer>
@@ -170,4 +188,4 @@ const oncategory = (e:any) => {
   );
 }
 
-export default Pr_add;
+export default ProjectAddPage;
