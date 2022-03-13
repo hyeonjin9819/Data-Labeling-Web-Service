@@ -23,7 +23,7 @@ const ProjectPage = () =>{
 
   const [projects_list, setproject] = useState<any>([
     {
-    pr_id : 1,
+    //pr_id : 1,
     pr_name : "지윤", 
     pr_de : "레이블링" ,
     pr_date : "2월 17일",
@@ -47,11 +47,11 @@ const ProjectPage = () =>{
     setproject ([...projects_list, user])
   }
 
+  // 프로젝트 목록에서 한줄 클릭하면 그 줄에 해당하는 페이지로 이동시키기 위한 onclick 이벤트
   const navigate = useNavigate();
   const handleRowClick = (e:any) => {
       console.log(e)
       navigate(`/ProjectPage/${e+1}`)
-    //   navigate(`/ProjectPage/${row.project.pr_id}`);
   }
 
 //  <Test projects_list = {projects_list} />

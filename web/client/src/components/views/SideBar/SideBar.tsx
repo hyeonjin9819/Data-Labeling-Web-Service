@@ -41,7 +41,7 @@ function SideBar(props : any) {
             </Link>
         </li>
        
-        <li className="list">
+        <li className="list" style = {{ marginTop : '20px' }}>
         <Link to = "/MyProfile">
         <button className="btn"><img className="icon" src = {setting}></img>내 정보</button>
         </Link>

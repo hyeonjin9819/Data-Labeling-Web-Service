@@ -21,6 +21,7 @@ function App(){
         <Route path="/ProjectPage" element = {<ProjectPage/>}/>
         <Route path="/TeamView" element = {<TeamView/>}/>
         <Route path="/MyProfile" element = {<MyProfile/>}/>
+        {/* 프로젝트 리스트 동적 라우팅 */}
         <Route path = "ProjectPage/:projectId" element={<DataDetails/>}/>
 
        </Routes>
