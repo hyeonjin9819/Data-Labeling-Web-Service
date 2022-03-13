@@ -3,6 +3,7 @@ import Sidebar from '../../views/SideBar/SideBar';
 import {Table} from 'react-bootstrap';
 import '../../css/Mainview.css';
 import TeamViewAdd from '../TeamViewAdd/TeamViewAdd';
+import TeamMemberAdd from '../TeamMemberAdd/TeamMemberAdd';
 
 /*팀 페이지에 대한 구현을 해준 타입스크립트 파일*/
 const TeamView = ()=> {
@@ -30,8 +31,8 @@ const TeamView = ()=> {
                             <div>
                             {teams.name}
                             </div>
-                            <TeamViewAdd show ={proModal} onHide={()=>setproModal(false)} />
-                            <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >팀 생성 </button> 
+                            <TeamMemberAdd show ={proModal} onHide={()=>setproModal(false)} />
+                            <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >팀원 초대 </button> 
                             </div>
                             </div>
                             <div className="tables">

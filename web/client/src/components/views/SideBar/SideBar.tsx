@@ -39,17 +39,9 @@ function SideBar(props : any) {
             <Link to = "/ProjectPage">
             <button onClick={toggleNav} className="btn" style = {{ marginTop : '20px' }}> <img className="icon" src = {folder}></img>프로젝트</button>
             </Link>
-            <ul className={Visible ? "show - menu" : "hide-menu"}>
-                <button className="sub_list">
-                    { pr_name }
-                </button>
-            </ul>
-        </li>
-        <li className="list">
-        <button className="btn"><img className="icon" src = {data}></img>데이터</button>
         </li>
        
-        <li className="list">
+        <li className="list" style = {{ marginTop : '20px' }}>
         <Link to = "/MyProfile">
         <button className="btn"><img className="icon" src = {setting}></img>내 정보</button>
         </Link>
