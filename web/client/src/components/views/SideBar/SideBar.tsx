@@ -24,7 +24,7 @@ function SideBar(props : any) {
     <div className="sidebar" >
     <ul className="menu">
     <li className="list" style = {{ marginTop : '20px' }}>
-    <Link to = "/TeamView">
+    <Link to = "/TeamMainView">
     <button onClick={toggleNav2} className="btn"><img className="icon" src = {user}></img>팀</button>
     </Link>
     <div className="sub_menu">
