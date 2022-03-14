@@ -1,12 +1,12 @@
 import React, { ReactElement, useState } from 'react';
 import '../../css/ProjectAddPage.css';
-
+import {useDispatch} from 'react-redux'
+import {projectCreate, findEmail} from '../../../_actions/user_action';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import text from '../../images/text.png';
 import close from '../../images/close.png';
 import square from '../../images/square.png';
-import { fail } from 'assert';
 
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
 interface props { 
@@ -17,12 +17,34 @@ interface props {
 }
 
 const ProjectAddPage = (props: props): ReactElement => {
+  const dispatch = useDispatch<any>();
   let today = new Date(); //날짜를 계산해주는 Date 함수
   let year = today.getFullYear(); // 현재 년도를 가져와주는 getFullYear 함수
   let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
   let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
   const { show, getName,onHide, nextId } = props;
-  
+
+  const [email_user, setemail_user] = useState<String>(' ')
+
+  var token_name = 'x_auth'
+  token_name = token_name + '='; 
+  var cookieData = document.cookie; 
+  var start = cookieData.indexOf(token_name);
+  let token = ''; 
+  if(start != -1){
+       start += token_name.length; 
+       var end = cookieData.indexOf(';', start); 
+       if(end == -1) end = cookieData.length; 
+       token = cookieData.substring(start, end);
+}
+let bodys = {
+  tokens : token
+}
+console.log("바디",bodys)
+
+
+ // 로그인 되어 있는 사람의 토큰값
+
   const [pr_text, setText] = useState<{
   pr_id? : any,
   pr_name?: any,
@@ -34,8 +56,6 @@ const ProjectAddPage = (props: props): ReactElement => {
   }>();
   const onChangeText = (e:{target :{name:any; value:any;}}) =>{
     const{name, value} = e.target;
-    console.log(e.target);
-    console.log('최종 '+e.target.value);
     setText ({
       ...pr_text,
     [name]:value,
@@ -48,15 +68,45 @@ const ProjectAddPage = (props: props): ReactElement => {
       alert("프로젝트명 혹은 설명을 입력해주세요");
     }
     else {
-    console.log('함수',pr_text?.pr_name); 
-    console.log('함수',pr_text?.pr_de);
-    console.log('함수',pr_text?.pr_date);
     getName(pr_text);
-    setText({
-      ...pr_text,
-      pr_name : null,
-      pr_de : null
+    if(email_user===' '){
+    dispatch(findEmail(bodys))
+       .then((response: { payload: { Success: any; email : any}; }) => {
+         if(response.payload.Success) {
+             setemail_user(response.payload.email.toString())
+         }  
+         else {
+           alert(token)
+         }
+       })}
+    
+    let body = {
+    user_email : email_user,
+    id : pr_text?.pr_id,
+    name:pr_text?.pr_name,
+    category :pr_text?.pr_category,
+    upload: pr_text?.pr_upload,
+    tool: pr_text?.pr_tool,
+    date: pr_text?.pr_date,
+    info:pr_text?.pr_de
+  }
+  
+  setText({
+    ...pr_text,
+    pr_name : null,
+    pr_de : null
+  })
+
+    dispatch(projectCreate(body))
+    .then((response: { payload: { success: any; }; }) => {
+      if(response.payload.success) {
+          alert("성공")
+      }  
+      else {
+        alert('실패')
+      }
     })
+
     onHide();
     }
   }

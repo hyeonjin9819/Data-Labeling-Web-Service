@@ -8,7 +8,6 @@ import square from '../../images/square.png';
 import box from '../../images/box.png';
 import { Row, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import Test from '../SideBar/Test';
 
 /*프로젝트 페이지로 넘어가면 나오는 페이지*/
 const ProjectPage = () =>{
