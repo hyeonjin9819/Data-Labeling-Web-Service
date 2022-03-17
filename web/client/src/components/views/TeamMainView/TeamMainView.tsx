@@ -7,7 +7,7 @@ import bell from '../../images/bell.png';
 import square from '../../images/square.png';
 import box from '../../images/box.png';
 import { Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 const TeamMainView = () =>{
     let today = new Date(); //날짜를 계산해주는 Date 함수
@@ -16,6 +16,7 @@ const TeamMainView = () =>{
     let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
   const [subject, setsubject] = useState("팀 페이지");
   const [proModal, setproModal] = useState(false);
+  const navigate = useNavigate();
 
   const [Team_list, setTeam] = useState<any>([
     {
@@ -31,6 +32,12 @@ const TeamMainView = () =>{
   const getName = (user:any)=>{
     setTeam ([...Team_list, user])
   }
+
+  const handleRowClick = (e:any) => {
+      console.log(e)
+      navigate(`/TeamMainView/${e}`)
+  }
+
 //  <Test projects_list = {projects_list} />
   return(
    <div>
@@ -68,7 +75,7 @@ const TeamMainView = () =>{
                                     Team_list.map(
                                         (team: any) => (
                                             <>
-                                            <tr>
+                                            <tr onClick={()=> handleRowClick(team.team_name)}>
                                             <td>{team.team_id}</td>
                                             <td>{team.team_name}</td>
                                             <td>{team.team_de}</td>

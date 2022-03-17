@@ -50,7 +50,7 @@ const ProjectPage = () =>{
   const navigate = useNavigate();
   const handleRowClick = (e:any) => {
       console.log(e)
-      navigate(`/ProjectPage/${e+1}`)
+      navigate(`/ProjectPage/${e}`)
   }
 
 //  <Test projects_list = {projects_list} />
@@ -93,7 +93,7 @@ const ProjectPage = () =>{
                                     projects_list?.map(
                                         (project: { pr_name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_category: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_upload: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_tool: any; pr_date: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_de: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; } ,num: number) => (
                                             <>
-                                            <tr onClick={()=> handleRowClick(num)}>
+                                            <tr onClick={()=> handleRowClick(project.pr_name)}>
                                             <td>{num+1}</td>
                                             <td>{project.pr_name}</td>
                                             <td>{project.pr_category}</td>
