@@ -24,7 +24,7 @@ const ProjectAddPage = (props: props): ReactElement => {
   let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
   const { show, getName,onHide, nextId } = props;
 
-  const [email_user, setemail_user] = useState<String>(' ')
+  const [email_user, setemail_user] = useState<any>(null)
 
   var token_name = 'x_auth'
   token_name = token_name + '='; 
@@ -37,12 +37,10 @@ const ProjectAddPage = (props: props): ReactElement => {
        if(end == -1) end = cookieData.length; 
        token = cookieData.substring(start, end);
 }
-let bodys = {
-  tokens : token
-}
-console.log("바디",bodys)
-
-
+// let bodys = {
+//   tokens : token
+// }
+// console.log("바디",bodys)
  // 로그인 되어 있는 사람의 토큰값
 
   const [pr_text, setText] = useState<{
@@ -54,6 +52,7 @@ console.log("바디",bodys)
   pr_upload? : any,
   pr_category? : any
   }>();
+
   const onChangeText = (e:{target :{name:any; value:any;}}) =>{
     const{name, value} = e.target;
     setText ({
@@ -68,29 +67,31 @@ console.log("바디",bodys)
       alert("프로젝트명 혹은 설명을 입력해주세요");
     }
     else {
-    getName(pr_text);
-    if(email_user===' '){
-    dispatch(findEmail(bodys))
-       .then((response: { payload: { Success: any; email : any}; }) => {
-         if(response.payload.Success) {
-             setemail_user(response.payload.email.toString())
-         }  
-         else {
-           alert(token)
-         }
-       })}
-    
+
     let body = {
-    user_email : email_user,
-    id : pr_text?.pr_id,
-    name:pr_text?.pr_name,
-    category :pr_text?.pr_category,
-    upload: pr_text?.pr_upload,
-    tool: pr_text?.pr_tool,
-    date: pr_text?.pr_date,
-    info:pr_text?.pr_de
-  }
-  
+      user_token : token,
+      id : pr_text?.pr_id,
+      name:pr_text?.pr_name,
+      category :pr_text?.pr_category,
+      upload: pr_text?.pr_upload,
+      tool: pr_text?.pr_tool,
+      date: pr_text?.pr_date,
+      info:pr_text?.pr_de
+    }
+
+    getName(pr_text);
+
+    // if(email_user===null){
+    // dispatch(findEmail(bodys))
+    //    .then((response: { payload: { Success: any; email : any}; }) => {
+    //      if(response.payload.Success) {
+    //          setemail_user(response.payload.email.toString())
+    //      }  
+    //      else {
+    //        alert(token)
+    //      }
+    //    })}
+    
   setText({
     ...pr_text,
     pr_name : null,

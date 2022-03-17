@@ -35,6 +35,8 @@ app.get('/', (req, res) => {
   })
 })
 
+
+
 app.get('/api/hello', (req, res) => {
   res.send('api Hello')
 })
@@ -44,7 +46,7 @@ app.post('/api/projects/create',(req,res) => {
   const project = new Project(req.body)
   console.log(req.body)
   project.save((err,projectInfo) => {
-    if(err) return re.json({success:false, err})
+    if(err) return res.json({success:false, err})
     return res.status(200).json({
       success:true
     })
@@ -66,20 +68,53 @@ app.post('/api/users/register',(req, res) => {
   })
 })
 
-app.post('/api/users/findemail',(req, res) => {
-  User.findOne({token : req.body.tokens}, (err, users)=> {
-    if(!users) {
+// app.post('/api/users/findemail',(req, res) => {
+//   User.findOne({token : req.body.tokens}, (err, users)=> {
+//     if(!users) {
+//       return res.json ({
+//         data : '토큰 '+req.body.tokens,
+//         Success : false,
+//         message: "제공된 토큰에 해당하는 유저가 없습니다.",
+//       })
+//     }
+//     return res.send({
+//       data : '토큰 '+req.body.tokens,
+//       Success : true,
+//       email : users.email
+//           })
+//   })
+// })
+
+app.post('/api/users/myinfo',(req, res) => {
+  User.findOne({token : req.body.token}, (err, user) => {
+    if(!user){
       return res.json ({
-        data : '토큰 '+req.body.tokens,
         Success : false,
-        message: "제공된 토큰에 해당하는 유저가 없습니다.",
+        message: "토큰에 해당하는 회원이 없다."
       })
     }
-    return res.send({
-      data : '토큰 '+req.body.tokens,
+  return res.status(200).json({
       Success : true,
-      email : users.email
-          })
+      email : user.email,
+      name : user.name
+  })
+  })
+})
+
+app.post('/api/users/namechange', (req, res) => {
+  let query = {email : req.body.email}
+
+  let value = {$set: {name : req.body.name}}
+  User.updateMany(query, value,(err, result) => {
+    if(!result) {
+      return res.json ({
+        Success : false,
+        message: "이름 변경 실패."
+      })
+    } 
+    return res.status(200).json({
+      Success : true
+  })
   })
 })
 
@@ -133,6 +168,7 @@ app.get('/api/users/logout',auth,(req,res)=>{
     })
   })
 })
+
 
 app.post('/api/users/mail', (req,res)=> {
   let authNum = Math.random().toString().substring(2,6);
