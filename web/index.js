@@ -23,7 +23,6 @@ app.use(bodyparser.json());
 app.use(cookieParser());
 
 const mongoose = require('mongoose');
-const { truncate } = require('fs');
 mongoose.connect(Mongoose_URI,  {
  
 }) .then(() => console.log('MongoDB Connect()...'))
@@ -31,7 +30,9 @@ mongoose.connect(Mongoose_URI,  {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  collection.find().toArray((err, items) => {
+    console.log(items)
+  })
 })
 
 app.get('/api/hello', (req, res) => {
