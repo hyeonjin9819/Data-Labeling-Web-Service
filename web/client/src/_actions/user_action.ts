@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER} from './types';
+import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL} from './types';
 
 export function loginUser(dataTosubmit: any) {
     const request = axios.post('/api/users/login',dataTosubmit)
@@ -25,11 +25,34 @@ export function authmailUser(dataTosubmit: any) {
 
     const request = axios.post('/api/users/mail',dataTosubmit)
       .then(response =>  response.data )
-    console.log('request',request)
+  
     return {
         type: AUTHMAIL_USER,
         payload : request
     }
 }
+
+export function projectCreate(dataTosubmit: any) {
+
+    const request = axios.post('/api/projects/create',dataTosubmit)
+      .then(response =>  response.data )
+
+    return {
+        type: PROJECT_CREATE,
+        payload : request
+    }
+}
+
+export function findEmail(dataTosubmit: any) {
+
+    const request = axios.post('/api/users/findemail',dataTosubmit)
+      .then(response =>  response.data )
+      console.log('request',request)
+    return {
+        type: FIND_EMAIL,
+        payload : request
+    }
+}
+
 
 

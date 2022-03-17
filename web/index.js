@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
+const {Project} = require("./models/Project")
 const {auth}=require("./middleware/auth");
 
 dotenv.config();
@@ -21,7 +22,7 @@ app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
 app.use(cookieParser());
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 mongoose.connect(Mongoose_URI,  {
  
 }) .then(() => console.log('MongoDB Connect()...'))
@@ -29,11 +30,25 @@ mongoose.connect(Mongoose_URI,  {
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  collection.find().toArray((err, items) => {
+    console.log(items)
+  })
 })
 
 app.get('/api/hello', (req, res) => {
   res.send('api Hello')
+})
+
+app.post('/api/projects/create',(req,res) => {
+  // 프로젝트 생성
+  const project = new Project(req.body)
+  console.log(req.body)
+  project.save((err,projectInfo) => {
+    if(err) return re.json({success:false, err})
+    return res.status(200).json({
+      success:true
+    })
+  })
 })
 
 app.post('/api/users/register',(req, res) => {
@@ -48,6 +63,23 @@ app.post('/api/users/register',(req, res) => {
     return res.status(200).json({
       success : true
     })
+  })
+})
+
+app.post('/api/users/findemail',(req, res) => {
+  User.findOne({token : req.body.tokens}, (err, users)=> {
+    if(!users) {
+      return res.json ({
+        data : '토큰 '+req.body.tokens,
+        Success : false,
+        message: "제공된 토큰에 해당하는 유저가 없습니다.",
+      })
+    }
+    return res.send({
+      data : '토큰 '+req.body.tokens,
+      Success : true,
+      email : users.email
+          })
   })
 })
 
@@ -88,7 +120,6 @@ app.get('/api/users/auth',auth,(req,res)=>{
     isAuth:true,
     email:req.user.email,
     name:req.user.name,
-    lastname:req.user.lastname,
     role:req.user.role,
     image:req.user.image
   })
