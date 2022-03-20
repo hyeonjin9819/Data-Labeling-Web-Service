@@ -3,6 +3,8 @@ import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
 import close from '../../images/close.png';
+import { teamCreate } from '../../../_actions/user_action';
+import { useDispatch } from 'react-redux';
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
@@ -13,11 +15,25 @@ interface props {
 }
 
 const TeamViewAdd = (props: props): ReactElement => {
+  const dispatch = useDispatch<any>();
   const { show, onHide, getName, nextId } = props;
   let today = new Date(); //날짜를 계산해주는 Date 함수
   let year = today.getFullYear(); // 현재 년도를 가져와주는 getFullYear 함수
   let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
   let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
+
+  var token_name = 'x_auth'
+  token_name = token_name + '='; 
+  var cookieData = document.cookie; 
+  var start = cookieData.indexOf(token_name);
+  let token = ''; 
+  if(start != -1){
+       start += token_name.length; 
+       var end = cookieData.indexOf(';', start); 
+       if(end == -1) end = cookieData.length; 
+       token = cookieData.substring(start, end);
+}
+
   const [team_text, setText] = useState<{
     team_id? : any,
     team_name?: any,
@@ -43,13 +59,31 @@ const TeamViewAdd = (props: props): ReactElement => {
       }
       else {
       getName(team_text);
+
+      let body = {
+        user_token : token,
+        name: team_text?.team_name,
+        date: team_text?.team_date,
+        info:team_text?.team_de,
+      }
       setText({
         ...team_text,
         team_name : null,
         team_de : null
       })
-      onHide();
+
+      dispatch(teamCreate(body))
+    .then((response: { payload: { success: any; }; }) => {
+      if(response.payload.success) {
+          alert("성공")
+      }  
+      else {
+        alert('실패')
       }
+    })
+    onHide();
+  }
+ 
     }
   return (
     <Modal

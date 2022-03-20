@@ -7,6 +7,7 @@ import setting from '../../images/setting.png';
 import user from '../../images/user.png';
 import home from '../../images/home.png';
 
+
 function SideBar(props : any) {
     const [pr_name, setpr_name] = useState("프로젝트 1");
     const [Visible, setVisible] = useState(false);
@@ -42,9 +43,9 @@ function SideBar(props : any) {
         </li>
        
         <li className="list" style = {{ marginTop : '20px' }}>
-        <Link to = "/MyProfile">
+        <Link to = "/DataPage">
         <button className="btn"><img className="icon" src = {setting}></img>내 정보</button>
-        </Link>
+        </Link> {/*작업용 임시 변경*/}
         </li>
     </ul>
     </div>

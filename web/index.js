@@ -6,6 +6,7 @@ const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
 const {Project} = require("./models/Project")
+const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
 
 dotenv.config();
@@ -44,7 +45,19 @@ app.post('/api/projects/create',(req,res) => {
   const project = new Project(req.body)
   console.log(req.body)
   project.save((err,projectInfo) => {
-    if(err) return re.json({success:false, err})
+    if(err) return res.json({success:false, err})
+    return res.status(200).json({
+      success:true
+    })
+  })
+})
+
+app.post('/api/team/create',(req,res) => {
+  // team 생성
+  const team = new Team(req.body)
+  console.log(req.body)
+  team.save((err,projectInfo) => {
+    if(err) return res.json({success:false, err})
     return res.status(200).json({
       success:true
     })
@@ -66,20 +79,72 @@ app.post('/api/users/register',(req, res) => {
   })
 })
 
-app.post('/api/users/findemail',(req, res) => {
-  User.findOne({token : req.body.tokens}, (err, users)=> {
-    if(!users) {
+// app.post('/api/users/findemail',(req, res) => {
+//   User.findOne({token : req.body.tokens}, (err, users)=> {
+//     if(!users) {
+//       return res.json ({
+//         data : '토큰 '+req.body.tokens,
+//         Success : false,
+//         message: "제공된 토큰에 해당하는 유저가 없습니다.",
+//       })
+//     }
+//     return res.send({
+//       data : '토큰 '+req.body.tokens,
+//       Success : true,
+//       email : users.email
+//           })
+//   })
+// })
+
+app.post('/api/users/myinfo',(req, res) => {
+  User.findOne({token : req.body.token}, (err, user) => {
+    if(!user){
       return res.json ({
-        data : '토큰 '+req.body.tokens,
         Success : false,
-        message: "제공된 토큰에 해당하는 유저가 없습니다.",
+        message: "토큰에 해당하는 회원이 없다."
       })
     }
-    return res.send({
-      data : '토큰 '+req.body.tokens,
+  return res.status(200).json({
       Success : true,
-      email : users.email
-          })
+      email : user.email,
+      name : user.name,
+      profile : user.profile
+  })
+  })
+})
+
+app.post('/api/users/profilechange', (req, res) => {
+  let query = {token : req.body.token}
+  let value = {$set: {profile : req.body.profile}}
+  User.updateMany(query, value,(err, result) => {
+    if(!result) {
+      return res.json ({
+        Success : false,
+        message: "사진 변경 실패."
+      })
+    } 
+    return res.status(200).json({
+      Success : true,
+      message : req.body.token
+  })
+  })
+})
+
+
+app.post('/api/users/namechange', (req, res) => {
+  let query = {email : req.body.email}
+
+  let value = {$set: {name : req.body.name}}
+  User.updateMany(query, value,(err, result) => {
+    if(!result) {
+      return res.json ({
+        Success : false,
+        message: "이름 변경 실패."
+      })
+    } 
+    return res.status(200).json({
+      Success : true
+  })
   })
 })
 
@@ -133,6 +198,7 @@ app.get('/api/users/logout',auth,(req,res)=>{
     })
   })
 })
+
 
 app.post('/api/users/mail', (req,res)=> {
   let authNum = Math.random().toString().substring(2,6);
