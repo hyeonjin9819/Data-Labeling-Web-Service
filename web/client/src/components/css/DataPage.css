@@ -6,3 +6,8 @@
 .inputHide {
   display: none;
 }
+.imgThumb {
+  margin: auto;
+  width: 150px;
+  height: 150px;
+}

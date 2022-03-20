@@ -1,7 +1,7 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import Sidebar from '../SideBar/SideBar';
@@ -9,33 +9,48 @@ import '../../css/DataPage.css';
 import logout from '../../images/logout.png';
 
 const DataPage = () => {
-    const [Imagefilename, setImagefilename] = useState("")
-    // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
 
-    const [data_list, setData] = useState<any>([
-    ])
-    const name = [...data_list]
+    const{projectId} = useParams() //라우팅 처리용 함수?(현진쓰)
+    const [Imagefilename, setImagefilename] = useState("") // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
 
-    const onClickUpload = (e:any) => {
-     //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
-        const file = e.target.files;
-        console.log(file);
-
-        for(let i =0; i< file.length; i+=1){
-            const name2 = file[i].name.toString()
-            const length = file.length;
-            console.log(length);
-            length.push;
-            name.push(name2)
-            
+    const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
+        {
+            data_id:1,
+            name:"원우연",
         }
-        
-        setData(name)
-        console.log('name', name)
-        e.target.value = ''
-    }
 
     
+    ])
+    
+    
+    const [fileImage, setFileImage] = useState<any>();
+    const imgName = [...data_list]
+
+
+    const ImageUpload = (e:any) => {
+       
+     //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
+        const file = e.target.files;
+   
+        for(let i =0; i< file.length; i++){
+            const name = file[i].name.toString()  
+            const url = URL.createObjectURL(e.target.files[i]);
+            imgName.push(name) 
+      
+            console.log(url);
+            setFileImage(URL.createObjectURL(file[i]));
+        }
+        
+        setData(imgName)
+    
+        console.log('name', imgName) //이름 확인
+
+  //썸네일이 다 똑같이바뀜...setFileImage useState를 배열로 선언?
+        e.target.value = '' //중복 파일 초기화를 위한 처리
+      
+    }
+
+        
 
     const Navigate = useNavigate();
     useEffect(()=> {
@@ -55,6 +70,7 @@ const DataPage = () => {
       }
       )
     }
+    
 
     return (
         <div >
@@ -67,9 +83,9 @@ const DataPage = () => {
                  </nav>
                     <body  className="view"  style = {{display:'fixed'}}>
                         <div className="view_header">
-                        <h2 className="dashboard" >데이터 리스트</h2>
+                        <h2 className="dashboard" >{projectId} 데이터 리스트</h2>
                         <label htmlFor = "data" className="addData">이미지 업로드
-                        <input multiple id= "data" className="inputHide" type="file" accept="image/*" onChange={onClickUpload}></input>
+                        <input multiple id= "data" className="inputHide" type="file" accept="image/*" onChange={ImageUpload}></input>
                         </label>
                         <button  className="logout" onClick = {onClickHandler}><img className="icon" src={logout}></img></button>
                         <h3 className="welcome">원우연님 환영합니다</h3>
@@ -79,6 +95,7 @@ const DataPage = () => {
                             <thead>
                                 <tr>
                                     <th>체크 박스</th>
+                                    <th>번호</th>
                                     <th>이미지 썸네일</th>
                                 <th>데이터 명</th>
                                 <th></th>
@@ -86,13 +103,17 @@ const DataPage = () => {
                             </thead>
                             <tbody id="datas">
                             {
-                                    name.map(
-                                        (Image: any) => (
+                                    data_list.map(
+                                        (data: {name: String, data_id:any}) => (
                                             <>
                                             <tr>
                                                 <td></td>
-                                                <td></td>
-                                                <td>{Image}</td>
+                                                <td>{data.data_id+1}</td>
+                                                <td >{fileImage && (
+                                                    <img className="imgThumb" src={fileImage}
+                                                                />
+                                                                )}</td>
+                                                <td>{data.name}</td>
                                             <td></td>
                                             </tr>
                                             </>
@@ -109,6 +130,6 @@ const DataPage = () => {
         </div>
       );
     }
-    
+
 
 export default DataPage;

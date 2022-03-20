@@ -16,6 +16,7 @@ const ProjectPage = () =>{
     let year = today.getFullYear(); // 현재 년도를 가져와주는 getFullYear 함수
     let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
     let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
+    
   const [subject, setsubject] = useState("프로젝트 페이지");
   const [proModal, setproModal] = useState(false);
   const [num, setNum] = useState(0)
@@ -50,7 +51,7 @@ const ProjectPage = () =>{
   const navigate = useNavigate();
   const handleRowClick = (e:any) => {
       console.log(e)
-      navigate(`/ProjectPage/${e}`)
+      navigate(`/DataPage/${e}`)
   }
 
 //  <Test projects_list = {projects_list} />

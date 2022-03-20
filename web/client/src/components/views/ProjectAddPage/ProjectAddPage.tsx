@@ -54,6 +54,7 @@ console.log("바디",bodys)
   pr_upload? : any,
   pr_category? : any
   }>();
+  
   const onChangeText = (e:{target :{name:any; value:any;}}) =>{
     const{name, value} = e.target;
     setText ({
