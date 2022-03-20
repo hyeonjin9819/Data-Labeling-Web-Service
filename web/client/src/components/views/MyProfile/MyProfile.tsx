@@ -6,11 +6,9 @@ import { useDispatch } from 'react-redux';
 import { myInfo, nameChange } from '../../../_actions/user_action';
 import { useEffect } from 'react';
 
-
-
 function MyProfile() {
   const dispatch = useDispatch<any>();
-  const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+  const [Image, setImage] = useState<any>('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
   const fileInput = useRef(null)
   const [ImgModalon, setImgModalon] = useState(false);
   const [PassModalon, setPassModalon] = useState(false);
@@ -36,17 +34,22 @@ let body = {
 token : token
 }
   dispatch(myInfo(body))
-.then((response: { payload: { Success: any; email : String; name : String ;} }) => {
+.then((response: { payload: { Success: any; email : String; name : String ; profile : String;} }) => {
   if(response.payload.Success) {
      setEmail(response.payload.email)
      setName(response.payload.name)
+     if(response.payload.profile === 'null'){
+      setImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
+     }
+     else {
+     setImage('https://datalabeling-fileupload.s3.ap-northeast-2.amazonaws.com/upload/'+response.payload.profile)
+     }
   }  
   else {
     alert('실패')
   }
 })
 },[]);
-
   const getData = (Image:string) => {
     setImage(Image);
   }
@@ -71,11 +74,8 @@ token : token
           alert('실패')
         }
       })
-      
     }
   }
-
-
       return (
           <>
        <ProfileChange show = {ImgModalon} onHide={() => setImgModalon(false)}
@@ -113,9 +113,10 @@ token : token
       </div>
   
       <div className='Password'>
-        <h4>Password</h4>
-        <p>You can set a new Password</p>
-        <button className='pass_btn' onClick={()=>setPassModalon(true)}>Change Password</button>
+       {// <h4>Password</h4>
+        // <p>You can set a new Password</p>
+         // <button className='pass_btn' onClick={()=>setPassModalon(true)}>Change Password</button> 
+        }
       </div>
   
         </>

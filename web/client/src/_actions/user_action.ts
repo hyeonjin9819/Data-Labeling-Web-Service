@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE} from './types';
+import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE} from './types';
 
 export function loginUser(dataTosubmit: any) {
     const request = axios.post('/api/users/login',dataTosubmit)
@@ -43,6 +43,17 @@ export function projectCreate(dataTosubmit: any) {
     }
 }
 
+export function teamCreate(dataTosubmit: any) {
+
+    const request = axios.post('/api/team/create',dataTosubmit)
+      .then(response =>  response.data )
+
+    return {
+        type: TEAM_CREATE,
+        payload : request
+    }
+}
+
 export function findEmail(dataTosubmit: any) {
 
     const request = axios.post('/api/users/findemail',dataTosubmit)
@@ -73,6 +84,17 @@ export function nameChange(dataTosubmit: any) {
       console.log('request',request)
     return {
         type: NAMECHANGE,
+        payload : request
+    }
+}
+
+export function profileChange(dataTosubmit: any) {
+
+    const request = axios.post('/api/users/profilechange',dataTosubmit)
+      .then(response =>  response.data )
+      console.log('request',request)
+    return {
+        type: PROFILECHANGE,
         payload : request
     }
 }

@@ -6,6 +6,7 @@ const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
 const {Project} = require("./models/Project")
+const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
 
 dotenv.config();
@@ -35,8 +36,6 @@ app.get('/', (req, res) => {
   })
 })
 
-
-
 app.get('/api/hello', (req, res) => {
   res.send('api Hello')
 })
@@ -46,6 +45,18 @@ app.post('/api/projects/create',(req,res) => {
   const project = new Project(req.body)
   console.log(req.body)
   project.save((err,projectInfo) => {
+    if(err) return res.json({success:false, err})
+    return res.status(200).json({
+      success:true
+    })
+  })
+})
+
+app.post('/api/team/create',(req,res) => {
+  // team 생성
+  const team = new Team(req.body)
+  console.log(req.body)
+  team.save((err,projectInfo) => {
     if(err) return res.json({success:false, err})
     return res.status(200).json({
       success:true
@@ -96,10 +107,29 @@ app.post('/api/users/myinfo',(req, res) => {
   return res.status(200).json({
       Success : true,
       email : user.email,
-      name : user.name
+      name : user.name,
+      profile : user.profile
   })
   })
 })
+
+app.post('/api/users/profilechange', (req, res) => {
+  let query = {token : req.body.token}
+  let value = {$set: {profile : req.body.profile}}
+  User.updateMany(query, value,(err, result) => {
+    if(!result) {
+      return res.json ({
+        Success : false,
+        message: "사진 변경 실패."
+      })
+    } 
+    return res.status(200).json({
+      Success : true,
+      message : req.body.token
+  })
+  })
+})
+
 
 app.post('/api/users/namechange', (req, res) => {
   let query = {email : req.body.email}
