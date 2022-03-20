@@ -11,7 +11,6 @@ import ProjectPage from './components/views/ProjectPage/ProjectPage';
 import DataPage from './components/views/DataPage/DataPage';
 import TeamMainView from './components/views/TeamMainView/TeamMainView';
 import MyProfile from './components/views/MyProfile/MyProfile';
-import DataDetails from './components/views/ProjectPage/DataDetails'
 import TeamView from './components/views/TeamView/TeamView';
 
 function App(){
@@ -24,10 +23,10 @@ function App(){
         <Route path="/TeamMainView" element = {<TeamMainView/>}/>
         <Route path="/MyProfile" element = {<MyProfile/>}/>
         {/* 프로젝트 리스트 동적 라우팅 */}
-        <Route path = "ProjectPage/:projectId" element={<DataDetails/>}/>
+        <Route path = "ProjectPage/:projectId" element={<DataPage/>}/>
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
-        <Route path = "/DataPage" element={<DataPage/>}/>
+        {/* <Route path = "/DataPage" element={<DataPage/>}/> */}
        </Routes>
      </div>
    </Router>

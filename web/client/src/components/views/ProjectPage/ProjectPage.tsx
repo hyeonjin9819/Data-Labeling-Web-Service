@@ -51,7 +51,7 @@ const ProjectPage = () =>{
   const navigate = useNavigate();
   const handleRowClick = (e:any) => {
       console.log(e)
-      navigate(`/DataPage/${e}`)
+      navigate(`/ProjectPage/${e}`)
   }
 
 //  <Test projects_list = {projects_list} />

@@ -71,7 +71,7 @@ const DataPage = () => {
                  </nav>
                     <body  className="view"  style = {{display:'fixed'}}>
                         <div className="view_header">
-                        <h2 className="dashboard" >{projectId} 데이터 리스트</h2>
+                        <h2 className="dashboard" >'{projectId}' 데이터 리스트</h2>
                         <label htmlFor = "data" className="addData">이미지 업로드
                         <input multiple id= "data" className="inputHide" type="file" accept="image/*" onChange={ImageUpload}></input>
                         </label>
