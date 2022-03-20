@@ -15,10 +15,7 @@ interface props {
 export const ProfileChange = (props:props) => {
   const {show, onHide, Image, getData } = props;
   const dispatch = useDispatch<any>();
-  const ACCESS_KEY = 'AKIAULFSPOYTXDH54EXK';
-const SECRET_ACCESS_KEY = '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';
-const REGION = "ap-northeast-2";
-const S3_BUCKET = 'datalabeling-fileupload';
+
 var token_name = 'x_auth'
 token_name = token_name + '='; 
 var cookieData = document.cookie; 
