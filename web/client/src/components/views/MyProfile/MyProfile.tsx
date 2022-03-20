@@ -38,7 +38,7 @@ token : token
   if(response.payload.Success) {
      setEmail(response.payload.email)
      setName(response.payload.name)
-     if(response.payload.profile === 'null'){
+     if(response.payload.profile === "null"){
       setImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
      }
      else {
