@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');//몽구스 불러오기
-const { User } = require('./User');
 const saltRounds=10
+const Schema = mongoose.Schema;
+const Team_info = new mongoose.Schema({
+    id : Schema.Types.ObjectId,
+    name : String 
+  });
+
+
 
 //스키마 생성창
 const projectSchema = mongoose.Schema({
-    user_email:{
+    user_token:{
         type: String
     },
     id : {

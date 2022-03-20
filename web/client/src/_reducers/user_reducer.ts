@@ -1,5 +1,5 @@
 import {
-    LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL
+    LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE
 
 } from '../_actions/types'    
 
@@ -24,8 +24,24 @@ export default function(state={}, action: any) {
         case FIND_EMAIL:
             return {...state, findemail : action.payload}
             break;
-    
+
+        case MYINFO:
+            return {...state, myinfo : action.payload}
+            break;
+        
+        case NAMECHANGE:
+            return {...state, namechange : action.payload}
+            break;
+        
+        case PROFILECHANGE:
+            return {...state, profilechange : action.payload}
+            break;
+
+        case TEAM_CREATE:
+            return {...state, teamcreate : action.payload}
+            break;
         default:
+            
             return state;
          
     }
