@@ -11,52 +11,41 @@ import logout from '../../images/logout.png';
 const DataPage = () => {
 
     const{projectId} = useParams() //라우팅 처리용 함수?(현진쓰)
-    const [Imagefilename, setImagefilename] = useState("") // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
-
+    const [Imagefilename, setImagefilename] = useState([]) // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
-        {
-            data_id:1,
-            name:"원우연",
-        }
-
-    
     ])
-    
-    
-    const [fileImage, setFileImage] = useState<any>();
+    const [fileImage, setFileImage] = useState<any>([]);
     const imgName = [...data_list]
-
-
+    const nextId = data_list.length // list 개수
     const ImageUpload = (e:any) => {
-       
+    
      //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
         const file = e.target.files;
-   
-        for(let i =0; i< file.length; i++){
-            const name = file[i].name.toString()  
-            const url = URL.createObjectURL(e.target.files[i]);
-            imgName.push(name) 
-      
-            console.log(url);
-            setFileImage(URL.createObjectURL(file[i]));
-        }
+        const nowImageUrl = [...fileImage]
         
-        setData(imgName)
-    
+        console.log('next_id', nextId)
+        for(let i = 0; i< file.length; i++){
+            const name = file[i].name.toString()  
+        
+            const url = URL.createObjectURL(file[i]);
+            imgName.push({'data_id' :  i + data_list.length , 'name' : name }) 
+           // imgName2.push({'name' : URL.createObjectURL(file[i]).toString()})
+           // console.log(URL.createObjectURL(file[i]));
+           // setFileImage([...fileImage,URL.createObjectURL(file[i])]);
+            nowImageUrl.push(url)
+            setData(imgName)
+            setFileImage(nowImageUrl)
+        }
         console.log('name', imgName) //이름 확인
+        console.log('fileimg', nowImageUrl) //이름 확인
 
   //썸네일이 다 똑같이바뀜...setFileImage useState를 배열로 선언?
-        e.target.value = '' //중복 파일 초기화를 위한 처리
-      
+        e.target.value = '' //중복 파일 초기화를 위한 처리 
+
     }
 
-        
 
     const Navigate = useNavigate();
-    useEffect(()=> {
-      axios.get('api/hello')
-      .then(response => {console.log(response)})
-    }, [])
 
     const onClickHandler = () => {
         axios.get('/api/users/logout')
@@ -70,8 +59,6 @@ const DataPage = () => {
       }
       )
     }
-    
-
     return (
         <div >
             <header>
@@ -98,25 +85,18 @@ const DataPage = () => {
                                     <th>번호</th>
                                     <th>이미지 썸네일</th>
                                 <th>데이터 명</th>
-                                <th></th>
                                 </tr>
                             </thead>
                             <tbody id="datas">
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
-                                            <>
                                             <tr>
                                                 <td></td>
                                                 <td>{data.data_id+1}</td>
-                                                <td >{fileImage && (
-                                                    <img className="imgThumb" src={fileImage}
-                                                                />
-                                                                )}</td>
+                                                <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
                                                 <td>{data.name}</td>
-                                            <td></td>
                                             </tr>
-                                            </>
                                         )
                                     )
                                 }
