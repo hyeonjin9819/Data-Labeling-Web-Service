@@ -29,7 +29,8 @@ function App(){
         <Route path = "ProjectPage/:projectId" element={<DataPage/>}/>
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
-        <Route path = "DataPage/:imageId" element={<Labeling_tool/>}/>
+
+        <Route path = "DataPage/:imageId/:checkId" element={<Labeling_tool/>}/>
        </Routes>
      </div>
    </Router>
