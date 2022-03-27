@@ -53,8 +53,9 @@ const projectSchema = mongoose.Schema({
         maxlength:500
     },
     image : {
-        type : imageurlSchema
+        type : [imageurlSchema]
     }
     })
 const Project =mongoose.model('Project',projectSchema)//화려한 모델이 스키마를 감싸네
-module.exports={Project}//외부 사용 가능하게
+const Img =mongoose.model('Img',imageurlSchema)//화려한 모델이 스키마를 감싸네
+module.exports={Project, Img}//외부 사용 가능하게

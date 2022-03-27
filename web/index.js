@@ -5,10 +5,8 @@ const nodemailer = require('nodemailer');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
-
-const {Project} = require("./models/Project")
+const {Project, Img} = require("./models/Project")
 const {Team} = require("./models/Team")
-
 const {auth}=require("./middleware/auth");
 
 dotenv.config();
@@ -67,7 +65,7 @@ app.post('/api/projects/image',(req,res) => {
         message : req.body.name
       })
     }
-    item.update({ image : req.body.url} ,(err) => {
+    item.update({ image : req.body.url } ,(err) => {
       if(err) return res.json({
         success : false,
         message : req.body.url
