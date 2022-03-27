@@ -66,11 +66,11 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
         settool(to);
       }
  
-    
+
+    const classes = useStyles();
     const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null);
     const [offset, setOffset] = useState<{ x: number; y: number } | null>(null);
     const [showCloseButton, setshowCloseButton] = useState<boolean>();
-    const classes = useStyles()
     const [entries, setEntries] = useState<
         ({
             id: string;
@@ -392,10 +392,12 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
 */}
 </ul>
 <br/>
+
 </div>
    <footer>
    </footer>
 </div>
+
     );
 });
 export default BBoxAnnotator;
