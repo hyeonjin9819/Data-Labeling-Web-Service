@@ -8,8 +8,7 @@
 /client/.package-lock.json
 /client/.package.json
 /.env
-/.package-lock.json
-/.package.json
+
 
 # testing
 /coverage
