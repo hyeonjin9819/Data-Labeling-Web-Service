@@ -56,6 +56,7 @@ token : token
   const onfirstname = (e:any) => {
     setName(e.target.value);
   }
+  
   const Trim = () => {
     let body = {
       name : Name,

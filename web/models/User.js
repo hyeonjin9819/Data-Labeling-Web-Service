@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
         type:Number,
         default:0
     },
-    profile:String,
+    profile: String,
     token:{
         type:String
     },
