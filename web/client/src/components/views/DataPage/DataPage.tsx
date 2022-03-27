@@ -125,9 +125,6 @@ const DataPage = () => {
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
-
-                                            <tr onClick={() => handleRowClick(data.name)}>
-
                                             
                                             <tr onClick={() => handleRowClick(data.name, data.data_id)}>
                                                 <td></td>
