@@ -46,6 +46,7 @@ app.post('/api/projects/create',(req,res) => {
   console.log(req.body)
   project.save((err,projectInfo) => {
     if(err) return res.json({success:false, err})
+<<<<<<< Updated upstream
     return res.status(200).json({
       success:true
     })
@@ -58,6 +59,8 @@ app.post('/api/team/create',(req,res) => {
   console.log(req.body)
   team.save((err,projectInfo) => {
     if(err) return res.json({success:false, err})
+=======
+>>>>>>> Stashed changes
     return res.status(200).json({
       success:true
     })

@@ -5,11 +5,16 @@ import box from '../../images/box.png';
 import {IEmail} from './Interfaces'
 import TeamEmail from './TeamEmail';
 import MemberAddtwo from './MemberAddtwo';
+import close from '../../images/close.png';
+import { getValue } from '@testing-library/user-event/dist/utils';
+
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
   show: boolean; 
+  //getEmail: (a:any) => void;
   onHide: () => void; // 함수 타입 정의할 때 }
+  //nextId : number;
 }
 
 const TeamMemberAdd = (props: props): ReactElement => {
