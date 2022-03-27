@@ -104,8 +104,6 @@ const DataPage = () => {
 
                                             <tr onClick={() => handleRowClick(data.name)}>
 
-                                            <tr>
-
                                                 <td></td>
                                                 <td>{data.data_id+1}</td>
                                                 <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>

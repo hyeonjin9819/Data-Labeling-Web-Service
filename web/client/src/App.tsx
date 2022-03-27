@@ -12,7 +12,7 @@ import TeamMainView from './components/views/TeamMainView/TeamMainView';
 import MyProfile from './components/views/MyProfile/MyProfile';
 import TeamView from './components/views/TeamView/TeamView';
 import DataPage from './components/views/DataPage/DataPage';
-import Labeling_tool from './labeltool/Labeling_tool';
+import Labeling_tool from './components/views/labeltool/Labeling_tool';
 
 
 

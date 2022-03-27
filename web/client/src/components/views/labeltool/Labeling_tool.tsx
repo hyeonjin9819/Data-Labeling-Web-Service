@@ -1,12 +1,12 @@
 import React, { Component, useEffect, useRef, useState } from 'react';
-import '../Labeling_tool.css';
+import '../../css/tool_menu.css';
 import Tool_menu from '../toolmenu/Tool_menu';
 
-import draw from '../components/images/draw.png';
-import save from '../components/images/save.png';
+import draw from '../../images/draw.png';
+import save from '../../images/save.png';
 import BBoxAnnotator,{EntryType} from '../BBoxAnnotator';
 import Polygon from '../Polygon/Polygon';
-import '../tool_menu.css'
+
 
 
 const Labeling_tool : any=  () => {
