@@ -7,9 +7,7 @@ import save from '../../images/save.png';
 import BBoxAnnotator,{EntryType} from '../BBoxAnnotator';
 import Polygon from '../Polygon/Polygon';
 
-
-
-const Labeling_tool : any=  () => {
+const Labeling_tool =  () => {
     const [labels,setlabels] = useState(['Person', 'tie', 'flower']);
     const [entries, setEntries] = useState<EntryType[]>();
     const [labelTool, setlabelTool] = useState<String>('text');
@@ -51,7 +49,8 @@ const Labeling_tool : any=  () => {
               ))}
              </select>
              </div>
-             </body>    
+             </body>   
+
       <BBoxAnnotator
       url= {image}
       // 주석을 달 이미지 링크
@@ -64,7 +63,6 @@ const Labeling_tool : any=  () => {
       // 사진에 새로운 레이블링을 추가할 시 발생
       setlabels= {setlabels}
       />
-    
       <pre>{JSON.stringify(entries)}</pre>
 </>
     /*   

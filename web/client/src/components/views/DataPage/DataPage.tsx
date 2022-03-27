@@ -6,9 +6,12 @@ import {useNavigate} from 'react-router-dom';
 import Sidebar from '../SideBar/SideBar';
 import '../../css/DataPage.css';
 import logout from '../../images/logout.png';
+import { useDispatch } from 'react-redux';
+import { projectImg } from '../../../_actions/user_action';
+import { message } from 'antd';
 
 const DataPage = () => {
-
+    const dispatch = useDispatch<any>();
     const{projectId} = useParams() //라우팅 처리용 함수?(현진쓰)
     const [Imagefilename, setImagefilename] = useState([]) // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
@@ -16,6 +19,7 @@ const DataPage = () => {
     const [fileImage, setFileImage] = useState<any>([]);
     const imgName = [...data_list]
     const nextId = data_list.length // list 개수
+
     const ImageUpload = (e:any) => {
     
      //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
@@ -35,6 +39,19 @@ const DataPage = () => {
             setData(imgName)
             setFileImage(nowImageUrl)
         }
+        let body = {
+            name : "test44",
+            url : 'aa'
+        }
+        dispatch(projectImg(body))
+        .then((response: { payload: { success: any; message : any;}; }) => {
+        if(response.payload.success) {
+          alert("이미지 업로드 성공" + response.payload.message)
+         }  
+      else {
+        alert('이미지 업로드 실패')
+      }
+    })
         console.log('name', imgName) //이름 확인
         console.log('fileimg', nowImageUrl) //이름 확인
 
@@ -43,7 +60,7 @@ const DataPage = () => {
 
     }
 
-
+    
 
     const navigate = useNavigate();
 
@@ -51,8 +68,6 @@ const DataPage = () => {
         console.log(e)
         navigate(`/DataPage/${e}`)
     }
-
-
 
     const onClickHandler = () => {
         axios.get('/api/users/logout')

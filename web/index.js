@@ -5,8 +5,10 @@ const nodemailer = require('nodemailer');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
+
 const {Project} = require("./models/Project")
 const {Team} = require("./models/Team")
+
 const {auth}=require("./middleware/auth");
 
 dotenv.config();
@@ -40,6 +42,44 @@ app.get('/api/hello', (req, res) => {
   res.send('api Hello')
 })
 
+// app.post('/api/users/findemail',(req, res) => {
+//   User.findOne({token : req.body.tokens}, (err, users)=> {
+//     if(!users) {
+//       return res.json ({
+//         data : '토큰 '+req.body.tokens,
+//         Success : false,
+//         message: "제공된 토큰에 해당하는 유저가 없습니다.",
+//       })
+//     }
+//     return res.send({
+//       data : '토큰 '+req.body.tokens,
+//       Success : true,
+//       email : users.email
+//           })
+//   })
+// })
+
+app.post('/api/projects/image',(req,res) => {
+  Project.findOne({ name: req.body.name},(err, item) => {
+    if(!item) {
+      return res.json({
+        success : false,
+        message : req.body.name
+      })
+    }
+    item.update({ image : req.body.url} ,(err) => {
+      if(err) return res.json({
+        success : false,
+        message : req.body.url
+      });
+      return res.json({
+        success : true,
+        message : item
+      })
+    })
+  })
+})
+
 app.post('/api/projects/create',(req,res) => {
   // 프로젝트 생성
   const project = new Project(req.body)
@@ -51,6 +91,7 @@ app.post('/api/projects/create',(req,res) => {
     })
   })
 })
+
 
 app.post('/api/team/create',(req,res) => {
   // team 생성
@@ -79,22 +120,7 @@ app.post('/api/users/register',(req, res) => {
   })
 })
 
-// app.post('/api/users/findemail',(req, res) => {
-//   User.findOne({token : req.body.tokens}, (err, users)=> {
-//     if(!users) {
-//       return res.json ({
-//         data : '토큰 '+req.body.tokens,
-//         Success : false,
-//         message: "제공된 토큰에 해당하는 유저가 없습니다.",
-//       })
-//     }
-//     return res.send({
-//       data : '토큰 '+req.body.tokens,
-//       Success : true,
-//       email : users.email
-//           })
-//   })
-// })
+
 
 app.post('/api/users/myinfo',(req, res) => {
   User.findOne({token : req.body.token}, (err, user) => {

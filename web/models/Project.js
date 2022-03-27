@@ -6,7 +6,18 @@ const Team_info = new mongoose.Schema({
     name : String 
   });
 
+  const imageurlSchema = mongoose.Schema({
+    url: String
+  });
 
+  const dataSchema = mongoose.Schema({
+    index : Number,
+    label : String,
+    width : Number,
+    height : Number,
+    x : Number,
+    y : Number
+  });
 
 //스키마 생성창
 const projectSchema = mongoose.Schema({
@@ -41,9 +52,9 @@ const projectSchema = mongoose.Schema({
         type:String,
         maxlength:500
     },
+    image : {
+        type : imageurlSchema
+    }
     })
-
-     
-
 const Project =mongoose.model('Project',projectSchema)//화려한 모델이 스키마를 감싸네
 module.exports={Project}//외부 사용 가능하게
