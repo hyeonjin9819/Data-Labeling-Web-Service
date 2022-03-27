@@ -1,4 +1,3 @@
-import React from 'react';
 import {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {Link, useParams} from 'react-router-dom';
@@ -45,20 +44,31 @@ const DataPage = () => {
     }
 
 
-    const Navigate = useNavigate();
+
+    const navigate = useNavigate();
+
+    const handleRowClick = (e:any) => {
+        console.log(e)
+        navigate(`/DataPage/${e}`)
+    }
+
+
 
     const onClickHandler = () => {
         axios.get('/api/users/logout')
           .then(response => {
        if(response.data.success) {
          console.log('logout')
-        Navigate('/')
+        navigate('/')
        }else {
          alert("Logout Failed")
        }
       }
       )
     }
+
+    
+
     return (
         <div >
             <header>
@@ -91,7 +101,11 @@ const DataPage = () => {
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
+
+                                            <tr onClick={() => handleRowClick(data.name)}>
+
                                             <tr>
+
                                                 <td></td>
                                                 <td>{data.data_id+1}</td>
                                                 <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
