@@ -67,7 +67,7 @@ const Labeling_tool : any=  () => {
       // 사진에 새로운 레이블링을 추가할 시 발생
       setlabels= {setlabels}
       />
-    
+
       <pre>{JSON.stringify(entries)}</pre>
 </>
     /*   

@@ -1,4 +1,5 @@
-import React, { useState, forwardRef } from 'react';
+
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({

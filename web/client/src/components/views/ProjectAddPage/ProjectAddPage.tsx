@@ -107,7 +107,6 @@ const ProjectAddPage = (props: props): ReactElement => {
         alert('실패')
       }
     })
-
     onHide();
     }
   }

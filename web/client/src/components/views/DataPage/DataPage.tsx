@@ -6,10 +6,14 @@ import {useNavigate} from 'react-router-dom';
 import Sidebar from '../SideBar/SideBar';
 import '../../css/DataPage.css';
 import logout from '../../images/logout.png';
+import { useDispatch } from 'react-redux';
+import { projectImg } from '../../../_actions/user_action';
+import { message } from 'antd';
 import Labeling_tool from '../labeltool/Labeling_tool';
 
-const DataPage = () => {
 
+const DataPage = () => {
+    const dispatch = useDispatch<any>();
     const{projectId} = useParams() //라우팅 처리용 함수?(현진쓰)
     //const [imageurl, setImageurl] = useState("");
     var imageurl;
@@ -40,6 +44,19 @@ const DataPage = () => {
             setData(imgName)
             setFileImage(nowImageUrl)
         }
+        let body = {
+            name : "test44",
+            url : 'aa'
+        }
+        dispatch(projectImg(body))
+        .then((response: { payload: { success: any; message : any;}; }) => {
+        if(response.payload.success) {
+          alert("이미지 업로드 성공" + response.payload.message)
+         }  
+      else {
+        alert('이미지 업로드 실패')
+      }
+    })
         console.log('name', imgName) //이름 확인
         console.log('fileimg', nowImageUrl) //이름 확인
 
@@ -59,7 +76,6 @@ const DataPage = () => {
         //console.log(nowImageUrl[event2])
         //setInputValue(inputValue => nowImageUrl[event2])
         //console.log({setInputValue} + "setInput 확인")
-
     }
 
 
@@ -109,6 +125,9 @@ const DataPage = () => {
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
+
+                                            <tr onClick={() => handleRowClick(data.name)}>
+
                                             
                                             <tr onClick={() => handleRowClick(data.name, data.data_id)}>
                                                 <td></td>

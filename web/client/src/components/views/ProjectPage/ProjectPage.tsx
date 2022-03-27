@@ -53,7 +53,6 @@ const ProjectPage = () =>{
       console.log(e)
       navigate(`/ProjectPage/${e}`)
   }
-
 //  <Test projects_list = {projects_list} />
   return(
    <div>

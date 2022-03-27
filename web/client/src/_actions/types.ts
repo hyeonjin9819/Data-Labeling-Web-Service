@@ -7,3 +7,4 @@ export const MYINFO = "myinfo"
 export const NAMECHANGE = "namechange"
 export const PROFILECHANGE = "profilechange";
 export const TEAM_CREATE = "team_create"
+export const PROJECT_IMG = "project_img"

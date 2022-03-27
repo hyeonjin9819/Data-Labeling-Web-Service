@@ -36,7 +36,6 @@ type Props = { // 타입 정의
     onChange: (entries: EntryType[]) => void; // left, top, width, height, label 값을 가진 EntryType
     borderWidth?: number; // 바운딩 박스 테두리 두께
     setlabels?:any ;
-    
 };
 
 const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,inputMethod, labels, onChange , setlabels}, ref) => {
@@ -67,11 +66,11 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
         settool(to);
       }
  
+
     const classes = useStyles();
     const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null);
     const [offset, setOffset] = useState<{ x: number; y: number } | null>(null);
     const [showCloseButton, setshowCloseButton] = useState<boolean>();
-
     const [entries, setEntries] = useState<
         ({
             id: string;
@@ -395,12 +394,10 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
 <br/>
 
 </div>
-
    <footer>
    </footer>
 </div>
 
-         
     );
 });
 export default BBoxAnnotator;
