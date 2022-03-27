@@ -44,12 +44,15 @@ const DataPage = () => {
     }
 
 
+
     const navigate = useNavigate();
 
     const handleRowClick = (e:any) => {
         console.log(e)
         navigate(`/DataPage/${e}`)
     }
+
+
 
     const onClickHandler = () => {
         axios.get('/api/users/logout')
@@ -63,7 +66,9 @@ const DataPage = () => {
       }
       )
     }
+
     
+
     return (
         <div >
             <header>
@@ -96,7 +101,11 @@ const DataPage = () => {
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
+
                                             <tr onClick={() => handleRowClick(data.name)}>
+
+                                            <tr>
+
                                                 <td></td>
                                                 <td>{data.data_id+1}</td>
                                                 <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
