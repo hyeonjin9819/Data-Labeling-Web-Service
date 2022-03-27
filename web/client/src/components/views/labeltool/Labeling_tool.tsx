@@ -1,21 +1,24 @@
 import React, { Component, useEffect, useRef, useState } from 'react';
-import '../Labeling_tool.css';
+import '../../css/Labeling_tool.css';
 import Tool_menu from '../toolmenu/Tool_menu';
-
-import draw from '../components/images/draw.png';
-import save from '../components/images/save.png';
+import {Link, useParams, useNavigate} from 'react-router-dom';
+import draw from '../../images/draw.png';
+import save from '../../images/save.png';
 import BBoxAnnotator,{EntryType} from '../BBoxAnnotator';
 import Polygon from '../Polygon/Polygon';
-import '../tool_menu.css'
+import '../../css/tool_menu.css';
+import DataPage from '../DataPage/DataPage';
 
 
 const Labeling_tool : any=  () => {
+    const{imageId, checkId} = useParams() 
     const [labels,setlabels] = useState(['Person', 'tie', 'flower']);
     const [entries, setEntries] = useState<EntryType[]>();
     const [labelTool, setlabelTool] = useState<String>('text');
-    const [image, setimage] = useState('https://img9.yna.co.kr/photo/cms/2019/09/29/08/PCM20190929000008005_P4.jpg');
+    const [image, setimage] = useState('blob:http://localhost:3000/'+checkId);
     console.log(labels.indexOf('tie'));
     let [tool, settool] = useState('bbox');
+    const navigate = useNavigate();
 
     const changeOn = (to : String) => {
       setlabelTool(to);
@@ -33,16 +36,16 @@ const Labeling_tool : any=  () => {
     return(
       <>
       <header>
-      <title>레이블링 툴 페이지{console.log("제발 플리즈")}</title>
+      <title>레이블링 툴 페이지</title>
       <div className="labeling_header">
       <button title="레이블링 모드 켜기" className="header_button"><img className="check" src ={draw}></img></button>
       <button className="header_button"><img className="check" src ={save}></img></button>
-          <h3>해당 이미지 파일 이름{console.log("해당 이미지 파일 확인")}</h3>
+          <h3>{imageId}{console.log("해당 이미지 파일 확인")}</h3>
           </div>
       </header>
       <body className="labeling_tool">
             <div className="tool_menus" style = {{height : '600px'}}>
-            <h3>레이블링 객체 {console.log("레이블링 객")} </h3>
+            <h3>레이블링 객체 {console.log("레이블링 객체")} </h3>
             <select >
             {labels?.map((label) => (
               <option key={label} value={label}>

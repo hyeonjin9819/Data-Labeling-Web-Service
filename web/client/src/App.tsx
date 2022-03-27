@@ -12,7 +12,7 @@ import TeamMainView from './components/views/TeamMainView/TeamMainView';
 import MyProfile from './components/views/MyProfile/MyProfile';
 import TeamView from './components/views/TeamView/TeamView';
 import DataPage from './components/views/DataPage/DataPage';
-import Labeling_tool from './labeltool/Labeling_tool';
+import Labeling_tool from './components/views/labeltool/Labeling_tool';
 
 
 
@@ -30,7 +30,7 @@ function App(){
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
       
-        <Route path = "DataPage/:imageId" element={<Labeling_tool/>}/>
+        <Route path = "DataPage/:imageId/:checkId" element={<Labeling_tool/>}/>
 
        </Routes>
      </div>
