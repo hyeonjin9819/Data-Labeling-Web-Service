@@ -47,9 +47,10 @@ interface Props {
     centered
 
  >
- 
+{/* 
   { tool === 'bbox' ? ( // bounding box
         <BBoxAnnotator
+
         url= {image}
         // 주석을 달 이미지 링크
         inputMethod= {labelTool} 
@@ -66,7 +67,7 @@ interface Props {
   (<div>
   <Polygon/>
   </div> )
-  }
+  }*/}
   {/*<div id='tool'  >
   <ul>
     <li value = 'text'><a href = '#' onClick={()=> changeOn('text') }> text </a></li>
