@@ -20,6 +20,9 @@ const Labeling_tool : any=  () => {
     let [tool, settool] = useState('bbox');
     const navigate = useNavigate();
 
+    
+  
+
     const changeOn = (to : String) => {
       setlabelTool(to);
     }
@@ -35,27 +38,10 @@ const Labeling_tool : any=  () => {
 
     return(
       <>
-      <header>
-      <title>레이블링 툴 페이지</title>
-      <div className="labeling_header">
-      <button title="레이블링 모드 켜기" className="header_button"><img className="check" src ={draw}></img></button>
-      <button className="header_button"><img className="check" src ={save}></img></button>
-          <h3>{imageId}{console.log("해당 이미지 파일 확인")}</h3>
-          </div>
-      </header>
-      <body className="labeling_tool">
-            <div className="tool_menus" style = {{height : '600px'}}>
-            <h3>레이블링 객체 {console.log("레이블링 객체")} </h3>
-            <select >
-            {labels?.map((label) => (
-              <option key={label} value={label}>
-                  {label}
-             </option>
-              ))}
-             </select>
-             </div>
-             </body>    
+         
       <BBoxAnnotator
+      imageId = {imageId}
+
       url= {image}
       // 주석을 달 이미지 링크
       inputMethod= {labelTool} 
@@ -67,8 +53,8 @@ const Labeling_tool : any=  () => {
       // 사진에 새로운 레이블링을 추가할 시 발생
       setlabels= {setlabels}
       />
-
-      <pre>{JSON.stringify(entries)}</pre>
+      {/* 사용자 화면에는 안떠도 괜찮 것 같아서 주석처리 */}
+      {/* <pre>{JSON.stringify(entries)}</pre> */}
 </>
     /*   
        <div  >

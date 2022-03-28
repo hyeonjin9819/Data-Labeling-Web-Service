@@ -4,11 +4,17 @@ import { createUseStyles } from 'react-jss';
 import { v4 as uuid } from 'uuid';
 import BBoxSelector from '../BBoxSelector';
 import LabelBox from '../LabelBox';
+import '../../css/Labeling_tool.css';
+import Tool_menu from '../toolmenu/Tool_menu';
+import {Link, useParams, useNavigate} from 'react-router-dom';
+import draw from '../../images/draw.png';
+import save from '../../images/save.png';
 import Polygon from '../Polygon/Polygon';
-import draw from '../images/draw.png';
-import save from '../images/save.png';
+import '../../css/tool_menu.css';
+import DataPage from '../DataPage/DataPage';
 
 export type EntryType = { // 라벨링 시 출력되는 데이터를 담는 곳 
+    id: string;
     x: number; //left
     y: number; // top
     width: number;
@@ -30,6 +36,8 @@ const useStyles = createUseStyles({ // react-jss 사용
     },
 });
 type Props = { // 타입 정의
+
+    imageId : any;
     url: string; // 사진 경로 
     inputMethod: String  ; // 레이블링 이름 메소드 선택 
     labels?: string[]  ; // 라벨 이름 타입
@@ -38,14 +46,23 @@ type Props = { // 타입 정의
     setlabels?:any ;
 };
 
-const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,inputMethod, labels, onChange , setlabels}, ref) => {
+const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth = 2,inputMethod, labels, onChange , setlabels}, ref) => {
+    
+    
     const [multiplier, setMultiplier] = useState(1);
     const [user_Width, setuser_Width] = useState<any>(window.innerWidth);
     const [user_Heigth, setuser_Height] = useState<any>(window.innerHeight);
     const bBoxAnnotatorRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLDivElement>(null);
     const labelInputRef = useRef<HTMLDivElement>(null);
+    const labelClickRef = useRef<any>(null);
     const maxHeigth = inputRef.current?.clientHeight || 1;
+    const [labelStyle, setLabelStyle] = useState<{
+        color? : String;
+        id? : Number;
+    }>({}); // 업로드 이미지 스타일
+   
+        
     // React.forwardRef : 부모 컴포넌트로부터 하위 컴포넌트로 ref를 전달할 수 있다.
     // 전달받은 ref를 html 요소의 속성으로 넘겨줌으로써 함수 컴포넌트 역시 ref를 통한 제어가 가능해진다.
     window.onresize = function(event){
@@ -65,7 +82,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
       const changetool = (to : string) => {
         settool(to);
       }
- 
+      
 
     const classes = useStyles();
     const [pointer, setPointer] = useState<{ x: number; y: number } | null>(null);
@@ -78,6 +95,27 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
            
         } & EntryType)[]
     >([]);
+
+    const handleRowClick = (e:any, num : any) => {
+        console.log(e + "이미지 id")
+    //entries.map((i, m)=>console.log(i.id) )
+    entries.map((i, m)=> { 
+        //console.log("같다")
+       
+       if( labelClickRef.current.className == i.id) {
+        labelClickRef.current.style.borderColor = "blue";
+       }
+        console.log(" num", num)
+        // id를 가진 div태그의 color색을 바꿔줘야함
+        // setLabelStyle({
+        //     color : "rgb(50,0,0)"
+        // });
+    });
+  
+        //console.log(nowImageUrl[event2])
+        //setInputValue(inputValue => nowImageUrl[event2])
+        //console.log({setInputValue} + "setInput 확인")
+    }
     // const [multiplier, setMultiplier] = useState(1);
     // const [user_Width, setuser_Width] = useState<any>(window.innerWidth);
     // const [user_Heigth, setuser_Height] = useState<any>(window.innerHeight);
@@ -86,6 +124,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
        
         onChange(
             entries.map((entry) => ({
+                id: entry.id,
                 index : labels?.indexOf(entry.label),    
                 label: entry.label,
                 width: Math.round(entry.width * multiplier),
@@ -105,6 +144,8 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
         height?: number;
         backgroundImageSrc?: string;
     }>({}); // 업로드 이미지 스타일
+   
+
 
     // const bBoxAnnotatorRef = useRef<HTMLDivElement>(null);
     // const inputRef = useRef<HTMLDivElement>(null);
@@ -175,6 +216,8 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
 // ,[Window])
 
 // 컴포넌트가 처음 나타날때, 사라질때, 업데이트 될 때 특정 작업을 처리
+
+
     useEffect(() => {
         const mouseMoveHandler = (e: MouseEvent) => {
             switch (status) {
@@ -255,6 +298,49 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
     const a = JSON.stringify(entries);
    
     return (
+        <>
+        <header>
+      <title>레이블링 툴 페이지</title>
+      <div className="labeling_header">
+      <button title="레이블링 모드 켜기" className="header_button"><img className="check" src ={draw}></img></button>
+      <button className="header_button"><img className="check" src ={save}></img></button>
+          <h3>{imageId}{console.log("해당 이미지 파일 확인")}</h3>
+          </div>
+      </header>
+      <body className="labeling_tool">
+            <div className="tool_menus" style = {{height : '600px'}}>
+            <h3>레이블링 객체 {console.log("레이블링 객체")} </h3>
+            <select >
+            {labels?.map((label) => (
+              <option key={label} value={label}>
+                  {label}
+             </option>
+              ))}
+             </select>
+             <h3>레이블링 목록</h3>
+             <table id="labelTable">
+               <thead>               
+                 <tr>
+                  <th>No.</th>
+                  <th>Type</th>
+                  <th>Class</th>
+               </tr>
+               </thead>
+               <tbody>
+                 {
+                   entries?.map((entry, num)=>(
+                     <tr onClick={() => handleRowClick(entry.id, num)}>
+                       <td>{num +1}</td>
+                       <td>바운딩박스</td>
+                       <td>{entry.label}</td>
+                     </tr>
+                   ))
+                 }
+               </tbody>
+             </table>
+             </div>
+             </body> 
+      
         <div 
         style = {{
             display: 'flex',
@@ -269,8 +355,6 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
                 height: bBoxAnnotatorStyle.height,
                 backgroundColor: 'transparent',
                 border: '1px solid red',
-
-              
             }}
             ref={bBoxAnnotatorRef}
             onMouseDown={mouseDownHandler}
@@ -300,9 +384,10 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
                 ) : null}
                 
                 {entries.map((entry, i) => (
-                    <div
+                    <div className = {entry.id}
                         style={{
-                            border: `${borderWidth}px solid rgb(255,0,0)`,
+                            border: `${borderWidth}px solid `,
+                            borderColor : labelStyle.color?.toString(),
                             position: 'absolute',
                             top: `${entry.y - borderWidth}px`,
                             left: `${entry.x - borderWidth}px`,
@@ -312,6 +397,8 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
                             fontFamily: 'monospace',
                             fontSize: 'small',
                         }}
+                        ref = {labelClickRef}
+
                         key={i}
                         onMouseOver={() =>
                             setEntries((prevEntries) =>
@@ -321,8 +408,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
                         onMouseLeave={() =>
                             setEntries((prevEntries) =>
                             prevEntries.map((e) => (e.id === entry.id ? { ...e, showCloseButton: false } : e)),
-                        )
-                        }
+                        )}
                     >
                         {entry.showCloseButton ? (
                             <div
@@ -369,6 +455,56 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
                                 </div>
                             </div>
                         ) : null}
+
+                        {entry.showCloseButton ? (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '-8px',
+                                    right: '-8px',
+                                    width: '16px',
+                                    height: '0',
+                                    padding: '16px 0 0 0',
+                                    overflow: 'hidden',
+                                    color: '#fff',
+                                    backgroundColor: '#030',
+                                    border: '2px solid #fff',
+                                    borderRadius: '18px',
+                                    cursor: 'pointer',
+                                    userSelect: 'none',
+                                    textAlign: 'center',
+                                }
+                            }
+                                onMouseDown={(e) => {
+                                    e.stopPropagation();
+                                }}
+                                onClick={() => {
+                                    setEntries(entries.filter((e) => e.id !== entry.id));
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: 'block',
+                                        textAlign: 'center',
+                                        width: '16px',
+                                        position: 'absolute',
+                                        top: '-2px',
+                                        left: '0',
+                                        fontSize: '16px',
+                                        lineHeight: '16px',
+                                        fontFamily:
+                                            '"Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, ' +
+                                            'Helvetica, Menlo, "Droid Sans", sans-serif',
+                                    }}
+                                >
+                                    &#215;
+                                </div>
+                            </div>
+                        ) : null}
+
+
+
+
                         <div style={{ overflow: 'hidden' }}>{entry.label}</div>
                         
                     </div>
@@ -397,7 +533,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({ url, borderWidth = 2,input
    <footer>
    </footer>
 </div>
-
+</>
     );
 });
 export default BBoxAnnotator;
