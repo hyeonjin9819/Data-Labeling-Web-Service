@@ -45,8 +45,8 @@ const DataPage = () => {
             setFileImage(nowImageUrl)
         }
         let body = {
-            name : "test44",
-            url : 'aa'
+            name : "hyeonjin",
+            url : 'aa2222'
         }
         dispatch(projectImg(body))
         .then((response: { payload: { success: any; message : any;}; }) => {
