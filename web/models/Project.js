@@ -6,9 +6,7 @@ const Team_info = new mongoose.Schema({
     name : String 
   });
 
-  const imageurlSchema = mongoose.Schema({
-    url: String
-  });
+
 
   const dataSchema = mongoose.Schema({
     index : Number,
@@ -19,8 +17,13 @@ const Team_info = new mongoose.Schema({
     y : Number
   });
 
+  const imageurlSchema = mongoose.Schema({
+    url: String,
+    data: dataSchema
+  });
+
 //스키마 생성창
-const projectSchema = mongoose.Schema({
+const projectSchema =  mongoose.Schema({
     user_token:{
         type: String
     },
@@ -52,10 +55,16 @@ const projectSchema = mongoose.Schema({
         type:String,
         maxlength:500
     },
-    image : {
-        type : [imageurlSchema]
-    }
+    imageHistory:[String]
+    // image : {
+    //     type : [imageurlSchema],
+    //     data : [dataSchema]
+    // }
+    //image: {imageurlSchema}
     })
-const Project =mongoose.model('Project',projectSchema)//화려한 모델이 스키마를 감싸네
-const Img =mongoose.model('Img',imageurlSchema)//화려한 모델이 스키마를 감싸네
-module.exports={Project, Img}//외부 사용 가능하게
+
+const Project = mongoose.model('Project',projectSchema)//화려한 모델이 스키마를 감싸네
+const Img = mongoose.model('Img',imageurlSchema)//화려한 모델이 스키마를 감싸네
+const Data = mongoose.model('Data',dataSchema)
+
+module.exports={Project, Img, Data}//외부 사용 가능하게

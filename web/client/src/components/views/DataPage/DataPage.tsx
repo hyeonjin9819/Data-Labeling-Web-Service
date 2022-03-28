@@ -45,8 +45,8 @@ const DataPage = () => {
             setFileImage(nowImageUrl)
         }
         let body = {
-            name : "test44",
-            url : 'aa'
+            name : "hyeonjin",
+            url : 'aa2222'
         }
         dispatch(projectImg(body))
         .then((response: { payload: { success: any; message : any;}; }) => {
@@ -125,6 +125,7 @@ const DataPage = () => {
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
+
                                             
                                             <tr onClick={() => handleRowClick(data.name, data.data_id)}>
                                                 <td></td>
