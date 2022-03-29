@@ -47,15 +47,14 @@ type Props = { // 타입 정의
 };
 
 const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth = 2,inputMethod, labels, onChange , setlabels}, ref) => {
-    
-    
+    const [number, setnumber] = useState<number>(0);
     const [multiplier, setMultiplier] = useState(1);
     const [user_Width, setuser_Width] = useState<any>(window.innerWidth);
     const [user_Heigth, setuser_Height] = useState<any>(window.innerHeight);
     const bBoxAnnotatorRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLDivElement>(null);
     const labelInputRef = useRef<HTMLDivElement>(null);
-    const labelClickRef = useRef<any>(null);
+    const labelClickRef = useRef<any>([]);
     const maxHeigth = inputRef.current?.clientHeight || 1;
     const [labelStyle, setLabelStyle] = useState<{
         color? : String;
@@ -97,25 +96,27 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth =
     >([]);
 
     const handleRowClick = (e:any, num : any) => {
-        console.log(e + "이미지 id")
-    //entries.map((i, m)=>console.log(i.id) )
+    setnumber(num)
     entries.map((i, m)=> { 
-        //console.log("같다")
-       
-       if( labelClickRef.current.className == i.id) {
-        labelClickRef.current.style.borderColor = "blue";
+       if(labelClickRef.current[num].className === i.id) {
+        console.log('asasass',labelClickRef.current[num])
+        labelClickRef.current[num].style.borderColor = "blue";
        }
-        console.log(" num", num)
-        // id를 가진 div태그의 color색을 바꿔줘야함
-        // setLabelStyle({
-        //     color : "rgb(50,0,0)"
-        // });
     });
+}
+
+useEffect(()=> {
+    entries.map((i, m) => {
+        if(m!==number) {
+            labelClickRef.current[m].style.borderColor = "rgb(256,0,0)"
+        }
+    })
+},[number])
   
         //console.log(nowImageUrl[event2])
         //setInputValue(inputValue => nowImageUrl[event2])
         //console.log({setInputValue} + "setInput 확인")
-    }
+   
     // const [multiplier, setMultiplier] = useState(1);
     // const [user_Width, setuser_Width] = useState<any>(window.innerWidth);
     // const [user_Heigth, setuser_Height] = useState<any>(window.innerHeight);
@@ -397,7 +398,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth =
                             fontFamily: 'monospace',
                             fontSize: 'small',
                         }}
-                        ref = {labelClickRef}
+                        ref = {elem => (labelClickRef.current[i] = elem)}
 
                         key={i}
                         onMouseOver={() =>
