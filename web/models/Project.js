@@ -22,11 +22,15 @@ const Team_info = new mongoose.Schema({
 
 //스키마 생성창
 const projectSchema =  mongoose.Schema({
-    user_token:{
-        type: String
+    _id : {
+      type : Number,
     },
-    id : {
-      type:Number
+    users : [],
+    // user_token:{
+    //     type: String
+    // },
+    owner : {
+        type : Number
     },
     name:{
         type:String,

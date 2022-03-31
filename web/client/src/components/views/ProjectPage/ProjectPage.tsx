@@ -23,21 +23,8 @@ const ProjectPage = () =>{
     
   const [subject, setsubject] = useState("프로젝트 페이지");
   const [proModal, setproModal] = useState(false);
-  const [num, setNum] = useState(0)
+  const [num, setNum] = useState(0);
 
-  
-
-//   const [projects_list, setproject] = useState<any>(
-//     [{
-//     pr_id : 1,
-//     pr_name : "지윤", 
-//     pr_de : "레이블링" ,
-//     pr_date : "2월 17일",
-//     pr_tool : "square",
-//     pr_category : "의료",
-//     pr_upload : "Image",
-//     pr_token : ''
-//     }])
 
 const [projects_list, setproject] = useState<any>(
     [{
@@ -51,33 +38,32 @@ const [projects_list, setproject] = useState<any>(
     }]
     )
 
+    const getCookie: any = (name : String) => {
+       // var name
+    }
+
 useEffect(()=> {
     dispatch(projectData())
     .then((response: { payload: { success: any; project : any; }; }) => {
         console.log(response.payload.project)
-      if(response.payload.success) {
+        if(response.payload.success) {
         const Data = response.payload.project.map(
-            (data: {info : String, name: String, id:any, date: String, tool : String, category:String, upload  :String, token : String}, _id : number) => ({
-              //  projects_list.push(data)
-               //  setproject.push(data)
+            (data: {info : String, name: String, id:any, date: String, category:String, upload  :String, token : String}, index : number) => ({
+            //  projects_list.push(data)
+            //  setproject.push(data)  
+            //  as(data, _id)
                 
-             //  as(data, _id)
-                
-                // setproject(
-                // [{...projects_list,
-                   pr_id : _id ,
+            // setproject(
+            // [{...projects_list,
+                   pr_id : index + 1 ,
                    pr_name : data.name,
                    pr_de : data.info,
                    pr_date : data.date,
-                   pr_tool : data.tool,
                    pr_category : data.category,
                    pr_upload : data.upload,
                    pr_token : data.token,
-                // }])
-                
-                
-            }
-            )
+            // }])    
+            })
         )
         setproject(projects_list.concat(Data))
         // response.payload.project
@@ -119,7 +105,7 @@ useEffect(()=> {
                     <h2 className="dashboard" >{subject}</h2>
                    {/* <Link to = "/MyProfile">
                     <button  className="logout"><img className="icon" src={profile}></img></button>
-  </Link>*/}
+                    </Link>*/}
                     <button  className="logout"><img className="icon" src={bell}></img></button>
                     <ProjectAddPage show ={proModal} getName={getName} nextId = {nextId} onHide={()=>setproModal(false)} />
                      <input className="pro_search" placeholder='프로젝트 검색'></input>
@@ -141,8 +127,6 @@ useEffect(()=> {
                                 {
                                     projects_list?.map(
                                         (project: {pr_id : String, pr_name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; pr_category: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; pr_upload: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined;  pr_date: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; pr_de: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; } ,num: number) => (
-                                          
-                                            
                                                 (project.pr_id !== null) ?
                                                 (
                                             <tr onClick={()=> handleRowClick(project.pr_name)}>
