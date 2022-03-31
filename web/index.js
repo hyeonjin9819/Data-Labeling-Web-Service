@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
-const {Project, Img} = require("./models/Project")
+const {Project} = require("./models/Project")
 const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
 
@@ -31,9 +31,7 @@ mongoose.connect(Mongoose_URI,  {
 
 
 app.get('/', (req, res) => {
-  collection.find().toArray((err, items) => {
-    console.log(items)
-  })
+
 })
 
 app.get('/api/hello', (req, res) => {
@@ -118,7 +116,23 @@ app.post('/api/users/register',(req, res) => {
   })
 })
 
-
+app.get('/api/projects/data', (req,res) => {
+  // 프로젝트 목록 가져오기
+  Project.find((err, project)=> {
+   // return res.status(200).json(items)
+       if(!project) {
+         return res.json ({
+         success : false,
+         message : "프로젝트 목록을 가져오지 못했다."
+       })
+     }
+    return res.status(200).json({
+       success:true,
+       message : "프로젝트 가져오기 성공적",
+       project
+     })
+   })
+})
 
 app.post('/api/users/myinfo',(req, res) => {
   User.findOne({token : req.body.token}, (err, user) => {

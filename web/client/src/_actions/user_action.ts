@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE, PROJECT_IMG} from './types';
+import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE, PROJECT_IMG, PROJECT_DATA} from './types';
 
 export function loginUser(dataTosubmit: any) {
     const request = axios.post('/api/users/login',dataTosubmit)
@@ -104,6 +104,16 @@ export function projectImg(dataTosubmit: any) {
       console.log('request',request)
     return {
         type: PROJECT_IMG,
+        payload : request
+    }
+}
+
+export function projectData() {
+    const request = axios.get('/api/projects/data')
+      .then(response =>  response.data )
+      console.log('request',request)
+    return {
+        type: PROJECT_DATA,
         payload : request
     }
 }

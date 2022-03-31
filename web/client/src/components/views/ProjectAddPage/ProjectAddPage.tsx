@@ -48,7 +48,6 @@ const ProjectAddPage = (props: props): ReactElement => {
   pr_name?: any,
   pr_de?:any,
   pr_date?: any,
-  pr_tool? : any,
   pr_upload? : any,
   pr_category? : any
   }>();
@@ -74,7 +73,6 @@ const ProjectAddPage = (props: props): ReactElement => {
       name:pr_text?.pr_name,
       category :pr_text?.pr_category,
       upload: pr_text?.pr_upload,
-      tool: pr_text?.pr_tool,
       date: pr_text?.pr_date,
       info:pr_text?.pr_de
     }
@@ -120,14 +118,6 @@ const cus_input = (e: any) => {
  })
 }
 
-  const ontool = (e:any) => {
-      const tool = e.target.value;
-      console.log('tool', tool);
-      setText ({
-        ...pr_text,
-        pr_tool : tool
-      })
-}
 
 const onupload = (e:any) => {
   const upload = e.target.value;
@@ -212,25 +202,7 @@ const dis_check = () => {
     <div>Text</div>
     </label>
     </div>
-    <h4 className="footer_sub">레이블링 타입</h4>
-    {/*<ul className="label_list">
-                <input type="radio" value= "sqaure" className="label_menu"><div className="sqa"></div></input>
-                <li className="label_menu">레이블링 2</li>
-                <li className="label_menu">레이블링 3</li>
-                <li className="label_menu">레이블링 4</li>
-  </ul>*/}
 
-  <div className="te">
-  <label className="labels"  htmlFor="asdf">
-  <input  onClick={ontool} name="label" type="radio" value= "square" className="label_menu"></input>
-  <div className="square"></div>
-
-  </label>
-  <label className="labels"  htmlFor="asdf">
-  <input name="label" type="radio" value= "box" className="label_menu" onClick={ontool}></input>
-  <div className="box"></div>
-  </label>
-  </div>
     <Modal.Footer>
     <Button onClick={add} className="make">프로젝트 생성</Button>
     </Modal.Footer>
