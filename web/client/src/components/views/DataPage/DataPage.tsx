@@ -41,7 +41,9 @@ const DataPage = () => {
             
             imgName.push(
             {
-            'data_id' :  i + data_list.length , 'name' : url2 , 'state' : false,
+            'data_id' :  i + data_list.length ,
+             'name' : url2 , 
+             'state' : false,
             '_id' : idx,
             'label' : '', 
             'width' : 0,
