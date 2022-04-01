@@ -26,7 +26,7 @@ function App(){
         <Route path="/TeamMainView" element = {<TeamMainView/>}/>
         <Route path="/MyProfile" element = {<MyProfile/>}/>
         {/* 프로젝트 리스트 동적 라우팅 */}
-        <Route path = "ProjectPage/:projectId" element={<DataPage/>}/>
+        <Route path = "ProjectPage/:projectId/:dataId" element={<DataPage/>}/>
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
 

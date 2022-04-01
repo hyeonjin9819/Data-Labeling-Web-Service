@@ -9,6 +9,7 @@ const {Project} = require("./models/Project")
 const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
 const {Counter} = require("./models/Counter")
+const {Data} = require("./models/data")
 
 dotenv.config();
 const Mongoose_URI = process.env.Mongoose_URI;
@@ -57,38 +58,54 @@ app.get('/api/hello', (req, res) => {
 // })
 
 app.post('/api/projects/image',(req,res) => {
-  Project.findOne({ name: req.body.name},(err, item) => {
-    if(!item) {
-      return res.json({
-        success : false,
-        message : req.body.name
-      })
-    }
-    item.update({ image : req.body.url } ,(err) => {
-      if(err) return res.json({
-        success : false,
-        message : req.body.url
-      });
-      return res.json({
-        success : true,
-        message : item
-      })
-    })
+  Data.insertMany({
+  "_id" : 0,
+  "data" : [req.body],
+  "object" : [null]
   })
+  // Project.findOne({ name: req.body.name},(err, item) => {
+  //   if(!item) {
+  //     return res.json({
+  //       success : false,
+  //       message : req.body.name
+  //     })
+  //   }
+  //   item.update({ image : req.body.url } ,(err) => {
+  //     if(err) return res.json({
+  //       success : false,
+  //       message : req.body.url
+  //     });
+  //     return res.json({
+  //       success : true,
+  //       message : item
+  //     })
+  //   })
+  // })
+
 })
 
 app.post('/api/projects/create',(req,res) => {
   // 프로젝트 생성
+  Counter.findOne({name : "projectCount"},(err, count)=> {
+    req.body._id = count.totalCount + 1
+ 
   const project = new Project(req.body)
   console.log(req.body)
   project.save((err,projectInfo) => {
     if(err) return res.json({success:false, err})
+    else {
+      Counter.updateOne({name : "projectCount"},{$inc : {totalCount:1}}, (err, count) => {
+        if(err){
+          return console.log(err);
+        } 
+      }) 
+    }
     return res.status(200).json({
       success:true
     })
   })
 })
-
+})
 
 app.post('/api/team/create',(req,res) => {
   // team 생성
@@ -101,9 +118,6 @@ app.post('/api/team/create',(req,res) => {
     })
   })
 })
-
-
-
 
 app.post('/api/users/register',(req, res) => {
   // 회원가입할 때 필요한 정보들을 클라이언트에서 가져오면
@@ -158,7 +172,8 @@ app.post('/api/users/myinfo',(req, res) => {
       Success : true,
       email : user.email,
       name : user.name,
-      profile : user.profile
+      profile : user.profile,
+      id : user.id
   })
   })
 })

@@ -1,12 +1,13 @@
 import React, { ReactElement, useState } from 'react';
 import '../../css/ProjectAddPage.css';
 import {useDispatch} from 'react-redux'
-import {projectCreate, findEmail} from '../../../_actions/user_action';
+import {projectCreate, findEmail, myInfo} from '../../../_actions/user_action';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import text from '../../images/text.png';
 import close from '../../images/close.png';
 import square from '../../images/square.png';
+import { useEffect } from 'react';
 
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
 interface props { 
@@ -23,6 +24,7 @@ const ProjectAddPage = (props: props): ReactElement => {
   let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
   let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
   const { show, getName,onHide, nextId } = props;
+  const [owner, setowner] = useState(0)
 
   const [email_user, setemail_user] = useState<any>(null)
 
@@ -37,6 +39,22 @@ const ProjectAddPage = (props: props): ReactElement => {
        if(end == -1) end = cookieData.length; 
        token = cookieData.substring(start, end);
 }
+let body = {
+  token : token
+}
+useEffect(()=> {
+  dispatch(myInfo(body))
+.then((response: { payload: { Success: any; id : number;} }) => {
+  if(response.payload.Success) {
+     setowner(response.payload.id);
+     console.log('owner', owner)
+  }  
+  else {
+    alert('아이디 가져오기 실패')
+  }
+})
+},[]);
+
 // let bodys = {
 //   tokens : token
 // }
@@ -66,10 +84,12 @@ const ProjectAddPage = (props: props): ReactElement => {
       alert("프로젝트명 혹은 설명을 입력해주세요");
     }
     else {
-
+      
     let body = {
-      user_token : token,
-      id : pr_text?.pr_id,
+      //user_token : token,
+      _id :null,
+      users : [owner],
+      owner : owner,
       name:pr_text?.pr_name,
       category :pr_text?.pr_category,
       upload: pr_text?.pr_upload,
@@ -95,11 +115,12 @@ const ProjectAddPage = (props: props): ReactElement => {
     pr_name : null,
     pr_de : null
   })
-
+ 
     dispatch(projectCreate(body))
     .then((response: { payload: { success: any; }; }) => {
       if(response.payload.success) {
           alert("성공")
+          window.location.reload();
       }  
       else {
         alert('실패')
@@ -117,7 +138,6 @@ const cus_input = (e: any) => {
    pr_category : category
  })
 }
-
 
 const onupload = (e:any) => {
   const upload = e.target.value;

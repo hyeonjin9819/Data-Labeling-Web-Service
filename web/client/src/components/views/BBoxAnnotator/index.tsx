@@ -503,9 +503,6 @@ useEffect(()=> {
                             </div>
                         ) : null}
 
-
-
-
                         <div style={{ overflow: 'hidden' }}>{entry.label}</div>
                         
                     </div>
