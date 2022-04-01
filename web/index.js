@@ -58,9 +58,10 @@ app.get('/api/hello', (req, res) => {
 // })
 
 app.post('/api/projects/image',(req,res) => {
+  console.log('image req',req.body)
   Data.insertMany({
-  "_id" : 0,
-  "data" : [req.body],
+  "_id" : req.body[0]._id,
+  "data" : req.body,
   "object" : [null]
   })
   // Project.findOne({ name: req.body.name},(err, item) => {
@@ -81,8 +82,9 @@ app.post('/api/projects/image',(req,res) => {
   //     })
   //   })
   // })
-
 })
+
+// 데이터 불러오기 
 
 app.post('/api/projects/create',(req,res) => {
   // 프로젝트 생성

@@ -121,7 +121,7 @@ useEffect(()=> {
                     <h2 className="dashboard" >{subject}</h2>
                    {/* <Link to = "/MyProfile">
                     <button  className="logout"><img className="icon" src={profile}></img></button>
-  </Link>*/}
+                    </Link>*/}
                     <button  className="logout"><img className="icon" src={bell}></img></button>
                     <ProjectAddPage show ={proModal} getName={getName} nextId = {nextId} onHide={()=>setproModal(false)} />
                      <input className="pro_search" placeholder='프로젝트 검색'></input>

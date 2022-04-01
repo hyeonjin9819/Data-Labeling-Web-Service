@@ -15,8 +15,10 @@ import Labeling_tool from '../labeltool/Labeling_tool';
 const DataPage = () => {
     const dispatch = useDispatch<any>();
     const{projectId, dataId} = useParams() //라우팅 처리용 함수?(현진쓰)
+    console.log('project', projectId)   
+     console.log('id', dataId)
     //const [imageurl, setImageurl] = useState("");
-    var imageurl;
+    const [idx, setidx] = useState(dataId);
     const [Imagefilename, setImagefilename] = useState([]) // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
     ])
@@ -27,7 +29,7 @@ const DataPage = () => {
     
     const ImageUpload = (e:any) => {
     
-     //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
+    //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
         const file = e.target.files;
         //const nowImageUrl = [...fileImage]
         
@@ -35,12 +37,17 @@ const DataPage = () => {
         for(let i = 0; i< file.length; i++){
             const name = file[i].name.toString()  
             const url = URL.createObjectURL(file[i]);
-            imgName.push({'data_id' :  i + data_list.length , 'name' : url , 'state' : false,
-            label : '', 
-            width : 0,
-            height : 0,
-            x : 0,
-            y: 0,
+            const url2:String = url.toString().substr(27)
+            
+            imgName.push(
+            {
+            'data_id' :  i + data_list.length , 'name' : url2 , 'state' : false,
+            '_id' : idx,
+            'label' : '', 
+            'width' : 0,
+            'height' : 0,
+            'x' : 0,
+            'y': 0,
         }) 
            // imgName2.push({'name' : URL.createObjectURL(file[i]).toString()})
            // console.log(URL.createObjectURL(file[i]));
@@ -48,8 +55,7 @@ const DataPage = () => {
             nowImageUrl.push(url)
             setData(imgName)
             setFileImage(nowImageUrl)
-
-        }
+        }                                  
 
         // let body = {
         //     url : fileImage,

@@ -8,7 +8,8 @@ const DataSchema =  mongoose.Schema({
         type : Number,
     },
     data : [
-        {data_id: Number,
+        {   _id : Number, 
+            data_id: Number,
             name: String,
             label : String, 
             width : Number,
