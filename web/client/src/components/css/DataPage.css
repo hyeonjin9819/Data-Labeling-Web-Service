@@ -11,3 +11,18 @@
   width: 150px;
   height: 150px;
 }
+.files {
+  margin: auto;
+}
+.menu {
+  float: right;
+  vertical-align: bottom;
+}
+.checks {
+  vertical-align: middle;
+  width: 130px;
+}
+.boxs {
+  width: 20px;
+  float: right;
+}
