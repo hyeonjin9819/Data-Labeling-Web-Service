@@ -1,60 +1,47 @@
-import React, {Component, PropsWithChildren,useRef, ReactElement,useState } from 'react';
+import React, {Component, PropsWithChildren,useRef, ReactElement,useState, ChangeEvent } from 'react';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
+import {IEmail} from './Interfaces'
+import TeamEmail from './TeamEmail';
+import MemberAddtwo from './MemberAddtwo';
 import close from '../../images/close.png';
+import { getValue } from '@testing-library/user-event/dist/utils';
+
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
   show: boolean; 
+  //getEmail: (a:any) => void;
   onHide: () => void; // 함수 타입 정의할 때 }
+  //nextId : number;
 }
 
 const TeamMemberAdd = (props: props): ReactElement => {
   const { show, onHide } = props;
-  // 개인 이메일 담는 곳
-  const [email, setEmail] = useState('');
-  // 전체 이메일 배열로 담음
-  const[Email_text, setText] = useState<{
-    Email? :any
-  }>()
 
-  const onChangeText = (e:{target :{name:any; value:any;}}) =>{
-    const{name, value} = e.target;
-    setText ({
-      ...Email_text,
-    [name]:value,
-    })
+  const [email, setEmail] = useState<string>("");
+  const [emailList, setEmailList] = useState<IEmail[]>([]);
+  const [proModal, setproModal] = useState(false);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    if(event.target.name === 'email'){
+      setEmail(event.target.value)
+    }
+  };
+
+  const addEmail = (): void => {
+    const newEmail = {emailName: email}
+    setEmailList([...emailList, newEmail]);
+    console.log(emailList);
+    setEmail("")
   }
 
-  const getEmail = (user:any)=>{
-    setLists([...Email_lists, user])
+  const deleteEmail = (emailNameToDelete: string):void => {
+    setEmailList(emailList.filter((email)=>{
+      return email.emailName != emailNameToDelete
+    }))
   }
-
-  const Emailadd= ()=>{
-    if(Email_text?.Email === null){
-      alert("초대할 팀원을 입력해주세요")
-    }
-    else{
-      getEmail(Email_text);
-      setText({
-        ...Email_text,
-        Email : null
-      })
-      onHide();
-    }
-  }
-
-
-  const [Email_lists, setLists] = useState<any>([
-    {
-      email: '',
-    }
-  ]);
-  const nextId = Email_lists.length // email 갯수
-  
-
-
 
   return (
     <Modal
@@ -66,24 +53,26 @@ const TeamMemberAdd = (props: props): ReactElement => {
   >
 
     <Modal.Body>
-      <div>
-      <h1 className="body_sub">팀원 초대</h1>
-    <input className="pr" type="" onChange={onChangeText} placeholder="초대할 팀원의 아이디를 입력해주세요."></input>
-    <button onClick={Emailadd}>추가</button>
-        <h1 className="body_sub">초대 목록</h1>
-        <div>
-          {Email_lists.map(
-            (email: any) =>{
-              <li>{email}</li>
-            }
-          )}
+    <div className="TeamMemberAdd">
+      <h3>팀원 초대</h3>
+      <div className ="inputContainer">
+      <input type ="text" name ='email' value={email} onChange={handleChange} placeholder = "이메일을 입력해주세요"/>
+      <button onClick={addEmail}>추가</button>
+      </div>
+      <h3>팀원 리스트</h3>
+      <div className ="EmailList">
+        {emailList.map((email: IEmail) => {
+          return <TeamEmail email={email} deleteEmail = {deleteEmail}/>;
+        })}
         </div>
-            </div>
+      </div>
+
     </Modal.Body>
 
     <Modal.Footer>
         <div className="team_foot">
-    <Button className="make"variant="danger">next</Button>
+          <MemberAddtwo show = {proModal} onHide={()=>setproModal(false)}/>
+    <Button className="make"variant="danger" onClick={()=>setproModal(true)}>next</Button>
     </div>
     </Modal.Footer>
   </Modal>

@@ -43,9 +43,9 @@ function SideBar(props : any) {
         </li>
        
         <li className="list" style = {{ marginTop : '20px' }}>
-        <Link to = "/DataPage">
+        <Link to = "/MyProfile">
         <button className="btn"><img className="icon" src = {setting}></img>내 정보</button>
-        </Link> {/*작업용 임시 변경*/}
+        </Link> {/*작업용 임시 변경*/} {/* -> 다시 profile로 바꿈 (현진) */}
         </li>
     </ul>
     </div>

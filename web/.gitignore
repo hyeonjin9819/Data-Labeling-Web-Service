@@ -5,8 +5,10 @@
 /.pnp
 .pnp.js
 /client/node_modules
+/client/.package-lock.json
+/client/.package.json
 /.env
-/.package-lock.json
+
 
 # testing
 /coverage

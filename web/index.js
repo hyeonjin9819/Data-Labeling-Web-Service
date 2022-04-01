@@ -8,6 +8,8 @@ const { User } = require("./models/User");
 const {Project} = require("./models/Project")
 const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
+const {Counter} = require("./models/Counter")
+const {Data} = require("./models/data")
 
 dotenv.config();
 const Mongoose_URI = process.env.Mongoose_URI;
@@ -26,57 +28,16 @@ app.use(cookieParser());
 const mongoose = require('mongoose');
 mongoose.connect(Mongoose_URI,  {
  
-}) .then(() => console.log('MongoDB Connect()...'))
+}) .then(() => 
+  console.log('MongoDB Connect()...'))
   .catch(err => console.log(err))
 
-
 app.get('/', (req, res) => {
-  collection.find().toArray((err, items) => {
-    console.log(items)
-  })
+
 })
 
 app.get('/api/hello', (req, res) => {
   res.send('api Hello')
-})
-
-app.post('/api/projects/create',(req,res) => {
-  // 프로젝트 생성
-  const project = new Project(req.body)
-  console.log(req.body)
-  project.save((err,projectInfo) => {
-    if(err) return res.json({success:false, err})
-    return res.status(200).json({
-      success:true
-    })
-  })
-})
-
-app.post('/api/team/create',(req,res) => {
-  // team 생성
-  const team = new Team(req.body)
-  console.log(req.body)
-  team.save((err,projectInfo) => {
-    if(err) return res.json({success:false, err})
-    return res.status(200).json({
-      success:true
-    })
-  })
-})
-
-app.post('/api/users/register',(req, res) => {
-  // 회원가입할 때 필요한 정보들을 클라이언트에서 가져오면
-  // 그것들을 데이터베이스에 저장
-
-  //save 하기 전에 비밀번호 암호화해야하는데 그 전에 몽구스를 이용해야한다 
-  const user = new User(req.body)
-
-  user.save((err,userInfo) => {
-    if(err) return res.json({success:false, err})
-    return res.status(200).json({
-      success : true
-    })
-  })
 })
 
 // app.post('/api/users/findemail',(req, res) => {
@@ -96,6 +57,109 @@ app.post('/api/users/register',(req, res) => {
 //   })
 // })
 
+app.post('/api/projects/image',(req,res) => {
+  Data.insertMany({
+  "_id" : 0,
+  "data" : [req.body],
+  "object" : [null]
+  })
+  // Project.findOne({ name: req.body.name},(err, item) => {
+  //   if(!item) {
+  //     return res.json({
+  //       success : false,
+  //       message : req.body.name
+  //     })
+  //   }
+  //   item.update({ image : req.body.url } ,(err) => {
+  //     if(err) return res.json({
+  //       success : false,
+  //       message : req.body.url
+  //     });
+  //     return res.json({
+  //       success : true,
+  //       message : item
+  //     })
+  //   })
+  // })
+
+})
+
+app.post('/api/projects/create',(req,res) => {
+  // 프로젝트 생성
+  Counter.findOne({name : "projectCount"},(err, count)=> {
+    req.body._id = count.totalCount + 1
+ 
+  const project = new Project(req.body)
+  console.log(req.body)
+  project.save((err,projectInfo) => {
+    if(err) return res.json({success:false, err})
+    else {
+      Counter.updateOne({name : "projectCount"},{$inc : {totalCount:1}}, (err, count) => {
+        if(err){
+          return console.log(err);
+        } 
+      }) 
+    }
+    return res.status(200).json({
+      success:true
+    })
+  })
+})
+})
+
+app.post('/api/team/create',(req,res) => {
+  // team 생성
+  const team = new Team(req.body)
+  console.log(req.body)
+  team.save((err,projectInfo) => {
+    if(err) return res.json({success:false, err})
+    return res.status(200).json({
+      success:true
+    })
+  })
+})
+
+app.post('/api/users/register',(req, res) => {
+  // 회원가입할 때 필요한 정보들을 클라이언트에서 가져오면
+  // 그것들을 데이터베이스에 저장
+  //save 하기 전에 비밀번호 암호화해야하는데 그 전에 몽구스를 이용해야한다 
+  Counter.findOne({name : "memberCount"},(err, count)=> {
+    req.body.id = count.totalCount+1
+    const user = new User(req.body)
+    user.save((err,userInfo) => {
+    if(err) return res.json({success:false, err})
+    else {
+      Counter.updateOne({name : "memberCount"},{$inc : {totalCount:1}}, (err, count) => {
+        if(err){
+          return console.log(err);
+        } 
+      }) 
+    }
+    return res.status(200).json({
+      success : true
+      })
+    })
+  })
+})
+
+app.get('/api/projects/data', (req,res) => {
+  // 프로젝트 목록 가져오기
+  Project.find((err, project)=> {
+   // return res.status(200).json(items)
+       if(!project) {
+         return res.json ({
+         success : false,
+         message : "프로젝트 목록을 가져오지 못했다."
+       })
+     }
+    return res.status(200).json({
+       success:true,
+       message : "프로젝트 가져오기 성공적",
+       project
+     })
+   })
+})
+
 app.post('/api/users/myinfo',(req, res) => {
   User.findOne({token : req.body.token}, (err, user) => {
     if(!user){
@@ -108,7 +172,8 @@ app.post('/api/users/myinfo',(req, res) => {
       Success : true,
       email : user.email,
       name : user.name,
-      profile : user.profile
+      profile : user.profile,
+      id : user.id
   })
   })
 })
@@ -150,7 +215,6 @@ app.post('/api/users/namechange', (req, res) => {
 
 app.post('/api/users/login',(req, res) => {
     // 1. 요청된 이메일을 데이터베이스에 있는지 확인한다.
-    
     User.findOne({ email : req.body.email }, (err, user) => { // 몽고디비에서 제공하는 함수
       if(!user){
       return res.json ({
@@ -242,8 +306,6 @@ app.post('/api/users/mail', (req,res)=> {
   })
 
 })
-
-
 const port = process.env.PORT || 5000 // 5000번 포트를 백서버로 둔다
 
 app.listen(port, () => { // 5000번에서 이 앱을 실행한다.

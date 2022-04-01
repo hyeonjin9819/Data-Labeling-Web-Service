@@ -30,7 +30,7 @@ const TeamView = ()=> {
                             <div className="view_header">
                             <h2 className="dashboard" >{teamId}</h2>
                             <div>
-                            <TeamMemberAdd show ={proModal} onHide={()=>setproModal(false)} />
+                            <TeamMemberAdd show={proModal} onHide={() => setproModal(false)}/>
                             <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >팀원 초대 </button> 
                             </div>
                             </div>

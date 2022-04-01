@@ -8,9 +8,13 @@ import square from '../../images/square.png';
 import box from '../../images/box.png';
 import { Row, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { projectData } from '../../../_actions/user_action';
+import { AnyLengthString } from 'aws-sdk/clients/comprehend';
 
 /*프로젝트 페이지로 넘어가면 나오는 페이지*/
 const ProjectPage = () =>{
+    const dispatch = useDispatch<any>();
     let pr_cnt:number = 0;
     let today = new Date(); //날짜를 계산해주는 Date 함수
     let year = today.getFullYear(); // 현재 년도를 가져와주는 getFullYear 함수
@@ -21,45 +25,92 @@ const ProjectPage = () =>{
   const [proModal, setproModal] = useState(false);
   const [num, setNum] = useState(0)
 
-  const [projects_list, setproject] = useState<any>([
-    {
-    //pr_id : 1,
-    pr_name : "지윤", 
-    pr_de : "레이블링" ,
-    pr_date : "2월 17일",
-    pr_tool : "square",
-    pr_category : "의료",
-    pr_upload : "Image",
-    }
-    // {
-    // pr_id : 2,
-    // pr_name : "지윤", 
-    // pr_de : "레이블링" ,
-    // pr_date : "2월 17일",
-    // pr_tool : "box",
-    // pr_category : "농업",
-    // pr_upload : "Text",
-    // }
-])
+  
+
+//   const [projects_list, setproject] = useState<any>(
+//     [{
+//     pr_id : 1,
+//     pr_name : "지윤", 
+//     pr_de : "레이블링" ,
+//     pr_date : "2월 17일",
+//     pr_tool : "square",
+//     pr_category : "의료",
+//     pr_upload : "Image",
+//     pr_token : ''
+//     }])
+
+const [projects_list, setproject] = useState<any>(
+    [{
+    pr_dataid : null,
+    pr_id : null,
+    pr_name : null, 
+    pr_de : null,
+    pr_date : null,
+    pr_category : null,
+    pr_upload : null,
+    pr_token : null
+    }]
+    )
+
+useEffect(()=> {
+    dispatch(projectData())
+    .then((response: { payload: { success: any; project : any; }; }) => {
+        console.log(response.payload.project)
+      if(response.payload.success) {
+        const Data = response.payload.project.map(
+            (data: {info : String, name: String, _id:any, date: String, tool : String, category:String, upload  :String, token : String}, id : number) => ({
+              //  projects_list.push(data)
+               //  setproject.push(data)
+                
+             //  as(data, _id)
+                
+                // setproject(
+                // [{...projects_list,
+                   pr_dataid : data._id,
+                   pr_id : id ,
+                   pr_name : data.name,
+                   pr_de : data.info,
+                   pr_date : data.date,
+                   pr_tool : data.tool,
+                   pr_category : data.category,
+                   pr_upload : data.upload,
+                   pr_token : data.token,
+                // }])
+                
+                
+            }
+            )
+        )
+        setproject(projects_list.concat(Data))
+        // response.payload.project
+        // setproject({projects_list})
+        // console.log(response.payload.project)
+        // setproject({projects_list})
+        // console.log(response.payload.project)
+      }
+      else {
+        alert('실패')
+      }
+     })
+    },[])
+
   const nextId = projects_list.length // list 개수
   console.log('next',nextId)
-  const getName = (user:any)=>{
+  const getName = (user:any) => {
     setproject ([...projects_list, user])
   }
 
   // 프로젝트 목록에서 한줄 클릭하면 그 줄에 해당하는 페이지로 이동시키기 위한 onclick 이벤트
   const navigate = useNavigate();
-  const handleRowClick = (e:any) => {
-      console.log(e)
-      navigate(`/DataPage/${e}`)
+  const handleRowClick = (name: any,id : any ) => {
+      console.log(name, id)
+      navigate(`/ProjectPage/${name}/${id}`)
   }
-
-//  <Test projects_list = {projects_list} />
+ //  <Test projects_list = {projects_list} />
   return(
    <div>
-  
    <nav className="sidebar">
-   <Sidebar projects_list = {projects_list} >                                        
+   <Sidebar projects_list = {projects_list} >
    </Sidebar>
    </nav>
         <header>
@@ -84,7 +135,6 @@ const ProjectPage = () =>{
                                     <th>프로젝트 명</th>
                                     <th>카테고리</th>
                                     <th>업로드 타입</th>
-                                    <th>레이블링 타입</th>
                                     <th>생성일</th>
                                     <th>프로젝트 설명</th>
                                 </tr>
@@ -92,23 +142,26 @@ const ProjectPage = () =>{
                             <tbody id="tables">
                                 {
                                     projects_list?.map(
-                                        (project: { pr_name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_category: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_upload: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_tool: any; pr_date: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_de: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; } ,num: number) => (
-                                            <>
-                                            <tr onClick={()=> handleRowClick(project.pr_name)}>
-                                            <td>{num+1}</td>
+                                        (project: {pr_dataid : any ,pr_id : String, pr_name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; pr_category: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; pr_upload: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined;  pr_date: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; pr_de: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal  | undefined; } ,num: number) => (
+                                                (project.pr_id !== null) ?
+                                                (
+                                            <tr onClick={()=> handleRowClick(project.pr_name,project.pr_dataid )}>
+                                            <td>{num}</td>
                                             <td>{project.pr_name}</td>
                                             <td>{project.pr_category}</td>
                                             <td>{project.pr_upload}</td>
-                                            <td> 
-                                            <img src = {require(`../../images/${project.pr_tool}.png`)}/>
-                                            </td>
                                             <td>{project.pr_date}</td>
                                             <td>{project.pr_de}</td>
                                             </tr>
-                                            </>
+                                                ) : (
+                                                 <tr >
+                                                </tr>
+                                                ) 
+                                            
                                         )
                                     )
                                 }
+    
                                {/* {
                                     projects_list.pr_name != null ? (
                                     <>
