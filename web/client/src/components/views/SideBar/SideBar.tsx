@@ -47,6 +47,11 @@ function SideBar(props : any) {
         <button className="btn"><img className="icon" src = {setting}></img>내 정보</button>
         </Link> {/*작업용 임시 변경*/}
         </li>
+        <li className="list" style = {{ marginTop : '20px' }}>
+        <Link to = "/LearnPage">
+        <button className="btn"><img className="icon" src = {setting}></img>데이터 재학습 페이지</button>
+        </Link> {/*작업용 임시 변경*/}
+        </li>
     </ul>
     </div>
   )

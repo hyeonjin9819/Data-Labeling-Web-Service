@@ -13,6 +13,7 @@ import TeamMainView from './components/views/TeamMainView/TeamMainView';
 import MyProfile from './components/views/MyProfile/MyProfile';
 import DataDetails from './components/views/ProjectPage/DataDetails'
 import TeamView from './components/views/TeamView/TeamView';
+import LearnPage from './components/views/LearnPage/LearnPage';
 
 function App(){
   return (
@@ -28,6 +29,7 @@ function App(){
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
         <Route path = "/DataPage" element={<DataPage/>}/>
+        <Route path = "/LearnPage" element={<LearnPage/>}/>
        </Routes>
      </div>
    </Router>
