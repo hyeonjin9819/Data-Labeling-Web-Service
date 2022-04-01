@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
@@ -8,11 +9,19 @@ import Sidebar from '../SideBar/SideBar';
 import '../../css/DataPage.css';
 import '../../css/Mainview.css';
 import logout from '../../images/logout.png';
+import { useDispatch } from 'react-redux';
+import { projectImg } from '../../../_actions/user_action';
+import { message } from 'antd';
+import Labeling_tool from '../labeltool/Labeling_tool';
 import Pagenation  from '../Pagenation/Pagenation';
 import Posts from '../Posts/Posts';
 
 const DataPage = () => {
-
+    const dispatch = useDispatch<any>();
+    const{projectId, dataId} = useParams() //라우팅 처리용 함수?(현진쓰)
+    console.log('project', projectId)   
+    console.log('id', dataId)
+    
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(5);
@@ -27,8 +36,7 @@ const DataPage = () => {
       return currentPosts;
     }
 
-    const{projectId} = useParams() //라우팅 처리용 함수?(현진쓰)
-    
+    const [idx, setidx] = useState(dataId);
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
     ])
     //const pageList = data_list.map((data:any)=><li key={data.data_id}>{data.data_id}</li>);
@@ -39,7 +47,7 @@ const DataPage = () => {
    
     const imgName = [...data_list]
     const nextId = data_list.length // list 개수
-
+    const nowImageUrl = [...fileImage]
 
     const onCheck = (e:any) => {
         //개별 체크박스를 선택, 해제 시켜주는 함수
@@ -92,15 +100,27 @@ const DataPage = () => {
     const ImageUpload = (e:any) => {
 
         const file = e.target.files;
-        const nowImageUrl = [...fileImage]
+        //const nowImageUrl = [...fileImage]
         
-     
+        console.log('next_id',nextId);
         for(let i = 0; i< file.length; i++){
             
             const name = file[i].name.toString()  
-            const result = name.replace(/(.png|.jpg|.jpeg|.gif)$/, ''); //이미지 확장자 제거하는 replace 함수
+            //const result = name.replace(/(.png|.jpg|.jpeg|.gif)$/, ''); //이미지 확장자 제거하는 replace 함수
             const url = URL.createObjectURL(file[i]);
-            imgName.push({'data_id' :  i + data_list.length , 'name' : result }) 
+            const url2:String = url.toString().substr(27)
+            imgName.push(
+                {
+                'data_id' :  i + data_list.length ,
+                 'name' : url2 , 
+                 'state' : false,
+                '_id' : idx,
+                'label' : '', 
+                'width' : 0,
+                'height' : 0,
+                'x' : 0,
+                'y': 0,
+            }) 
            // imgName2.push({'name' : URL.createObjectURL(file[i]).toString()})
            // console.log(URL.createObjectURL(file[i]));
            // setFileImage([...fileImage,URL.createObjectURL(file[i])]);
@@ -111,6 +131,15 @@ const DataPage = () => {
          
             
         }
+        dispatch(projectImg(imgName))
+        .then((response: { payload: { success: any; message : any;}; }) => {
+        if(response.payload.success) {
+          alert("이미지 업로드 성공" + response.payload.message)
+         }  
+        else {
+        alert('이미지 업로드 실패')
+      }
+    })
         console.log('name', imgName) //이름 확인
         console.log('fileimg', nowImageUrl) //이름 확인
         console.log('next_id', nextId)
@@ -121,14 +150,23 @@ const DataPage = () => {
     }
 
 
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
 
+    const handleRowClick = (event1:any, event2:any) => {
+        console.log(event1 + "이미지 파일 이름")
+        console.log(event2 + "index")
+        const img : String = nowImageUrl[event2].toString().substr(27)
+        navigate(`/DataPage/${event1}/${img}`)
+        //console.log(nowImageUrl[event2])
+        //setInputValue(inputValue => nowImageUrl[event2])
+        //console.log({setInputValue} + "setInput 확인")
+    }
     const onClickHandler = () => {
         axios.get('/api/users/logout')
           .then(response => {
        if(response.data.success) {
          console.log('logout')
-        Navigate('/')
+        navigate('/')
        }else {
          alert("Logout Failed")
        }
@@ -157,7 +195,6 @@ const DataPage = () => {
                         <label htmlFor = "data" className="addData">이미지 업로드
                         </label>
                         <button className="del" onClick={onDelete}>선택 데이터 삭제</button>
-                      
                         </div>
                         </div>
                         <div className="tables">
@@ -177,7 +214,7 @@ const DataPage = () => {
                                currentPosts(
                                   (data_list.map(
                                         (data: {name: String, data_id:any}) => (
-                                            <tr key={data.data_id}>
+                                            <tr onClick={() => handleRowClick(data.name, data.data_id)} key={data.data_id}>
                                                 <td><input id = {data.data_id} className="check"  type="checkbox" onChange={onCheck}></input></td>
                                                 <td>{data.data_id+1}</td>
                                                 <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
