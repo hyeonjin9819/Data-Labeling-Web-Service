@@ -14,6 +14,18 @@ const Mongoose_URI = process.env.Mongoose_URI;
 const Email = process.env.Email;
 const Pass = process.env.Pass;
 
+//web socket연결
+// const http = require('http').createServer(app)
+// const io = require('socket.io')(http) // http -> app?
+
+// io.on('connection', socket =>{
+//   socket.on('message', ({name, message}) => {
+//     io.emit('message', {name, message})
+//   })
+// })
+
+
+
 
 const ejs = require('ejs');
 const path = require('path');
@@ -22,6 +34,7 @@ var appDir = path.dirname(require.main.filename);
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
 app.use(cookieParser());
+
 
 const mongoose = require('mongoose');
 mongoose.connect(Mongoose_URI,  {
@@ -267,6 +280,46 @@ app.post('/api/users/mail', (req,res)=> {
 
 })
 
+// 팀원 초대 이메일 보내기
+app.post('/api/users/teamMail', (req,res)=> {
+let teamNum = Math.random().toString().substring(2,6);
+let emailTemplatetwo;
+ejs.renderFile(appDir + '/template/teamMail.ejs', {teamCode: teamNum}, function(err,data){
+  if(err){console.log(err)}
+  emailTemplatetwo = data;
+}
+);
+
+const transportertwo = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: Email,
+    pass: Pass
+  }
+});
+
+const options = {
+  from: Email,
+  to: req.body.email,
+  subject: "[Web Labling Service] 팀에 초대받았습니다",
+  html: emailTemplatetwo
+}
+
+transportertwo.sendMail(options, function(err, info){
+  if(err){
+    console.log(err);
+    return;
+  }
+  console.log("Sent: " + info.response);
+
+  res.send({
+    success: true,
+    number: teamNum
+  }
+  );
+  transportertwo.close()
+})
+});
 
 const port = process.env.PORT || 5000 // 5000번 포트를 백서버로 둔다
 

@@ -15,7 +15,6 @@ import DataPage from './components/views/DataPage/DataPage';
 import Labeling_tool from './components/views/labeltool/Labeling_tool';
 
 
-
 function App(){
   return (
     <Router>
@@ -34,7 +33,6 @@ function App(){
        </Routes>
      </div>
    </Router>
-
   );
 }
 

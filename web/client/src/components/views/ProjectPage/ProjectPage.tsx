@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../../css/ProjectPage.css';
 import ProjectAddPage from '../ProjectAddPage/ProjectAddPage';
 import Sidebar from '../SideBar/SideBar';
+import Notification from '../Notification/Notification';
 import profile from '../../images/profile.png';
 import bell from '../../images/bell.png';
 import square from '../../images/square.png';
@@ -19,7 +20,9 @@ const ProjectPage = () =>{
     
   const [subject, setsubject] = useState("프로젝트 페이지");
   const [proModal, setproModal] = useState(false);
+  const [notiModal, setNotiModal] = useState(false);
   const [num, setNum] = useState(0)
+
 
   const [projects_list, setproject] = useState<any>([
     {
@@ -70,7 +73,8 @@ const ProjectPage = () =>{
                    {/* <Link to = "/MyProfile">
                     <button  className="logout"><img className="icon" src={profile}></img></button>
   </Link>*/}
-                    <button  className="logout"><img className="icon" src={bell}></img></button>
+                    <button  className="logout" onClick={() => setNotiModal(true)}><img className="icon" src={bell}></img></button>
+                    <Notification show = {notiModal} getName={getName} nextId = {nextId} onHide ={()=>setNotiModal(false)}/>
                     <ProjectAddPage show ={proModal} getName={getName} nextId = {nextId} onHide={()=>setproModal(false)} />
                      <input className="pro_search" placeholder='프로젝트 검색'></input>
                     <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >프로젝트 생성 </button> 

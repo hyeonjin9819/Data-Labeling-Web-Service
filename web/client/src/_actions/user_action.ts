@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE, PROJECT_IMG} from './types';
+import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE, PROJECT_IMG, TEAMMAIL_USER} from './types';
 
 export function loginUser(dataTosubmit: any) {
     const request = axios.post('/api/users/login',dataTosubmit)
@@ -29,6 +29,18 @@ export function authmailUser(dataTosubmit: any) {
     return {
         type: AUTHMAIL_USER,
         payload : request
+    }
+}
+
+// 팀원 추가 연결 파트
+export function teamMailUser(dataTosubmit: any){
+    
+    const request = axios.post('/api/users/teamMail', dataTosubmit)
+        .then(response => response.data)
+
+    return{
+        type: TEAMMAIL_USER,
+        payload: request
     }
 }
 

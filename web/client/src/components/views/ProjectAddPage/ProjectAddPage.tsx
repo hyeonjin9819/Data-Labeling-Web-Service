@@ -7,6 +7,10 @@ import image from '../../images/image.png';
 import text from '../../images/text.png';
 import close from '../../images/close.png';
 import square from '../../images/square.png';
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
 
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
 interface props { 
@@ -237,5 +241,20 @@ const dis_check = () => {
   </Modal>
   );
 }
+
+// firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDEhXhpVjaTwZRp72Qbnwz7rezU-q50GRA",
+  authDomain: "capstone-push-notification.firebaseapp.com",
+  projectId: "capstone-push-notification",
+  storageBucket: "capstone-push-notification.appspot.com",
+  messagingSenderId: "493209866985",
+  appId: "1:493209866985:web:b3163a39cbcabb4d211678",
+  measurementId: "G-XHNL4JCG4C"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 export default ProjectAddPage;

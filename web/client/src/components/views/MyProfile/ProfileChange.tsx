@@ -15,6 +15,7 @@ interface props {
 export const ProfileChange = (props:props) => {
   const {show, onHide, Image, getData } = props;
   const dispatch = useDispatch<any>();
+  const [selectedFile, setSelectedFile] = useState<any>(null);
 
 var token_name = 'x_auth'
 token_name = token_name + '='; 
@@ -28,6 +29,20 @@ let token = '';
     if(end == -1) end = cookieData.length; 
     token = cookieData.substring(start, end);}
 
+    const ACCESS_KEY= '';
+    const SECRET_ACCESS_KEY= '';
+    const REGION ='ap-northeast-2'; 
+    const S3_BUCKET = 'labelingweb';
+
+    AWS.config.update({
+        accessKeyId: ACCESS_KEY,
+        secretAccessKey: SECRET_ACCESS_KEY
+    });
+
+    const myBucket = new AWS.S3({
+        params: {Bucket:S3_BUCKET},
+        region: REGION,
+    });
 
 
 // AWS.config.update({
@@ -43,8 +58,14 @@ let token = '';
     const fileInput = useRef<any>(null)
     const [Image2, setImage] = useState<any>(Image)
     console.log('Imageeee ', Image);
-    const [selectedFile, setSelectedFile] = useState<any>(null);
+
     function uploadFile(file: any): void {
+      const params = {
+        ACL: 'public-read',
+        Body: file,
+        Bucket: S3_BUCKET,
+        Key: "upload/" + file.name
+    };
       // const params = {
       //   ACL: 'public-read',
       //   Body: file,
@@ -57,10 +78,10 @@ let token = '';
         profile : file.name
         }
 
-      // myBucket.putObject(params)  
-      // .send((err) => {
-      //   if (err) {console.log(err); return err}
-      // })
+      myBucket.putObject(params)  
+      .send((err: any) => {
+        if (err) {console.log(err); return err}
+      })
       
       dispatch(profileChange(body))
       .then((response: { payload: { Success: any; } }) => {
@@ -73,13 +94,17 @@ let token = '';
       })
     }
     
-    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e:any) => {
+      const file = e.target.files[0];
+      console.log(file)
         if(e.target.files){
                 setSelectedFile(e.target.files[0]) //DB 관련
             }else{ //업로드 취소할 시
                 setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
                 return
             }
+            setSelectedFile(file);
+
             //화면에 프로필 사진 표시
            const reader = new FileReader();
           reader.onload = () => {
