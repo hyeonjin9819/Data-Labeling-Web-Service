@@ -5,14 +5,18 @@ const nodemailer = require('nodemailer');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { User } = require("./models/User");
-const {Project, Img} = require("./models/Project")
+const {Project} = require("./models/Project")
 const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
+const {Counter} = require("./models/Counter")
+const {Data} = require("./models/data")
 
 dotenv.config();
+
 const Mongoose_URI = process.env.Mongoose_URI;
 const Email = process.env.Email;
 const Pass = process.env.Pass;
+
 
 //web socket연결
 // const http = require('http').createServer(app)
@@ -26,7 +30,6 @@ const Pass = process.env.Pass;
 
 
 
-
 const ejs = require('ejs');
 const path = require('path');
 var appDir = path.dirname(require.main.filename);
@@ -37,16 +40,15 @@ app.use(cookieParser());
 
 
 const mongoose = require('mongoose');
+const { json } = require('body-parser');
 mongoose.connect(Mongoose_URI,  {
  
-}) .then(() => console.log('MongoDB Connect()...'))
+}) .then(() => 
+  console.log('MongoDB Connect()...'))
   .catch(err => console.log(err))
 
-
 app.get('/', (req, res) => {
-  collection.find().toArray((err, items) => {
-    console.log(items)
-  })
+
 })
 
 app.get('/api/hello', (req, res) => {
@@ -71,38 +73,74 @@ app.get('/api/hello', (req, res) => {
 // })
 
 app.post('/api/projects/image',(req,res) => {
-  Project.findOne({ name: req.body.name},(err, item) => {
-    if(!item) {
-      return res.json({
-        success : false,
-        message : req.body.name
-      })
+  console.log('image req',req.body)
+  // _id가 일치하면 업데이트
+  // 그렇지 않으면 추가
+  Data.findOne({_id:req.body[0]._id},(err, project)=>{
+    if(project === null){
+      Data.insertMany({
+       "_id" : req.body[0]._id,
+       "data" : req.body,
+       "object" : [null]
+       })}
+    else{ 
+  
+    Data.updateOne(
+      {_id : req.body[0]._id},
+      {$push : {data : {$each: req.body}}
+    },(err) => {
+      console.log(err)
     }
-    item.update({ image : req.body.url } ,(err) => {
-      if(err) return res.json({
-        success : false,
-        message : req.body.url
-      });
-      return res.json({
-        success : true,
-        message : item
-      })
-    })
+    )
+  }
   })
+
+
+ 
+  // Project.findOne({ name: req.body.name},(err, item) => {
+  //   if(!item) {
+  //     return res.json({
+  //       success : false,
+  //       message : req.body.name
+  //     })
+  //   }
+  //   item.update({ image : req.body.url } ,(err) => {
+  //     if(err) return res.json({
+  //       success : false,
+  //       message : req.body.url
+  //     });
+  //     return res.json({
+  //       success : true,
+  //       message : item
+  //     })
+  //   })
+  // })
 })
+
+// 데이터 불러오기 
 
 app.post('/api/projects/create',(req,res) => {
   // 프로젝트 생성
+  Counter.findOne({name : "projectCount"},(err, count)=> {
+    req.body._id = count.totalCount + 1
+ 
   const project = new Project(req.body)
   console.log(req.body)
   project.save((err,projectInfo) => {
     if(err) return res.json({success:false, err})
+    else {
+      Counter.updateOne({name : "projectCount"},{$inc : {totalCount:1}}, (err, count) => {
+        if(err){
+          return console.log(err);
+        } 
+      }) 
+    }
     return res.status(200).json({
       success:true
     })
   })
 })
-
+})
 
 app.post('/api/team/create',(req,res) => {
   // team 생성
@@ -119,19 +157,47 @@ app.post('/api/team/create',(req,res) => {
 app.post('/api/users/register',(req, res) => {
   // 회원가입할 때 필요한 정보들을 클라이언트에서 가져오면
   // 그것들을 데이터베이스에 저장
-
   //save 하기 전에 비밀번호 암호화해야하는데 그 전에 몽구스를 이용해야한다 
-  const user = new User(req.body)
-
-  user.save((err,userInfo) => {
+  Counter.findOne({name : "memberCount"},(err, count)=> {
+    req.body.id = count.totalCount+1
+    const user = new User(req.body)
+    user.save((err,userInfo) => {
     if(err) return res.json({success:false, err})
+    else {
+      Counter.updateOne({name : "memberCount"},{$inc : {totalCount:1}}, (err, count) => {
+        if(err){
+          return console.log(err);
+        } 
+       }) 
+      }
     return res.status(200).json({
       success : true
+      })
     })
   })
 })
 
+// users 배열에 내 id가 있는지 확인 후 있으면 목록 가져오기
+app.post('/api/projects/data', (req,res) => {
+ console.log(req.body.id)
+  // 프로젝트 목록 가져오기
+  Project.find({"users" : [req.body.id]},(err, project)=> {
+console.log("project", project)
+   // return res.status(200).json(items)
+       if(!project) {
+         return res.json ({
+         success : false,
+         message : "프로젝트 목록을 가져오지 못했다."
+       })
+     }
 
+    return res.status(200).json({
+       success:true,
+       message : "프로젝트 가져오기 성공적",
+       project : project
+     })
+   })
+})
 
 app.post('/api/users/myinfo',(req, res) => {
   User.findOne({token : req.body.token}, (err, user) => {
@@ -145,7 +211,8 @@ app.post('/api/users/myinfo',(req, res) => {
       Success : true,
       email : user.email,
       name : user.name,
-      profile : user.profile
+      profile : user.profile,
+      id : user.id
   })
   })
 })
@@ -187,7 +254,6 @@ app.post('/api/users/namechange', (req, res) => {
 
 app.post('/api/users/login',(req, res) => {
     // 1. 요청된 이메일을 데이터베이스에 있는지 확인한다.
-    
     User.findOne({ email : req.body.email }, (err, user) => { // 몽고디비에서 제공하는 함수
       if(!user){
       return res.json ({
@@ -236,7 +302,6 @@ app.get('/api/users/logout',auth,(req,res)=>{
   })
 })
 
-
 app.post('/api/users/mail', (req,res)=> {
   let authNum = Math.random().toString().substring(2,6);
   let emailTemplate ;
@@ -280,6 +345,7 @@ app.post('/api/users/mail', (req,res)=> {
 
 })
 
+
 // 팀원 초대 이메일 보내기
 app.post('/api/users/teamMail', (req,res)=> {
 let teamNum = Math.random().toString().substring(2,6);
@@ -320,6 +386,7 @@ transportertwo.sendMail(options, function(err, info){
   transportertwo.close()
 })
 });
+
 
 const port = process.env.PORT || 5000 // 5000번 포트를 백서버로 둔다
 

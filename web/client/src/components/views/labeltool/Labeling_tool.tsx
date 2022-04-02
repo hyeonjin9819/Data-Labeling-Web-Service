@@ -51,7 +51,7 @@ const Labeling_tool : any=  () => {
       setlabels= {setlabels}
       />
       {/* 사용자 화면에는 안떠도 괜찮 것 같아서 주석처리 */}
-      {/* <pre>{JSON.stringify(entries)}</pre> */}
+       <pre>{JSON.stringify(entries)}</pre> 
 </>
     /*   
        <div  >

@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
+import AWS from 'aws-sdk';
 import {useNavigate} from 'react-router-dom';
 import Sidebar from '../SideBar/SideBar';
 import '../../css/DataPage.css';
@@ -11,12 +12,13 @@ import { projectImg } from '../../../_actions/user_action';
 import { message } from 'antd';
 import Labeling_tool from '../labeltool/Labeling_tool';
 
-
 const DataPage = () => {
     const dispatch = useDispatch<any>();
-    const{projectId} = useParams() //라우팅 처리용 함수?(현진쓰)
+    const{projectId, dataId} = useParams() //라우팅 처리용 함수?(현진쓰)
+    console.log('project', projectId)   
+     console.log('id', dataId)
     //const [imageurl, setImageurl] = useState("");
-    var imageurl;
+    const [idx, setidx] = useState(dataId);
     const [Imagefilename, setImagefilename] = useState([]) // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
     ])
@@ -27,47 +29,68 @@ const DataPage = () => {
     
     const ImageUpload = (e:any) => {
     
-     //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
+    //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
         const file = e.target.files;
         //const nowImageUrl = [...fileImage]
         
         console.log('next_id', nextId)
         for(let i = 0; i< file.length; i++){
             const name = file[i].name.toString()  
-        
             const url = URL.createObjectURL(file[i]);
-            imgName.push({'data_id' :  i + data_list.length , 'name' : name }) 
+            const url2:String = url.toString().substr(27)
+            
+        imgName.push(
+            {
+            'data_id' :  i + data_list.length ,
+            'name' : url2 , 
+            'state' : false,
+            '_id' : idx,
+            'label' : '', 
+            'width' : 0,
+            'height' : 0,
+            'x' : 0,
+            'y': 0,
+        }) 
            // imgName2.push({'name' : URL.createObjectURL(file[i]).toString()})
            // console.log(URL.createObjectURL(file[i]));
            // setFileImage([...fileImage,URL.createObjectURL(file[i])]);
             nowImageUrl.push(url)
             setData(imgName)
             setFileImage(nowImageUrl)
-        }
-        let body = {
-            name : "hyeonjin",
-            url : 'aa2222'
-        }
-        dispatch(projectImg(body))
+           
+        }    
+        
+
+        // let body = {
+        //     url : fileImage,
+        //     _id : dataId,
+        //     state : false,
+        //     label : '', 
+        //     width : 0,
+        //     height : 0,
+        //     x : 0,
+        //     y: 0,
+        // }
+        console.log('body', imgName)
+        dispatch(projectImg(imgName))
         .then((response: { payload: { success: any; message : any;}; }) => {
         if(response.payload.success) {
           alert("이미지 업로드 성공" + response.payload.message)
          }  
-      else {
+        else {
         alert('이미지 업로드 실패')
       }
     })
+                               
         console.log('name', imgName) //이름 확인
         console.log('fileimg', nowImageUrl) //이름 확인
 
   //썸네일이 다 똑같이바뀜...setFileImage useState를 배열로 선언?
         e.target.value = '' //중복 파일 초기화를 위한 처리 
-
+      
     }
-
-
+    imgName.splice(0)  
     const navigate = useNavigate();
-
     const handleRowClick = (event1:any, event2:any) => {
         console.log(event1 + "이미지 파일 이름")
         console.log(event2 + "index")
@@ -78,7 +101,6 @@ const DataPage = () => {
         //console.log({setInputValue} + "setInput 확인")
     }
 
-
     const onClickHandler = () => {
         axios.get('/api/users/logout')
           .then(response => {
@@ -88,8 +110,7 @@ const DataPage = () => {
        }else {
          alert("Logout Failed")
        }
-      }
-      )
+    })
     }
     
     return (
@@ -109,7 +130,7 @@ const DataPage = () => {
                         </label>
                         
                         <button  className="logout" onClick = {onClickHandler}><img className="icon" src={logout}></img></button>
-                        <h3 className="welcome">원우연님 환영합니다</h3>
+                       {/* <h3 className="welcome">원우연님 환영합니다</h3> */} 
                         </div>
                         <div className="tables">
                         <Table striped bordered hover >
@@ -119,30 +140,29 @@ const DataPage = () => {
                                     <th>번호</th>
                                     <th>이미지 썸네일</th>
                                 <th>데이터 명</th>
+                                <th>진행 사항</th>
                                 </tr>
                             </thead>
                             <tbody id="datas">
                             {
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
-
-                                            
                                             <tr onClick={() => handleRowClick(data.name, data.data_id)}>
                                                 <td></td>
                                                 <td>{data.data_id+1}</td>
                                                 <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
                                                 <td>{data.name}</td>
+                                                <td>{data.name}</td>
                                             </tr>
-                                        )
-                                    )
-                                }
-                            
-                            </tbody>
+                                           )
+                                       )
+                                    }
+                                </tbody>
                             </Table>
                         </div>
                     </body> 
-                    <footer>
-                    </footer>
+                 <footer>
+            </footer>
         </div>
       );
     }

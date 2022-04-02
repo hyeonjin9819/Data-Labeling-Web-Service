@@ -1,5 +1,7 @@
+
 import React, {useEffect, useRef, useState} from 'react'
 import { Modal, Button } from 'react-bootstrap'
+
 import '../../css/MyProfile.css';
 import '../../css/bootstrap.min.css'
 import AWS from 'aws-sdk';
@@ -11,6 +13,10 @@ interface props {
   Image? : any;
   getData : (a : any) => void;
 }
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+const REGION = 'ap-northeast-2';
+const S3_BUCKET = 'weblabeling';
 
 export const ProfileChange = (props:props) => {
   const {show, onHide, Image, getData } = props;
@@ -45,19 +51,22 @@ let token = '';
     });
 
 
-// AWS.config.update({
-//   accessKeyId: ACCESS_KEY,
-//   secretAccessKey: SECRET_ACCESS_KEY
-// });
+AWS.config.update({
+  accessKeyId: ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY
+});
 
-// const myBucket = new AWS.S3({
-//   params: { Bucket: S3_BUCKET},
-//   region: REGION,
-// });
+const myBucket = new AWS.S3({
+  params: { Bucket: S3_BUCKET},
+  region: REGION,
+});
 
     const fileInput = useRef<any>(null)
     const [Image2, setImage] = useState<any>(Image)
     console.log('Imageeee ', Image);
+
+    
+    const [selectedFile, setSelectedFile] = useState<any>(null);
 
     function uploadFile(file: any): void {
       const params = {
@@ -65,6 +74,9 @@ let token = '';
         Body: file,
         Bucket: S3_BUCKET,
         Key: "upload/" + file.name
+
+      };
+
     };
       // const params = {
       //   ACL: 'public-read',
@@ -73,13 +85,15 @@ let token = '';
       //   Key: "upload/" + file.name
       // };
 
+
       const body = {
         token : token,
         profile : file.name
         }
 
       myBucket.putObject(params)  
-      .send((err: any) => {
+      .send((err) => {
+
         if (err) {console.log(err); return err}
       })
       
