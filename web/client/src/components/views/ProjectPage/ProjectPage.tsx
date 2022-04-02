@@ -9,8 +9,7 @@ import box from '../../images/box.png';
 import { Row, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { projectData } from '../../../_actions/user_action';
-import { AnyLengthString } from 'aws-sdk/clients/comprehend';
+import { myInfo, projectData } from '../../../_actions/user_action';
 
 /*프로젝트 페이지로 넘어가면 나오는 페이지*/
 const ProjectPage = () =>{
@@ -24,8 +23,7 @@ const ProjectPage = () =>{
   const [subject, setsubject] = useState("프로젝트 페이지");
   const [proModal, setproModal] = useState(false);
   const [num, setNum] = useState(0)
-
-  
+  const [Id, setId] = useState(0)
 
 //   const [projects_list, setproject] = useState<any>(
 //     [{
@@ -52,20 +50,47 @@ const [projects_list, setproject] = useState<any>(
     }]
     )
 
-useEffect(()=> {
-    dispatch(projectData())
-    .then((response: { payload: { success: any; project : any; }; }) => {
+    var token_name = 'x_auth'
+    token_name = token_name + '='; 
+    var cookieData = document.cookie; 
+    var start = cookieData.indexOf(token_name);
+    let token = ''; 
+    if(start != -1){
+         start += token_name.length; 
+         var end = cookieData.indexOf(';', start); 
+         if(end == -1) end = cookieData.length; 
+         token = cookieData.substring(start, end);
+  }
+  let body = {
+    token : token
+  }
+  useEffect(()=> {
+   
+    dispatch(myInfo(body))
+  .then((response: { payload: { Success: any; id : number;} }) => {
+    if(response.payload.Success) {
+        // 내 id값 
+        setId(response.payload.id);
+        console.log('id값',response.payload.id)
+    }  
+    else {
+      alert('아이디 가져오기 실패')
+    }
+  }) },[Id])
+  let bodys = {
+    id : Id
+}
+    // ㄴㅐ id값을 넘겨줘야함
+    useEffect(()=> {
+       
+        console.log('body', bodys)
+    dispatch(projectData(bodys))
+    .then((response: { payload: { success: any; project : any}; }) => {
         console.log(response.payload.project)
+        console.log(response.payload.success)
       if(response.payload.success) {
         const Data = response.payload.project.map(
             (data: {info : String, name: String, _id:any, date: String, tool : String, category:String, upload  :String, token : String}, id : number) => ({
-              //  projects_list.push(data)
-               //  setproject.push(data)
-                
-             //  as(data, _id)
-                
-                // setproject(
-                // [{...projects_list,
                    pr_dataid : data._id,
                    pr_id : id ,
                    pr_name : data.name,
@@ -75,11 +100,7 @@ useEffect(()=> {
                    pr_category : data.category,
                    pr_upload : data.upload,
                    pr_token : data.token,
-                // }])
-                
-                
-            }
-            )
+            })
         )
         setproject(projects_list.concat(Data))
         // response.payload.project
@@ -92,7 +113,7 @@ useEffect(()=> {
         alert('실패')
       }
      })
-    },[])
+    },[Id])
 
   const nextId = projects_list.length // list 개수
   console.log('next',nextId)

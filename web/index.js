@@ -12,11 +12,10 @@ const {Counter} = require("./models/Counter")
 const {Data} = require("./models/data")
 
 dotenv.config();
+
 const Mongoose_URI = process.env.Mongoose_URI;
 const Email = process.env.Email;
 const Pass = process.env.Pass;
-
-
 const ejs = require('ejs');
 const path = require('path');
 var appDir = path.dirname(require.main.filename);
@@ -26,6 +25,7 @@ app.use(bodyparser.json());
 app.use(cookieParser());
 
 const mongoose = require('mongoose');
+const { json } = require('body-parser');
 mongoose.connect(Mongoose_URI,  {
  
 }) .then(() => 
@@ -59,11 +59,29 @@ app.get('/api/hello', (req, res) => {
 
 app.post('/api/projects/image',(req,res) => {
   console.log('image req',req.body)
-  Data.insertMany({
-  "_id" : req.body[0]._id,
-  "data" : req.body,
-  "object" : [null]
+  // _id가 일치하면 업데이트
+  // 그렇지 않으면 추가
+  Data.findOne({_id:req.body[0]._id},(err, project)=>{
+    if(project === null){
+      Data.insertMany({
+       "_id" : req.body[0]._id,
+       "data" : req.body,
+       "object" : [null]
+       })}
+    else{ 
+  
+    Data.updateOne(
+      {_id : req.body[0]._id},
+      {$push : {data : {$each: req.body}}
+    },(err) => {
+      console.log(err)
+    }
+    )
+  }
   })
+
+
+ 
   // Project.findOne({ name: req.body.name},(err, item) => {
   //   if(!item) {
   //     return res.json({
@@ -135,8 +153,8 @@ app.post('/api/users/register',(req, res) => {
         if(err){
           return console.log(err);
         } 
-      }) 
-    }
+       }) 
+      }
     return res.status(200).json({
       success : true
       })
@@ -144,9 +162,12 @@ app.post('/api/users/register',(req, res) => {
   })
 })
 
-app.get('/api/projects/data', (req,res) => {
+// users 배열에 내 id가 있는지 확인 후 있으면 목록 가져오기
+app.post('/api/projects/data', (req,res) => {
+ console.log(req.body.id)
   // 프로젝트 목록 가져오기
-  Project.find((err, project)=> {
+  Project.find({"users" : [req.body.id]},(err, project)=> {
+console.log("project", project)
    // return res.status(200).json(items)
        if(!project) {
          return res.json ({
@@ -154,10 +175,11 @@ app.get('/api/projects/data', (req,res) => {
          message : "프로젝트 목록을 가져오지 못했다."
        })
      }
+
     return res.status(200).json({
        success:true,
        message : "프로젝트 가져오기 성공적",
-       project
+       project : project
      })
    })
 })
@@ -264,7 +286,6 @@ app.get('/api/users/logout',auth,(req,res)=>{
     })
   })
 })
-
 
 app.post('/api/users/mail', (req,res)=> {
   let authNum = Math.random().toString().substring(2,6);

@@ -108,8 +108,8 @@ export function projectImg(dataTosubmit: any) {
     }
 }
 
-export function projectData() {
-    const request = axios.get('/api/projects/data')
+export function projectData(dataTosubmit: any) {
+    const request = axios.post('/api/projects/data', dataTosubmit)
       .then(response =>  response.data )
       console.log('request',request)
     return {

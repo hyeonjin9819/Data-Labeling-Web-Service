@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {Link, useParams} from 'react-router-dom';
 import axios from 'axios';
+import AWS from 'aws-sdk';
 import {useNavigate} from 'react-router-dom';
 import Sidebar from '../SideBar/SideBar';
 import '../../css/DataPage.css';
@@ -10,7 +11,6 @@ import { useDispatch } from 'react-redux';
 import { projectImg } from '../../../_actions/user_action';
 import { message } from 'antd';
 import Labeling_tool from '../labeltool/Labeling_tool';
-
 
 const DataPage = () => {
     const dispatch = useDispatch<any>();
@@ -39,11 +39,11 @@ const DataPage = () => {
             const url = URL.createObjectURL(file[i]);
             const url2:String = url.toString().substr(27)
             
-            imgName.push(
+        imgName.push(
             {
             'data_id' :  i + data_list.length ,
-             'name' : url2 , 
-             'state' : false,
+            'name' : url2 , 
+            'state' : false,
             '_id' : idx,
             'label' : '', 
             'width' : 0,
@@ -57,7 +57,9 @@ const DataPage = () => {
             nowImageUrl.push(url)
             setData(imgName)
             setFileImage(nowImageUrl)
-        }                                  
+           
+        }    
+        
 
         // let body = {
         //     url : fileImage,
@@ -79,14 +81,15 @@ const DataPage = () => {
         alert('이미지 업로드 실패')
       }
     })
+                               
         console.log('name', imgName) //이름 확인
         console.log('fileimg', nowImageUrl) //이름 확인
 
   //썸네일이 다 똑같이바뀜...setFileImage useState를 배열로 선언?
         e.target.value = '' //중복 파일 초기화를 위한 처리 
-
+      
     }
-
+    imgName.splice(0)  
     const navigate = useNavigate();
     const handleRowClick = (event1:any, event2:any) => {
         console.log(event1 + "이미지 파일 이름")

@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'; 
 import React, { useState, useRef } from 'react';
 import { PasswordChange } from './PasswordChange';
 import { ProfileChange } from './ProfileChange';
@@ -43,7 +44,7 @@ dispatch(myInfo(body))
       setImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png')
      }
      else {
-     setImage('https://datalabeling-fileupload.s3.ap-northeast-2.amazonaws.com/upload/'+response.payload.profile)
+     setImage('https://weblabeling.s3.ap-northeast-2.amazonaws.com/upload/'+response.payload.profile)
      }
   }  
   else {
