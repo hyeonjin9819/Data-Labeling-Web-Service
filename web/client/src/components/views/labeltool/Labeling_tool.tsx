@@ -2,8 +2,6 @@ import React, { Component, useEffect, useRef, useState } from 'react';
 import '../../css/Labeling_tool.css';
 import Tool_menu from '../toolmenu/Tool_menu';
 import {Link, useParams, useNavigate} from 'react-router-dom';
-import draw from '../../images/draw.png';
-import save from '../../images/save.png';
 import BBoxAnnotator,{EntryType} from '../BBoxAnnotator';
 import Polygon from '../Polygon/Polygon';
 import '../../css/tool_menu.css';
@@ -20,7 +18,6 @@ const Labeling_tool : any=  () => {
     let [tool, settool] = useState('bbox');
     const navigate = useNavigate();
 
-    
   
 
     const changeOn = (to : String) => {
