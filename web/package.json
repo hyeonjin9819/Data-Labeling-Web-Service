@@ -12,6 +12,7 @@
   "author": "ijiyun",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1106.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "concurrently": "^7.0.0",
@@ -24,6 +25,8 @@
     "nodemailer": "^6.7.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "@types/uuid": "^8.3.4",
+    "nodemon": "^2.0.15",
+    "react-jss": "^10.9.0"
   }
 }
