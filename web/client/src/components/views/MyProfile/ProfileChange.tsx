@@ -25,7 +25,7 @@ export const ProfileChange = (props:props) => {
                 setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
                 return
             }
-            setSelectedFile(file);
+            setSelectedFile(e.target.files);
 
             //화면에 프로필 사진 표시
            const reader = new FileReader();
@@ -76,3 +76,7 @@ export const ProfileChange = (props:props) => {
 
     );
 }
+function setSelectedFile(file: any) {
+  throw new Error('Function not implemented.');
+}
+

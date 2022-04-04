@@ -1,60 +1,77 @@
-import React, {Component, PropsWithChildren,useRef, ReactElement,useState } from 'react';
+import React, {Component, PropsWithChildren,useRef, ReactElement,useState, ChangeEvent } from 'react';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
+import {IEmail} from './Interfaces'
+import TeamEmail from './TeamEmail';
+import MemberAddtwo from './MemberAddtwo';
+import {useDispatch} from 'react-redux'
+import {teamMailUser} from '../../../_actions/user_action';
 import close from '../../images/close.png';
+import { getValue } from '@testing-library/user-event/dist/utils';
+import { useCallback } from 'react';
+import { AnyRecord } from 'dns';
+
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
   show: boolean; 
-  onHide: () => void; // 함수 타입 정의할 때 }
+  //getEmail: (a:any) => void;
+  onHide: () => void; // 함수 타입 정의할 때
+  //nextId : number;
 }
 
 const TeamMemberAdd = (props: props): ReactElement => {
   const { show, onHide } = props;
-  // 개인 이메일 담는 곳
-  const [email, setEmail] = useState('');
-  // 전체 이메일 배열로 담음
-  const[Email_text, setText] = useState<{
-    Email? :any
-  }>()
-
-  const onChangeText = (e:{target :{name:any; value:any;}}) =>{
-    const{name, value} = e.target;
-    setText ({
-      ...Email_text,
-    [name]:value,
-    })
-  }
-
-  const getEmail = (user:any)=>{
-    setLists([...Email_lists, user])
-  }
-
-  const Emailadd= ()=>{
-    if(Email_text?.Email === null){
-      alert("초대할 팀원을 입력해주세요")
-    }
-    else{
-      getEmail(Email_text);
-      setText({
-        ...Email_text,
-        Email : null
-      })
-      onHide();
-    }
-  }
+  const dispatch = useDispatch<any>();
+  const [email, setEmail] = useState<string>("");
+  const [emailList, setEmailList] = useState<IEmail[]>([]);
+  const [proModal, setproModal] = useState(false);
+  const [checkedList, setCheckedLists] = useState([]);
+  const [addMemEmail, setAddMemEmail] = useState("")
+  const [number, setnumber] = useState("")
+  const [Auth, setAuth] = useState("")
 
 
-  const [Email_lists, setLists] = useState<any>([
+  const [projecList, setProjectList] = useState<any>([
     {
-      email: '',
+      project_id: 1,
+      project_name: 'kpu 프로젝트'
+    },
+    {
+      project_id: 2,
+      project_name: '의류 프로젝트'
     }
-  ]);
-  const nextId = Email_lists.length // email 갯수
-  
+
+  ])
 
 
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    if(event.target.name === 'email'){
+      setEmail(event.target.value)
+    }
+  };
+
+
+
+  const addEmail = (): void => {
+    const newEmail = {emailName: email}
+    if(email.length < 1){
+      alert("이메일을 입력해주세요!")
+    }else{
+      setEmailList([...emailList, newEmail]);
+      console.log(emailList);
+      setEmail("")
+    }
+  }
+
+
+  const deleteEmail = (emailNameToDelete: string):void => {
+    setEmailList(emailList.filter((email)=>{
+      return email.emailName != emailNameToDelete
+    }))
+  }
 
 
     // 이메일 보내기
@@ -120,24 +137,53 @@ const TeamMemberAdd = (props: props): ReactElement => {
   >
 
     <Modal.Body>
-      <div>
-      <h1 className="body_sub">팀원 초대</h1>
-    <input className="pr" type="" onChange={onChangeText} placeholder="초대할 팀원의 아이디를 입력해주세요."></input>
-    <button onClick={Emailadd}>추가</button>
-        <h1 className="body_sub">초대 목록</h1>
-        <div>
-          {Email_lists.map(
-            (email: any) =>{
-              <li>{email}</li>
-            }
-          )}
+    <div className="TeamMemberAdd">
+      <h4>팀원 초대</h4>
+      <div className ="inputContainer">
+      <input type ="text" name ='email' value={email} onChange={handleChange} placeholder = "이메일을 입력해주세요"/>
+      <button onClick={addEmail}>추가</button>
+      </div>
+      <h4>팀원 리스트</h4>
+      <div className ="EmailList">
+        {emailList.map((email: IEmail) => {
+          return <TeamEmail email={email} deleteEmail = {deleteEmail}/>;
+        })}
         </div>
-            </div>
+      </div>
+
+    <h4>프로젝트 선택</h4>
+    <div className="ProjectAdd">
+      {
+      projecList.map((project:any)=>(
+        <label key={project.project_id} className="projectBox">
+        <input type="checkbox" name = 'project' value={project.project_name} ></input>
+        {project.project_name}
+
+        <div id = 'result'></div>
+        <br/>
+        </label>
+      ))}
+      {/* <table>
+        <tbody id = "table">
+          {
+            projecList.map((project:any)=>(
+              <tr>
+                <td>{project.project_name}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table> */}
+    </div>
+
+
+
     </Modal.Body>
 
     <Modal.Footer>
         <div className="team_foot">
-    <Button className="make"variant="danger">next</Button>
+          <MemberAddtwo show = {proModal} onHide={()=>setproModal(false)}/>
+    <Button onClick={sendEmail}>invite</Button>
     </div>
     </Modal.Footer>
   </Modal>
