@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react'
 import { Modal, Button } from 'react-bootstrap'
+
 import '../../css/MyProfile.css';
 import '../../css/bootstrap.min.css'
 interface props {
@@ -8,6 +9,10 @@ interface props {
   Image? : any;
   getData : (a : any) => void;
 }
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+const REGION = 'ap-northeast-2';
+const S3_BUCKET = 'weblabeling';
 
 export const ProfileChange = (props:props) => {
   const {show, onHide, Image, getData } = props;
@@ -20,6 +25,8 @@ export const ProfileChange = (props:props) => {
                 setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
                 return
             }
+            setSelectedFile(file);
+
             //화면에 프로필 사진 표시
            const reader = new FileReader();
           reader.onload = () => {

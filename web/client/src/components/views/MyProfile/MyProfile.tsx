@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'; 
 import React, { useState, useRef } from 'react';
 import { PasswordChange } from './PasswordChange';
 import { ProfileChange } from './ProfileChange';

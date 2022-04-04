@@ -6,7 +6,6 @@ interface Props{
     deleteEmail(emailNameToDelete: string) : void;
 }
 const TeamEmail = ({email, deleteEmail}: Props) =>{
-    //return <div>{email.emailName}</div>;
     return(
         <div className = "email">
             <div className ="content">

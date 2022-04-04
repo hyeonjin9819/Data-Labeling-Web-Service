@@ -34,7 +34,6 @@ const DataPage = () => {
     const indexOfLast = currentPage * postsPerPage;
     const indexOfFirst = indexOfLast - postsPerPage;
     const ImageUpload = (e:any) => {
-
         const file = e.target.files;
         //const nowImageUrl = [...fileImage]
         
@@ -86,7 +85,6 @@ const DataPage = () => {
         alert('이미지 업로드 실패')
       }
     })
-
         console.log('name', imgName) //이름 확인
         console.log('fileimg', nowImageUrl) //이름 확인
         console.log('next_id', nextId)
@@ -94,7 +92,7 @@ const DataPage = () => {
 
   //썸네일이 다 똑같이바뀜...setFileImage useState를 배열로 선언?
         e.target.value = '' //중복 파일 초기화를 위한 처리 
-
+      
     }
     imgName.splice(0);
     const navigate = useNavigate();
