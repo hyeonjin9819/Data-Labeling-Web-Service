@@ -1,0 +1,23 @@
+.tool_menus {
+float: left;
+  width: 200px;
+  height: 700px;
+  background-color: transparent;
+  border: 1px solid black;
+}
+.tool_menuss {
+  float: left;
+   width: 200px;
+   height:700px;
+   background-color: transparent;
+   border: 1px solid red;
+ }
+.labeling_ul {
+  list-style: none;
+}
+.label_selection {
+    width:150px;
+}
+
+
+
