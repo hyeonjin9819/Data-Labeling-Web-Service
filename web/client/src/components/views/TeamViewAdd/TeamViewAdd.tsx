@@ -3,6 +3,8 @@ import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
 import close from '../../images/close.png';
+import { teamCreate, teamMailUser } from '../../../_actions/user_action';
+import { useDispatch } from 'react-redux';
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
@@ -22,7 +24,9 @@ const TeamViewAdd = (props: props): ReactElement => {
     team_id? : any,
     team_name?: any,
     team_de?:any,
-    team_date? : any
+    team_date? : any,
+
+    team_inviteNum?: any
     }>();
 
     const onChangeText = (e:{target :{name:any; value:any;}}) =>{
@@ -33,8 +37,9 @@ const TeamViewAdd = (props: props): ReactElement => {
         ...team_text,
       [name]:value,
       team_id : nextId + 1,
-     team_date : month.toString() + '월 '+ date.toString() + '일'
-      })
+     team_date : month.toString() + '월 '+ date.toString() + '일',
+     team_inviteNum: Math.random().toString().substring(2,6),
+    })
     }
 
     const add= () =>{
@@ -43,14 +48,47 @@ const TeamViewAdd = (props: props): ReactElement => {
       }
       else {
       getName(team_text);
+
+
+      let body = {
+        user_token : token,
+        name: team_text?.team_name,
+        date: team_text?.team_date,
+        info:team_text?.team_de,
+        inviteNum: team_text?.team_inviteNum,
+      }
+
+      console.log("팀뷰 바디 확인" + body.name)
+
       setText({
         ...team_text,
         team_name : null,
-        team_de : null
+        team_de : null,
       })
+
       onHide();
+
+      dispatch(teamMailUser(body))
+    .them((response: {payload: {success: any;};})=>{
+      if(response.payload.success){
+        alert("성공했씁니다")
+      }
+      else{
+        alert("성공했씁니다")
+      }
+    })
+
+      dispatch(teamCreate(body))
+    .then((response: { payload: { success: any; }; }) => {
+      if(response.payload.success) {
+          alert("성공")
+      }  
+      else {
+        alert('실패')
+
       }
     }
+    
   return (
     <Modal
   show = { show }
