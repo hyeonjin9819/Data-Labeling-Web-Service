@@ -1,6 +1,7 @@
 .addData {
   float: right;
   margin: auto;
+  border-radius: 6px;
 }
 .inputHide {
   display: none;

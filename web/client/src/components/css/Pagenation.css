@@ -1,11 +1,11 @@
 .ulComponent {
-  display: block;
-  text-align: center;
-  border: 1px solid red;
-}
-.liComponent {
-  float: none;
-  display: inline;
-  margin: 5px;
-  border: 1px solid black;
-}
+    display: block;
+    text-align: center;
+    border: 1px solid red;
+  }
+  .liComponent {
+    float: none;
+    display: inline;
+    margin: 5px;
+    border: 1px solid black;
+  }

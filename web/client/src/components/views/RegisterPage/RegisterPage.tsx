@@ -43,6 +43,8 @@ function RegisterPage() {
       email : Email
     }
 
+    console.log("이메일 회원가입 바디 확인" + body.email)
+
    dispatch(authmailUser(body))
    .then((response: { payload: { success: any , number : any; }; }) => {
     if(response.payload.success) {
@@ -74,14 +76,17 @@ function RegisterPage() {
 
 
     let body = {
+      id : null,
       email : Email,
       password : Password,
-      name : Name
+      name : Name,
+      profile : null
     }
 
     dispatch(registerUser(body))
     .then((response: { payload: { success: any; }; }) => {
       if(response.payload.success) {
+
           alert("로그인 성공! 로그인 탭으로 돌아가 로그인을 완료해주세요")
           Navigate('/');
       }  
