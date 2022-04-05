@@ -1,36 +1,14 @@
 const mongoose = require('mongoose');//몽구스 불러오기
+const { User } = require('./User');
 const saltRounds=10
-const Schema = mongoose.Schema;
-const Team_info = new mongoose.Schema({
-    id : Schema.Types.ObjectId,
-    name : String 
-  });
-
-  const dataSchema = mongoose.Schema({
-    index : Number,
-    label : String,
-    width : Number,
-    height : Number,
-    x : Number,
-    y : Number
-  });
-
-  const imageurlSchema = mongoose.Schema({
-    url: String,
-    data: dataSchema
-  });
 
 //스키마 생성창
-const projectSchema =  mongoose.Schema({
-    _id : {
-      type : Number,
+const projectSchema = mongoose.Schema({
+    user_email:{
+        type: String
     },
-    users : [],
-    // user_token:{
-    //     type: String
-    // },
-    owner : {
-        type : Number
+    id : {
+      type:Number
     },
     name:{
         type:String,
@@ -44,6 +22,10 @@ const projectSchema =  mongoose.Schema({
         type:String,
         maxlength:50
     },
+    tool:{
+        type:String,
+        maxlength:50
+    },
     date:{
         type:String,
         maxlength:50
@@ -53,16 +35,9 @@ const projectSchema =  mongoose.Schema({
         type:String,
         maxlength:500
     },
-    // imageHistory:[String]
-    // image : {
-    //     type : [imageurlSchema],
-    //     data : [dataSchema]
-    // }
-    //image: {imageurlSchema}
     })
 
-const Project = mongoose.model('Project',projectSchema)//화려한 모델이 스키마를 감싸네
-//const Img = mongoose.model('Img',imageurlSchema)//화려한 모델이 스키마를 감싸네
-//const Data = mongoose.model('Data',dataSchema)
+     
 
+const Project =mongoose.model('Project',projectSchema)//화려한 모델이 스키마를 감싸네
 module.exports={Project}//외부 사용 가능하게

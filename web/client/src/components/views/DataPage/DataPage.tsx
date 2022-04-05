@@ -17,7 +17,7 @@ const DataPage = () => {
     const{projectId, dataId} = useParams() //라우팅 처리용 함수?(현진쓰)
     console.log('project', projectId)   
      console.log('id', dataId)
-    //const [imageurl, setImageurl] = useState("");
+    //const [imageurl, setImageurl] = useState("");`    
     const [idx, setidx] = useState(dataId);
     const [Imagefilename, setImagefilename] = useState([]) // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열

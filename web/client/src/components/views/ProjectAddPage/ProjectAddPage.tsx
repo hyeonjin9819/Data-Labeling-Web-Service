@@ -1,13 +1,12 @@
 import React, { ReactElement, useState } from 'react';
 import '../../css/ProjectAddPage.css';
 import {useDispatch} from 'react-redux'
-import {projectCreate, findEmail, myInfo} from '../../../_actions/user_action';
+import {projectCreate, findEmail} from '../../../_actions/user_action';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import text from '../../images/text.png';
 import close from '../../images/close.png';
 import square from '../../images/square.png';
-import { useEffect } from 'react';
 
 
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
@@ -25,9 +24,8 @@ const ProjectAddPage = (props: props): ReactElement => {
   let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
   let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
   const { show, getName,onHide, nextId } = props;
-  const [owner, setowner] = useState(0)
 
-  const [email_user, setemail_user] = useState<any>(null)
+  const [email_user, setemail_user] = useState<String>(' ')
 
   var token_name = 'x_auth'
   token_name = token_name + '='; 
@@ -40,26 +38,12 @@ const ProjectAddPage = (props: props): ReactElement => {
        if(end == -1) end = cookieData.length; 
        token = cookieData.substring(start, end);
 }
-let body = {
-  token : token
+let bodys = {
+  tokens : token
 }
-useEffect(()=> {
-  dispatch(myInfo(body))
-.then((response: { payload: { Success: any; id : number;} }) => {
-  if(response.payload.Success) {
-     setowner(response.payload.id);
-     console.log('owner', owner)
-  }  
-  else {
-    alert('아이디 가져오기 실패')
-  }
-})
-},[]);
+console.log("바디",bodys)
 
-// let bodys = {
-//   tokens : token
-// }
-// console.log("바디",bodys)
+
  // 로그인 되어 있는 사람의 토큰값
 
   const [pr_text, setText] = useState<{
@@ -67,10 +51,11 @@ useEffect(()=> {
   pr_name?: any,
   pr_de?:any,
   pr_date?: any,
+  pr_tool? : any,
   pr_upload? : any,
   pr_category? : any
   }>();
-
+  
   const onChangeText = (e:{target :{name:any; value:any;}}) =>{
     const{name, value} = e.target;
     setText ({
@@ -85,48 +70,45 @@ useEffect(()=> {
       alert("프로젝트명 혹은 설명을 입력해주세요");
     }
     else {
-      
-    let body = {
-      //user_token : token,
-      _id :null,
-      users : [owner],
-      owner : owner,
-      name:pr_text?.pr_name,
-      category :pr_text?.pr_category,
-      upload: pr_text?.pr_upload,
-      date: pr_text?.pr_date,
-      info:pr_text?.pr_de
-    }
-
     getName(pr_text);
-
-    // if(email_user===null){
-    // dispatch(findEmail(bodys))
-    //    .then((response: { payload: { Success: any; email : any}; }) => {
-    //      if(response.payload.Success) {
-    //          setemail_user(response.payload.email.toString())
-    //      }  
-    //      else {
-    //        alert(token)
-    //      }
-    //    })}
+    if(email_user===' '){
+    dispatch(findEmail(bodys))
+       .then((response: { payload: { Success: any; email : any}; }) => {
+         if(response.payload.Success) {
+             setemail_user(response.payload.email.toString())
+         }  
+         else {
+           alert(token)
+         }
+       })}
     
+    let body = {
+    user_email : email_user,
+    id : pr_text?.pr_id,
+    name:pr_text?.pr_name,
+    category :pr_text?.pr_category,
+    upload: pr_text?.pr_upload,
+    tool: pr_text?.pr_tool,
+    date: pr_text?.pr_date,
+    info:pr_text?.pr_de
+  }
+  
   setText({
     ...pr_text,
     pr_name : null,
     pr_de : null
   })
- 
+
     dispatch(projectCreate(body))
     .then((response: { payload: { success: any; }; }) => {
       if(response.payload.success) {
           alert("성공")
-          window.location.reload();
       }  
       else {
         alert('실패')
       }
     })
+
     onHide();
     }
   }
@@ -138,6 +120,15 @@ const cus_input = (e: any) => {
    ...pr_text,
    pr_category : category
  })
+}
+
+  const ontool = (e:any) => {
+      const tool = e.target.value;
+      console.log('tool', tool);
+      setText ({
+        ...pr_text,
+        pr_tool : tool
+      })
 }
 
 const onupload = (e:any) => {
@@ -223,7 +214,25 @@ const dis_check = () => {
     <div>Text</div>
     </label>
     </div>
+    <h4 className="footer_sub">레이블링 타입</h4>
+    {/*<ul className="label_list">
+                <input type="radio" value= "sqaure" className="label_menu"><div className="sqa"></div></input>
+                <li className="label_menu">레이블링 2</li>
+                <li className="label_menu">레이블링 3</li>
+                <li className="label_menu">레이블링 4</li>
+  </ul>*/}
 
+  <div className="te">
+  <label className="labels"  htmlFor="asdf">
+  <input  onClick={ontool} name="label" type="radio" value= "square" className="label_menu"></input>
+  <div className="square"></div>
+
+  </label>
+  <label className="labels"  htmlFor="asdf">
+  <input name="label" type="radio" value= "box" className="label_menu" onClick={ontool}></input>
+  <div className="box"></div>
+  </label>
+  </div>
     <Modal.Footer>
     <Button onClick={add} className="make">프로젝트 생성</Button>
     </Modal.Footer>

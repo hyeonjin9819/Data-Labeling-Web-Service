@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import Sidebar from '../SideBar/SideBar';
 import {Table} from 'react-bootstrap';
 import logout from '../../images/logout.png';
-import '../../css/.min.css'
+import '../../css/bootstrap.min.css'
 import '../../css/Mainview.css';
 
 function MainViewPage() {

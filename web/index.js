@@ -8,7 +8,7 @@ const { User } = require("./models/User");
 const {Project} = require("./models/Project")
 const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
-const {Counter} = require("./models/Counter")
+const {Counter} = require("./models/counters")
 const {Data} = require("./models/data")
 
 dotenv.config();
@@ -16,20 +16,6 @@ dotenv.config();
 const Mongoose_URI = process.env.Mongoose_URI;
 const Email = process.env.Email;
 const Pass = process.env.Pass;
-
-
-//web socket연결
-// const http = require('http').createServer(app)
-// const io = require('socket.io')(http) // http -> app?
-
-// io.on('connection', socket =>{
-//   socket.on('message', ({name, message}) => {
-//     io.emit('message', {name, message})
-//   })
-// })
-
-
-
 const ejs = require('ejs');
 const path = require('path');
 var appDir = path.dirname(require.main.filename);
@@ -37,7 +23,6 @@ var appDir = path.dirname(require.main.filename);
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
 app.use(cookieParser());
-
 
 const mongoose = require('mongoose');
 const { json } = require('body-parser');
@@ -217,6 +202,21 @@ app.post('/api/users/myinfo',(req, res) => {
   })
 })
 
+app.post('/api/projects/imagelist',(req, res) => {
+  Data.findOne({_id : req.body._id}, (err, imagelist) => {
+    if(!imagelist){
+      return res.json ({
+        Success : false,
+        message: "토큰에 해당하는 회원이 없다."
+      })
+    }
+  return res.status(200).json({
+      Success : true,
+      imagelist : imagelist.data
+  })
+  })
+})
+
 app.post('/api/users/profilechange', (req, res) => {
   let query = {token : req.body.token}
   let value = {$set: {profile : req.body.profile}}
@@ -347,7 +347,6 @@ app.post('/api/users/mail', (req,res)=> {
 
 })
 
-
 // 팀원 초대 이메일 보내기
 app.post('/api/users/teamMail', (req,res)=> {
 //let teamNum = Math.random().toString().substring(2,6);
@@ -394,7 +393,6 @@ transportertwo.sendMail(options, function(err, info){
   transportertwo.close()
 })
 });
-
 
 const port = process.env.PORT || 5000 // 5000번 포트를 백서버로 둔다
 
