@@ -33,15 +33,6 @@ ul {
   font-weight: bold;
   border-radius: 4px 4px 4px 4px;
 }
-
-.addMEmber_btn {
-  float: right;
-  background-color: #e93333;
-  border: transparent;
-  color: white;
-  font-weight: bold;
-  border-radius: 4px 4px 4px 4px;
-}
 /* body 클래스에 대한 css를 설정해주는 파일*/
 
 .Body {
@@ -59,16 +50,6 @@ ul {
   float: right;
   border-radius: 1px 1px 1px 1px;
 }
-
-.addMember {
-  /*초대 코드 디자인, float는 수평으로 우측 배치*/
-  width: 200px;
-  height: 20px;
-  margin-left: 20px;
-  float: right;
-  border-radius: 1px 1px 1px 1px;
-}
-
 .add_btn {
   background-color: #e93333;
   color: white;

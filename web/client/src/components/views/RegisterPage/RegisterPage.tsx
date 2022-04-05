@@ -43,8 +43,6 @@ function RegisterPage() {
       email : Email
     }
 
-    console.log("이메일 회원가입 바디 확인" + body.email)
-
    dispatch(authmailUser(body))
    .then((response: { payload: { success: any , number : any; }; }) => {
     if(response.payload.success) {

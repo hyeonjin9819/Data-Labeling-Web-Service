@@ -3,7 +3,7 @@ import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
 import close from '../../images/close.png';
-import { teamCreate, teamMailUser } from '../../../_actions/user_action';
+import { teamCreate } from '../../../_actions/user_action';
 import { useDispatch } from 'react-redux';
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
@@ -24,9 +24,7 @@ const TeamViewAdd = (props: props): ReactElement => {
     team_id? : any,
     team_name?: any,
     team_de?:any,
-    team_date? : any,
-
-    team_inviteNum?: any
+    team_date? : any
     }>();
 
     const onChangeText = (e:{target :{name:any; value:any;}}) =>{
@@ -37,9 +35,8 @@ const TeamViewAdd = (props: props): ReactElement => {
         ...team_text,
       [name]:value,
       team_id : nextId + 1,
-     team_date : month.toString() + '월 '+ date.toString() + '일',
-     team_inviteNum: Math.random().toString().substring(2,6),
-    })
+     team_date : month.toString() + '월 '+ date.toString() + '일'
+      })
     }
 
     const add= () =>{
@@ -55,16 +52,13 @@ const TeamViewAdd = (props: props): ReactElement => {
         name: team_text?.team_name,
         date: team_text?.team_date,
         info:team_text?.team_de,
-        inviteNum: team_text?.team_inviteNum,
       }
-
-      console.log("팀뷰 바디 확인" + body.name)
-
       setText({
         ...team_text,
         team_name : null,
-        team_de : null,
+        team_de : null
       })
+<<<<<<< HEAD
 
       onHide();
 
@@ -77,6 +71,8 @@ const TeamViewAdd = (props: props): ReactElement => {
         alert("성공했씁니다")
       }
     })
+=======
+>>>>>>> parent of ad2a0efa (4/5 팀 미완)
 
       dispatch(teamCreate(body))
     .then((response: { payload: { success: any; }; }) => {
@@ -88,7 +84,6 @@ const TeamViewAdd = (props: props): ReactElement => {
 
       }
     }
-    
   return (
     <Modal
   show = { show }

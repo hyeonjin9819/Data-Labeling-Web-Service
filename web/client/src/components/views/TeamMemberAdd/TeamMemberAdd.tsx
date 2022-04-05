@@ -27,22 +27,23 @@ const TeamMemberAdd = (props: props): ReactElement => {
   const [email, setEmail] = useState<string>("");
   const [emailList, setEmailList] = useState<IEmail[]>([]);
   const [proModal, setproModal] = useState(false);
+  const [checkedList, setCheckedLists] = useState([]);
   const [addMemEmail, setAddMemEmail] = useState("")
   const [number, setnumber] = useState("")
   const [Auth, setAuth] = useState("")
 
 
-  // const [projecList, setProjectList] = useState<any>([
-  //   {
-  //     project_id: 1,
-  //     project_name: 'kpu 프로젝트'
-  //   },
-  //   {
-  //     project_id: 2,
-  //     project_name: '의류 프로젝트'
-  //   }
+  const [projecList, setProjectList] = useState<any>([
+    {
+      project_id: 1,
+      project_name: 'kpu 프로젝트'
+    },
+    {
+      project_id: 2,
+      project_name: '의류 프로젝트'
+    }
 
-  // ])
+  ])
 
 
 
@@ -76,19 +77,16 @@ const TeamMemberAdd = (props: props): ReactElement => {
     // 이메일 보내기
     const sendEmail = (e:{ preventDefault: () => void; }) =>{
       e.preventDefault();
-      console.log('send확인', emailList);
+      console.log('email', addMemEmail);
   
       let body = {
-        email: JSON.stringify(emailList)
+        email : emailList
       }
-
-      console.log("이메일 바디 확인" + JSON.stringify(body.email))
   
       dispatch(teamMailUser(body))
-      .then((response: {payload: {success: any};})=>{
-        console.log("가나다라")
+      .then((response: {payload: {success: any, number: any};})=>{
         if(response.payload.success) {
-          //setnumber(response.payload.number);
+          setnumber(response.payload.number);
           alert("인증 번호 보내기 완료")
         }
         else{
@@ -98,22 +96,22 @@ const TeamMemberAdd = (props: props): ReactElement => {
     }
 
     // submit
-    // const onSubmitHandler = (e: {preventDefault : () => void;}) => {
-    //   e.preventDefault();
+    const onSubmitHandler = (e: {preventDefault : () => void;}) => {
+      e.preventDefault();
 
-    //   console.log('addMemEmail', addMemEmail);
+      console.log('addMemEmail', addMemEmail);
 
-    //   if(Auth === "" || Auth !== number){
-    //     console.log(Auth + "누구인가")
-    //     console.log(number + "인증번호? 맞는지 확인 필요")
-    //     return alert('이메일 인증을 완료해주세요')
-    //   }
+      if(Auth === "" || Auth !== number){
+        console.log(Auth + "누구인가")
+        console.log(number + "인증번호? 맞는지 확인 필요")
+        return alert('이메일 인증을 완료해주세요')
+      }
 
-    //   let body = {
-    //     email: addMemEmail // 근데 eamil 하나 보내는게 아니라 리스트를 보내야함
-    //   }
+      let body = {
+        email: addMemEmail // 근데 eamil 하나 보내는게 아니라 리스트를 보내야함
+      }
 
-    // }
+    }
 
     
 
@@ -153,7 +151,7 @@ const TeamMemberAdd = (props: props): ReactElement => {
         </div>
       </div>
 
-    {/* <h4>프로젝트 선택</h4>
+    <h4>프로젝트 선택</h4>
     <div className="ProjectAdd">
       {
       projecList.map((project:any)=>(
@@ -164,7 +162,7 @@ const TeamMemberAdd = (props: props): ReactElement => {
         <div id = 'result'></div>
         <br/>
         </label>
-      ))} */}
+      ))}
       {/* <table>
         <tbody id = "table">
           {
@@ -176,7 +174,9 @@ const TeamMemberAdd = (props: props): ReactElement => {
           }
         </tbody>
       </table> */}
-    {/* </div> */}
+    </div>
+
+
 
     </Modal.Body>
 
