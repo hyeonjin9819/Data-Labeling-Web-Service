@@ -59,6 +59,7 @@ const TeamViewAdd = (props: props): ReactElement => {
         team_de : null
       })
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       onHide();
 
@@ -71,6 +72,8 @@ const TeamViewAdd = (props: props): ReactElement => {
         alert("성공했씁니다")
       }
     })
+=======
+>>>>>>> parent of ad2a0efa (4/5 팀 미완)
 =======
 >>>>>>> parent of ad2a0efa (4/5 팀 미완)
 
