@@ -9,6 +9,7 @@ import square from '../../images/square.png';
 import box from '../../images/box.png';
 import { Row, Table } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import TeamMemberAdd from '../TeamMemberAdd/TeamMemberAdd';
 
 /*프로젝트 페이지로 넘어가면 나오는 페이지*/
 const ProjectPage = () =>{
@@ -22,7 +23,7 @@ const ProjectPage = () =>{
   const [proModal, setproModal] = useState(false);
   const [notiModal, setNotiModal] = useState(false);
   const [num, setNum] = useState(0)
-  const [Id, setId] = useState(0)
+
 
   const [projects_list, setproject] = useState<any>([
     {
@@ -54,9 +55,8 @@ const ProjectPage = () =>{
   const navigate = useNavigate();
   const handleRowClick = (e:any) => {
       console.log(e)
-      navigate(`/DataPage/${e}`)
+      navigate(`/ProjectPage/${e}`)
   }
-
 //  <Test projects_list = {projects_list} />
   return(
    <div>
@@ -73,7 +73,6 @@ const ProjectPage = () =>{
                     <h2 className="dashboard" >{subject}</h2>
                    {/* <Link to = "/MyProfile">
                     <button  className="logout"><img className="icon" src={profile}></img></button>
-
   </Link>*/}
                     <button  className="logout" onClick={() => setNotiModal(true)}><img className="icon" src={bell}></img></button>
                     <Notification show = {notiModal} getName={getName} nextId = {nextId} onHide ={()=>setNotiModal(false)}/>
@@ -97,7 +96,7 @@ const ProjectPage = () =>{
                             <tbody id="tables">
                                 {
                                     projects_list?.map(
-                                        (project: { pr_name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_category: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_upload: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_tool: any; pr_date: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; pr_de: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; } ,num: number) => (
+                                        (project: any) => (
                                             <>
                                             <tr onClick={()=> handleRowClick(project.pr_name)}>
                                             <td>{num+1}</td>
@@ -111,9 +110,13 @@ const ProjectPage = () =>{
                                             <td>{project.pr_de}</td>
                                             </tr>
                                             </>
+                                            
                                         )
+                                        
                                     )
+                                    
                                 }
+
                                {/* {
                                     projects_list.pr_name != null ? (
                                     <>

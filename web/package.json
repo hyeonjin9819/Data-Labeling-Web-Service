@@ -23,7 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.3",
     "nodemailer": "^6.7.2",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "util": "^0.12.4"
   },
   "devDependencies": {
     "@types/uuid": "^8.3.4",
