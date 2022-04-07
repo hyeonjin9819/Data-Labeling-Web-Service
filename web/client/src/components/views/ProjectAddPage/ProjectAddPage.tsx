@@ -71,16 +71,18 @@ console.log("바디",bodys)
     }
     else {
     getName(pr_text);
-    if(email_user===' '){
-    dispatch(findEmail(bodys))
-       .then((response: { payload: { Success: any; email : any}; }) => {
-         if(response.payload.Success) {
-             setemail_user(response.payload.email.toString())
-         }  
-         else {
-           alert(token)
-         }
-       })}
+    // if(email_user===' '){
+    // dispatch(findEmail(bodys))
+    //    .then((response: { payload: { Success: any; email : any}; }) => {
+    //      if(response.payload.Success) {
+    //          setemail_user(response.payload.email.toString())
+    //      }  
+    //      else {
+    //        alert(token)
+    //      }
+    //    }
+    //    )
+    //   }
     
     let body = {
     user_email : email_user,

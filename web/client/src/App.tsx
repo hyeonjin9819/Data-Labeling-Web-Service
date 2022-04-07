@@ -13,8 +13,8 @@ import MyProfile from './components/views/MyProfile/MyProfile';
 import TeamView from './components/views/TeamView/TeamView';
 import DataPage from './components/views/DataPage/DataPage';
 import Labeling_tool from './components/views/labeltool/Labeling_tool';
-
-
+import LearnPage from './components/views/LearnPage/LearnPage';
+import CustomPage from './components/views/LearnPage/CustomPage';
 function App(){
   return (
     <Router>
@@ -24,6 +24,8 @@ function App(){
         <Route path="/ProjectPage" element = {<ProjectPage/>}/>
         <Route path="/TeamMainView" element = {<TeamMainView/>}/>
         <Route path="/MyProfile" element = {<MyProfile/>}/>
+        <Route path="/LearnPage" element = {<LearnPage/>}/>
+        <Route path="/CustomPage" element = {<CustomPage/>}></Route>
         {/* 프로젝트 리스트 동적 라우팅 */}
         <Route path = "ProjectPage/:projectId/:dataId" element={<DataPage/>}/>
         {/* 팀 리스트 동적 라우팅 */}

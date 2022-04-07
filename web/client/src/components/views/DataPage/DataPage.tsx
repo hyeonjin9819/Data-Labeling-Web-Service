@@ -11,13 +11,17 @@ import { useDispatch } from 'react-redux';
 import { projectImg } from '../../../_actions/user_action';
 import { message } from 'antd';
 import Labeling_tool from '../labeltool/Labeling_tool';
+import Pagenation from '../Pagenation/Pagenation';
+import Posts from '../Posts/Posts';
 
 const DataPage = () => {
+
     const dispatch = useDispatch<any>();
     const{projectId, dataId} = useParams() //라우팅 처리용 함수?(현진쓰)
     console.log('project', projectId)   
      console.log('id', dataId)
     //const [imageurl, setImageurl] = useState("");`    
+    
     const [idx, setidx] = useState(dataId);
     const [Imagefilename, setImagefilename] = useState([]) // 다중 이미지 선택 배열로 바꿔서 업로드한 이미지 이름들 저장하면 될듯?
     const [data_list, setData] = useState<any>([//테이블 데이터 받아주는 배열
@@ -26,7 +30,13 @@ const DataPage = () => {
     const imgName = [...data_list]
     const nextId = data_list.length // list 개수
     const nowImageUrl = [...fileImage]
-    
+    const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostsPerPage] = useState(5);
+
+    const indexOfLast = currentPage * postsPerPage;
+    const indexOfFirst = indexOfLast - postsPerPage;
+
     const ImageUpload = (e:any) => {
     
     //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
@@ -89,13 +99,16 @@ const DataPage = () => {
         e.target.value = '' //중복 파일 초기화를 위한 처리 
       
     }
+
     imgName.splice(0)  
     const navigate = useNavigate();
+
     const handleRowClick = (event1:any, event2:any) => {
         console.log(event1 + "이미지 파일 이름")
         console.log(event2 + "index")
         const img : String = nowImageUrl[event2].toString().substr(27)
-        navigate(`/DataPage/${event1}/${img}`)
+        navigate(`/ProjectPage/${event1}/${img}`)
+        console.log(event1)
         //console.log(nowImageUrl[event2])
         //setInputValue(inputValue => nowImageUrl[event2])
         //console.log({setInputValue} + "setInput 확인")
@@ -112,7 +125,62 @@ const DataPage = () => {
        }
     })
     }
-    
+    const currentPosts =(tmp:any) => {
+        let currentPosts = 0;
+        currentPosts = tmp.slice(indexOfFirst, indexOfLast);
+  
+        return currentPosts;
+      }
+
+      const onCheck = (e:any) => {
+        //개별 체크박스를 선택, 해제 시켜주는 함수
+        if(e.target.checked){
+            e.target.checked = true;
+        
+        }
+        else{
+            e.target.checked = false;
+       
+        }
+     
+    }
+
+    const onCheckAll = (e:any) => {
+        //모든 체크박스를 선택, 해제 시켜주는 함수
+
+        var ele:any =  document.getElementsByClassName('check');
+
+        if(e.target.checked){
+            for(var i = 0; i<ele.length; i++){
+                ele[i].checked = true;
+  
+             
+            }
+        }
+
+        else{
+            for(var i = 0; i<ele.length; i++){
+                ele[i].checked  = false;
+             
+                
+            }
+        }
+    }
+
+    const onDelete = () => {
+        
+        var chk:any = document.getElementsByClassName('check');
+        var th:any = document.getElementById('tablelength'); //테이블 행 갯수 5
+   
+                    for(let i = th.rows.length - 1; i < th.rows.length; i--){
+                 
+                   if(chk[i].checked == true){
+                            chk[i].parentElement.parentElement.remove();      
+                   }
+        }
+       //setData([]);
+    }
+
     return (
         <div >
             <header>
@@ -131,34 +199,40 @@ const DataPage = () => {
                         
                         <button  className="logout" onClick = {onClickHandler}><img className="icon" src={logout}></img></button>
                        {/* <h3 className="welcome">원우연님 환영합니다</h3> */} 
+                       <button className="del" onClick={onDelete}>선택 데이터 삭제</button>
                         </div>
                         <div className="tables">
                         <Table striped bordered hover >
                             <thead>
                                 <tr>
-                                    <th>체크 박스</th>
+                                    <th className="checks"><input className="boxs" type="checkbox" value='select' onClick={onCheckAll}></input>
+                                        <label htmlFor="allCheck">전체 선택</label>체크 박스</th>
                                     <th>번호</th>
                                     <th>이미지 썸네일</th>
                                 <th>데이터 명</th>
                                 <th>진행 사항</th>
                                 </tr>
                             </thead>
-                            <tbody id="datas">
+                            <tbody className="files" id="tablelength">
                             {
+                                currentPosts(
                                     data_list.map(
                                         (data: {name: String, data_id:any}) => (
-                                            <tr onClick={() => handleRowClick(data.name, data.data_id)}>
-                                                <td></td>
-                                                <td>{data.data_id+1}</td>
-                                                <td >{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
-                                                <td>{data.name}</td>
-                                                <td>{data.name}</td>
+                                            <tr>
+                                                <td><input id = {data.data_id} className="check"  type="checkbox" onChange={onCheck}></input></td>
+                                                <td  onClick={() => handleRowClick(data.name, data.data_id)}>{data.data_id+1}</td>
+                                                <td  onClick={() => handleRowClick(data.name, data.data_id)}>{fileImage && (<img className="imgThumb" src={fileImage[data.data_id]}/>)}</td>
+                                                <td  onClick={() => handleRowClick(data.name, data.data_id)}>{data.name}</td>
+                                                <td  onClick={() => handleRowClick(data.name, data.data_id)}>{data.name}</td>
                                             </tr>
                                            )
                                        )
-                                    }
-                                </tbody>
+                                )
+                            }
+                            </tbody>
                             </Table>
+                            <Pagenation postsPerPage={postsPerPage} totalPosts={data_list.length} paginate={setCurrentPage}></Pagenation>
+
                         </div>
                     </body> 
                  <footer>

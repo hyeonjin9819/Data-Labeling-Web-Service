@@ -16,6 +16,20 @@ dotenv.config();
 const Mongoose_URI = process.env.Mongoose_URI;
 const Email = process.env.Email;
 const Pass = process.env.Pass;
+
+
+//web socket연결
+// const http = require('http').createServer(app)
+// const io = require('socket.io')(http) // http -> app?
+
+// io.on('connection', socket =>{
+//   socket.on('message', ({name, message}) => {
+//     io.emit('message', {name, message})
+//   })
+// })
+
+
+
 const ejs = require('ejs');
 const path = require('path');
 var appDir = path.dirname(require.main.filename);
@@ -23,6 +37,7 @@ var appDir = path.dirname(require.main.filename);
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
 app.use(cookieParser());
+
 
 const mongoose = require('mongoose');
 const { json } = require('body-parser');
@@ -202,21 +217,6 @@ app.post('/api/users/myinfo',(req, res) => {
   })
 })
 
-app.post('/api/projects/imagelist',(req, res) => {
-  Data.findOne({_id : req.body._id}, (err, imagelist) => {
-    if(!imagelist){
-      return res.json ({
-        Success : false,
-        message: "토큰에 해당하는 회원이 없다."
-      })
-    }
-  return res.status(200).json({
-      Success : true,
-      imagelist : imagelist.data
-  })
-  })
-})
-
 app.post('/api/users/profilechange', (req, res) => {
   let query = {token : req.body.token}
   let value = {$set: {profile : req.body.profile}}
@@ -258,7 +258,7 @@ app.post('/api/users/login',(req, res) => {
       if(!user){
       return res.json ({
         loginSuccess : false,
-        message: "제공된 이메일애 해당하는 유저가 없습니다."
+        message: "제공된 이메일에 해당하는 유저가 없습니다."
       })
       }
   
@@ -280,6 +280,7 @@ app.post('/api/users/login',(req, res) => {
     }) 
   })
 })
+
 //auth route만들기
 app.get('/api/users/auth',auth,(req,res)=>{
   res.status(200).json({
@@ -292,6 +293,7 @@ app.get('/api/users/auth',auth,(req,res)=>{
     image:req.user.image
   })
 })
+
 
 app.get('/api/users/logout',auth,(req,res)=>{
   User.findOneAndUpdate({_id:req.user._id},{token:""},(err,user)=>{
@@ -344,6 +346,56 @@ app.post('/api/users/mail', (req,res)=> {
   })
 
 })
+
+
+// 팀원 초대 이메일 보내기
+app.post('/api/users/teamMail', (req,res)=> {
+//let teamNum = Math.random().toString().substring(2,6);
+let teamNum = req.body.inviteNum
+let emailTemplatetwo;
+ejs.renderFile(appDir + '/template/teamMail.ejs',{teamcode: teamNum}, function(err,data){
+  if(err){console.log(err)}
+  emailTemplatetwo = data;
+}
+);
+
+const transportertwo = nodemailer.createTransport({
+  service: 'gmail',
+  host : 'stmp.gmail.com',
+  port:'465',
+  secure: true,
+  auth: {
+    user: Email,
+    pass: Pass
+  }
+});
+
+const options = {
+  from: Email,
+  to: req.body.email,
+  //to: "loop3458@naver.com",
+  subject: "[Web Labling Service] 팀에 초대받았습니다",
+  //html: emailTemplatetwo
+  text: "ㅎㅇ"
+}
+
+transportertwo.sendMail(options, function(err, info){
+  if(err){
+    console.log(err);
+    return;
+  }
+  console.log("Sent: " + info.response);
+
+  res.send({
+    success: true,
+    //number: teamNum
+  }
+  );
+  transportertwo.close()
+})
+});
+
+
 const port = process.env.PORT || 5000 // 5000번 포트를 백서버로 둔다
 
 app.listen(port, () => { // 5000번에서 이 앱을 실행한다.
