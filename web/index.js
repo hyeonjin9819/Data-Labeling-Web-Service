@@ -1,4 +1,5 @@
 const dotenv = require('dotenv')
+const AWS=  require( 'aws-sdk');
 const express = require('express') //express 모듈을 가져오는것
 const app = express() // 모듈을 사용해 app을 선언
 const nodemailer = require('nodemailer');
@@ -10,6 +11,7 @@ const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
 const {Counter} = require("./models/Counter")
 const {Data} = require("./models/data")
+const fs = require('fs');
 
 dotenv.config();
 
@@ -34,8 +36,19 @@ const ejs = require('ejs');
 const path = require('path');
 var appDir = path.dirname(require.main.filename);
 
+AWS.config.update({
+  accessKeyId: ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY
+});
+
+const myBucket = new AWS.S3({
+  params: { Bucket: S3_BUCKET},
+  region: REGION,
+});
+
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
+app.use(express.json());
 app.use(cookieParser());
 
 
@@ -51,10 +64,49 @@ app.get('/', (req, res) => {
 
 })
 
-app.get('/api/hello', (req, res) => {
-  res.send('api Hello')
+app.post('/api/datatxt', (req ,res) => {
+  //var item = {};
+  //var stringifiedObj = req.body.entries(item).map(x=>x.join(":")).join("\n");
+  const params = {
+    ACL: 'public-read',
+    Body: JSON.stringify(req.body.entries),
+    Bucket: S3_BUCKET,
+    Key: "Data"+req.body.idx+"/"+req.body.imageId+'.txt'
+  };
+
+  myBucket.putObject(params)  
+  .send((err) => {
+    if (err) {console.log(err); return err}
+  })
+  console.log('Item: %o', req.body);
+  console.log(req.toString()+'aa')
+  console.log("파일 생성기")
 })
 
+// 서버에 올라간 해당 이미지 txt의 값들을 가져와서 그림 위에 띄워줌
+// 사진 이름과 동일한 txt가 없다면에 대한 예외처리도 해야함
+// 파일 읽기 'fs' 모듈을 사용해 파일 내용을 읽어와서 보내준다.
+app.post('/api/data/draw', (req ,res) => {
+  const s3 = new AWS.S3({ accessKeyId: ACCESS_KEY, secretAccessKey: SECRET_ACCESS_KEY });
+
+
+    const idx = req.body.idx // project id
+    const imageId = req.body.imageId
+
+    
+    var params = {Bucket: S3_BUCKET, Key: 'Data'+idx+'/'+imageId+'.txt'}; 
+    s3.getObject(params, function(err, data) {
+       if (err) { console.log(err, err.stack)
+        // an error occurred 
+      } else { 
+        //const datas = fs.readFileSync(data,{encoding:'utf8', flag : 'r'})
+        const datas=  data.Body.toString('utf8')
+        console.log(datas); // successful response 
+        res.json({success : true, datas:datas})
+      } });
+
+    
+})
 // app.post('/api/users/findemail',(req, res) => {
 //   User.findOne({token : req.body.tokens}, (err, users)=> {
 //     if(!users) {
@@ -213,6 +265,21 @@ app.post('/api/users/myinfo',(req, res) => {
       name : user.name,
       profile : user.profile,
       id : user.id
+  })
+  })
+})
+
+app.post('/api/projects/imagelist',(req, res) => {
+  Data.findOne({_id : req.body._id}, (err, imagelist) => {
+    if(!imagelist){
+      return res.json ({
+        Success : false,
+        message: "토큰에 해당하는 회원이 없다."
+      })
+    }
+  return res.status(200).json({
+      Success : true,
+      imagelist : imagelist.data
   })
   })
 })

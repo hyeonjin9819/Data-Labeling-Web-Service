@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import {useEffect, useState} from 'react';
 import {Table} from 'react-bootstrap';
 import {Link, useParams} from 'react-router-dom';
@@ -8,11 +9,13 @@ import Sidebar from '../SideBar/SideBar';
 import '../../css/DataPage.css';
 import logout from '../../images/logout.png';
 import { useDispatch } from 'react-redux';
-import { projectImg } from '../../../_actions/user_action';
+import { imageList, projectImg } from '../../../_actions/user_action';
 import { message } from 'antd';
 import Labeling_tool from '../labeltool/Labeling_tool';
 
+
 const DataPage = () => {
+ //   console.log(process.env.ACCESS_KEY+'kk')
     const dispatch = useDispatch<any>();
     const{projectId, dataId} = useParams() //라우팅 처리용 함수?(현진쓰)
     console.log('project', projectId)   
@@ -26,7 +29,56 @@ const DataPage = () => {
     const imgName = [...data_list]
     const nextId = data_list.length // list 개수
     const nowImageUrl = [...fileImage]
+    AWS.config.update({
+        accessKeyId: ACCESS_KEY,
+        secretAccessKey: SECRET_ACCESS_KEY
+      });
+
+      const myBucket = new AWS.S3({
+        params: { Bucket: S3_BUCKET},
+        region: REGION,
+      });
+
+let body = {
+    _id : idx
+}
+
+
+
+
+
+      useEffect(() => {
+    dispatch(imageList(body))
+    .then((response: { payload: { Success: any; imagelist : any;}; }) => {
+    if(response.payload.Success) {
+      alert("이미지 업로드 성공" + response.payload.imagelist)
+      console.log(response.payload.imagelist)
+      setData(response.payload.imagelist)
     
+           // setData(imgName)
+            
+      for (let ids = 0; ids < response.payload.imagelist.length; ids++) {
+          console.log(fileImage)
+          nowImageUrl.push('https://weblabeling.s3.ap-northeast-2.amazonaws.com/project'+idx+'/'+response.payload.imagelist[ids].name)
+        
+          //  console.log(`${content} : ${idx}`);
+    }
+    setFileImage(nowImageUrl)
+    //   response.payload.imagelist.map((data : {name : String, id:any}) =>(
+    //     setFileImage('https://weblabeling.s3.ap-northeast-2.amazonaws.com/project'+idx+'/'+data.name)
+    //   )
+ 
+    //   )
+      console.log(fileImage, "fileimg")
+    }
+    //  setFileImage(nowImageUrl)  
+    else {
+    alert('이미지 가져오기 실패')
+  }
+})
+      }, [idx]);
+    // 이미지 뽑아오기
+
     const ImageUpload = (e:any) => {
     
     //const hiddenInput = (document.getElementById('data') as HTMLInputElement).files[0];
@@ -38,7 +90,17 @@ const DataPage = () => {
             const name = file[i].name.toString()  
             const url = URL.createObjectURL(file[i]);
             const url2:String = url.toString().substr(27)
-            
+            const params = {
+                ACL: 'public-read',
+                Body: file[i],
+                Bucket: S3_BUCKET,
+                Key: "project"+idx+"/"+ url2 
+              };
+        
+              myBucket.putObject(params)  
+              .send((err) => {
+                if (err) {console.log(err); return err}
+              })
         imgName.push(
             {
             'data_id' :  i + data_list.length ,
@@ -89,13 +151,16 @@ const DataPage = () => {
         e.target.value = '' //중복 파일 초기화를 위한 처리 
       
     }
+    
+
+
     imgName.splice(0)  
     const navigate = useNavigate();
     const handleRowClick = (event1:any, event2:any) => {
         console.log(event1 + "이미지 파일 이름")
         console.log(event2 + "index")
         const img : String = nowImageUrl[event2].toString().substr(27)
-        navigate(`/DataPage/${event1}/${img}`)
+        navigate(`/DataPage/${event1}/${idx}`)
         //console.log(nowImageUrl[event2])
         //setInputValue(inputValue => nowImageUrl[event2])
         //console.log({setInputValue} + "setInput 확인")
