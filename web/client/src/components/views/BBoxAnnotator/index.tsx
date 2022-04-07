@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef, ChangeEvent } from 'react';
+import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { CloseButton } from 'react-bootstrap';
 import { createUseStyles } from 'react-jss';
 import { v4 as uuid } from 'uuid';
@@ -12,9 +12,6 @@ import save from '../../images/save.png';
 import Polygon from '../Polygon/Polygon';
 import '../../css/tool_menu.css';
 import DataPage from '../DataPage/DataPage';
-import { Notifications } from 'react-push-notification';
-import addNotification from 'react-push-notification';
-import {IMessage} from './LabelInterface';
 
 export type EntryType = { // 라벨링 시 출력되는 데이터를 담는 곳 
     id: string;
@@ -27,7 +24,6 @@ export type EntryType = { // 라벨링 시 출력되는 데이터를 담는 곳
   //  y:number;
     index : any;
 };
-
 
 const useStyles = createUseStyles({ // react-jss 사용
     bBoxAnnotator: {
@@ -50,7 +46,6 @@ type Props = { // 타입 정의
     setlabels?:any ;
 };
 
-
 const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth = 2,inputMethod, labels, onChange , setlabels}, ref) => {
     const [number, setnumber] = useState<number>(0);
     const [multiplier, setMultiplier] = useState(1);
@@ -65,34 +60,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth =
         color? : String;
         id? : Number;
     }>({}); // 업로드 이미지 스타일
-    const [message, setMessage] = useState<string>(""); // 커밋 메시지
-   const [messageList, setMessageList] = useState<IMessage[]>([]);
-
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void =>{
-        if(event.target.name === 'message'){
-            setMessage(event.target.value)
-        }
-    }
-
-    const addMesage = (): void =>{
-        const newMessage = {messageName: message}
-        setMessageList([...messageList, newMessage]);
-        console.log(messageList);
-        setMessage("");
-    }
-
-
-
-const buttonClick = () =>{
-
-    addNotification({
-        title: 'Notification',
-        subtitle: 'This is a subtitle',
-        message: "OO님이 " + imageId + " 파일의 레이블링을 완료했습니다",
-        theme: 'darkblue',
-        native: true
-    });
-}
+   
         
     // React.forwardRef : 부모 컴포넌트로부터 하위 컴포넌트로 ref를 전달할 수 있다.
     // 전달받은 ref를 html 요소의 속성으로 넘겨줌으로써 함수 컴포넌트 역시 ref를 통한 제어가 가능해진다.
@@ -329,10 +297,6 @@ useEffect(()=> {
     const rect = rectangle();
 
     const a = JSON.stringify(entries);
-
-
-
-  
    
     return (
         <>
@@ -340,7 +304,7 @@ useEffect(()=> {
       <title>레이블링 툴 페이지</title>
       <div className="labeling_header">
       <button title="레이블링 모드 켜기" className="header_button"><img className="check" src ={draw}></img></button>
-      <button className="header_button" onClick={buttonClick}><img className="check" src ={save}></img></button>
+      <button className="header_button"><img className="check" src ={save}></img></button>
           <h3>{imageId}{console.log("해당 이미지 파일 확인")}</h3>
           </div>
       </header>
@@ -562,12 +526,6 @@ useEffect(()=> {
 */}
 </ul>
 <br/>
-
-<h3>커밋 알림</h3>
-<input type="text" name = 'message' value={message} onChange={handleChange} placeholder='커밋 메시지를 입력해주세요' ></input>
-<button onClick={addMesage}>저장</button>
-<h5>이렇다 저렇다</h5>
-
 
 </div>
    <footer>

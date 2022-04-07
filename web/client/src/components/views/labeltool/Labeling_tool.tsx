@@ -6,26 +6,46 @@ import BBoxAnnotator,{EntryType} from '../BBoxAnnotator';
 import Polygon from '../Polygon/Polygon';
 import '../../css/tool_menu.css';
 import DataPage from '../DataPage/DataPage';
+import { useDispatch } from 'react-redux';
+import { dataTxt } from '../../../_actions/user_action';
+import { isDeleteExpression } from 'typescript';
 
 
 const Labeling_tool : any=  () => {
-    const{imageId, checkId} = useParams() 
+  const dispatch = useDispatch<any>();
+    const{imageId, idx} = useParams() 
     const [labels,setlabels] = useState(['Person', 'tie', 'flower']);
     const [entries, setEntries] = useState<EntryType[]>();
     const [labelTool, setlabelTool] = useState<String>('text');
-    const [image, setimage] = useState('blob:http://localhost:3000/'+checkId);
+    const [image, setimage] = useState('https://weblabeling.s3.ap-northeast-2.amazonaws.com/project'+idx+'/'+imageId);
     console.log(labels.indexOf('tie'));
     let [tool, settool] = useState('bbox');
     const navigate = useNavigate();
 
-  
-
+ㄴ
     const changeOn = (to : String) => {
       setlabelTool(to);
     }
     const changetool = (to : string) => {
       settool(to);
     }
+    const save_fun : any = () => {
+      let body = {
+        entries : entries,
+        imageId : imageId,
+        idx : idx
+      }
+      dispatch(dataTxt(body))
+      .then(() => {
+          console.log('index 파일 생성 완료')
+   })   
+      // fs.writeFile("test.txt", a, function(err : any) {
+      //     console.log('fpdsdfls');
+      //     if (err) {
+      //         console.log(err);
+      //     }
+      // });
+  }
     useEffect(
      () => {
       setlabelTool(labelTool);
@@ -35,10 +55,11 @@ const Labeling_tool : any=  () => {
 
     return(
       <>
-         
+
+      {  tool === 'bbox'? (
       <BBoxAnnotator
       imageId = {imageId}
-
+      idx = {idx}
       url= {image}
       // 주석을 달 이미지 링크
       inputMethod= {labelTool} 
@@ -49,8 +70,11 @@ const Labeling_tool : any=  () => {
       onChange={(e: EntryType[]) => setEntries(e)}
       // 사진에 새로운 레이블링을 추가할 시 발생
       setlabels= {setlabels}
-      />
-      {/* 사용자 화면에는 안떠도 괜찮 것 같아서 주석처리 */}
+      saveFun = {save_fun}
+      /> 
+      )
+  
+      : (<div> <polygon/> </div>) }
        <pre>{JSON.stringify(entries)}</pre> 
 </>
     /*   
