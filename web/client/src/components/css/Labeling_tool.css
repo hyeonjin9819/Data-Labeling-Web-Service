@@ -1,0 +1,25 @@
+.labeling_tool {
+  float:left;
+  border: 2px dotted darkorange;
+  
+}
+.labeling_header {
+  padding:10px;
+  
+}
+.header_button {
+  float: right;
+  background-color: transparent;
+}
+.check {
+  width: 25px;
+  height: 25px;
+}
+
+.workspace {
+  border: 2px dotted darkorange;
+}
+
+
+
+
