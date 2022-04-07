@@ -325,7 +325,7 @@ app.post('/api/users/login',(req, res) => {
       if(!user){
       return res.json ({
         loginSuccess : false,
-        message: "제공된 이메일에 해당하는 유저가 없습니다."
+        message: "제공된 이메일애 해당하는 유저가 없습니다."
       })
       }
   
@@ -347,7 +347,6 @@ app.post('/api/users/login',(req, res) => {
     }) 
   })
 })
-
 //auth route만들기
 app.get('/api/users/auth',auth,(req,res)=>{
   res.status(200).json({
@@ -360,7 +359,6 @@ app.get('/api/users/auth',auth,(req,res)=>{
     image:req.user.image
   })
 })
-
 
 app.get('/api/users/logout',auth,(req,res)=>{
   User.findOneAndUpdate({_id:req.user._id},{token:""},(err,user)=>{
@@ -417,10 +415,9 @@ app.post('/api/users/mail', (req,res)=> {
 
 // 팀원 초대 이메일 보내기
 app.post('/api/users/teamMail', (req,res)=> {
-//let teamNum = Math.random().toString().substring(2,6);
-let teamNum = req.body.inviteNum
+let teamNum = Math.random().toString().substring(2,6);
 let emailTemplatetwo;
-ejs.renderFile(appDir + '/template/teamMail.ejs',{teamcode: teamNum}, function(err,data){
+ejs.renderFile(appDir + '/template/teamMail.ejs', {teamCode: teamNum}, function(err,data){
   if(err){console.log(err)}
   emailTemplatetwo = data;
 }
@@ -428,9 +425,6 @@ ejs.renderFile(appDir + '/template/teamMail.ejs',{teamcode: teamNum}, function(e
 
 const transportertwo = nodemailer.createTransport({
   service: 'gmail',
-  host : 'stmp.gmail.com',
-  port:'465',
-  secure: true,
   auth: {
     user: Email,
     pass: Pass
@@ -440,10 +434,8 @@ const transportertwo = nodemailer.createTransport({
 const options = {
   from: Email,
   to: req.body.email,
-  //to: "loop3458@naver.com",
   subject: "[Web Labling Service] 팀에 초대받았습니다",
-  //html: emailTemplatetwo
-  text: "ㅎㅇ"
+  html: emailTemplatetwo
 }
 
 transportertwo.sendMail(options, function(err, info){
@@ -455,7 +447,7 @@ transportertwo.sendMail(options, function(err, info){
 
   res.send({
     success: true,
-    //number: teamNum
+    number: teamNum
   }
   );
   transportertwo.close()

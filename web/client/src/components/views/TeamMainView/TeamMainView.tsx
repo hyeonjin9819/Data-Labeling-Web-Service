@@ -23,9 +23,8 @@ const TeamMainView = () =>{
     team_id : 1,
     team_name : '팀 이름',
     team_de : '팀 설명',
-    team_date : '3월 13일',
-    
-    team_inviteNum: 1234
+    team_date : '3월 13일'
+   
     }
 ])
   const nextId = Team_list.length // list 개수
@@ -55,13 +54,10 @@ const TeamMainView = () =>{
                    {/* <Link to = "/MyProfile">
                     <button  className="logout"><img className="icon" src={profile}></img></button>
   </Link>*/}
-                    {/* 아래 알림 버튼 일단 초대 코드로 대체 */}
-                    {/* <button  className="logout"><img className="icon" src={bell}></img></button> */} 
+                    <button  className="logout"><img className="icon" src={bell}></img></button>
                     <TeamViewAdd show ={proModal} getName={getName} nextId = {nextId}  onHide={()=>setproModal(false)} />
                      <input className="pro_search" placeholder='팀 검색'></input>
                     <button className="pr_add_btn" onClick={ ()=>setproModal(true)} >팀 생성 </button> 
-                    <input className='addMember' placeholder='초대 코드 입력'></input>
-                    <button className="addMEmber_btn">확인</button>
                      </div>
                     <div className="tables">               
                         <Table striped bordered hover>

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');//몽구스 불러오기
 const bcrypt = require('bcrypt');
 const saltRounds=10
 const jwt = require('jsonwebtoken');
+const {autoIncrement} = require( "mongoose-auto-increment");
 
 //스키마 생성창
 const userSchema = mongoose.Schema({
