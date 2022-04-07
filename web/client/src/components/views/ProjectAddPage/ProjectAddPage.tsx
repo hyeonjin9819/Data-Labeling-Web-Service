@@ -9,7 +9,6 @@ import close from '../../images/close.png';
 import square from '../../images/square.png';
 import { useEffect } from 'react';
 
-
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
 interface props { 
   show: boolean; 
@@ -88,7 +87,7 @@ useEffect(()=> {
       
     let body = {
       //user_token : token,
-      _id :null,
+      _id : '',
       users : [owner],
       owner : owner,
       name:pr_text?.pr_name,
@@ -230,7 +229,5 @@ const dis_check = () => {
   </Modal>
   );
 }
-
-
 
 export default ProjectAddPage;

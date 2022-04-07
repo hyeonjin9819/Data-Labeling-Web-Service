@@ -1,4 +1,5 @@
 const dotenv = require('dotenv')
+const AWS=  require( 'aws-sdk');
 const express = require('express') //express 모듈을 가져오는것
 const app = express() // 모듈을 사용해 app을 선언
 const nodemailer = require('nodemailer');
@@ -10,34 +11,31 @@ const {Team} = require("./models/Team")
 const {auth}=require("./middleware/auth");
 const {Counter} = require("./models/Counter")
 const {Data} = require("./models/data")
+const fs = require('fs');
 
 dotenv.config();
 
 const Mongoose_URI = process.env.Mongoose_URI;
 const Email = process.env.Email;
 const Pass = process.env.Pass;
-
-
-//web socket연결
-// const http = require('http').createServer(app)
-// const io = require('socket.io')(http) // http -> app?
-
-// io.on('connection', socket =>{
-//   socket.on('message', ({name, message}) => {
-//     io.emit('message', {name, message})
-//   })
-// })
-
-
-
 const ejs = require('ejs');
 const path = require('path');
 var appDir = path.dirname(require.main.filename);
 
+AWS.config.update({
+  accessKeyId: ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY
+});
+
+const myBucket = new AWS.S3({
+  params: { Bucket: S3_BUCKET},
+  region: REGION,
+});
+
 app.use(bodyparser.urlencoded({extended:true}));
 app.use(bodyparser.json());
+app.use(express.json());
 app.use(cookieParser());
-
 
 const mongoose = require('mongoose');
 const { json } = require('body-parser');
@@ -51,10 +49,49 @@ app.get('/', (req, res) => {
 
 })
 
-app.get('/api/hello', (req, res) => {
-  res.send('api Hello')
+app.post('/api/datatxt', (req ,res) => {
+  //var item = {};
+  //var stringifiedObj = req.body.entries(item).map(x=>x.join(":")).join("\n");
+  const params = {
+    ACL: 'public-read',
+    Body: JSON.stringify(req.body.entries),
+    Bucket: S3_BUCKET,
+    Key: "Data"+req.body.idx+"/"+req.body.imageId+'.txt'
+  };
+
+  myBucket.putObject(params)  
+  .send((err) => {
+    if (err) {console.log(err); return err}
+  })
+  console.log('Item: %o', req.body);
+  console.log(req.toString()+'aa')
+  console.log("파일 생성기")
 })
 
+// 서버에 올라간 해당 이미지 txt의 값들을 가져와서 그림 위에 띄워줌
+// 사진 이름과 동일한 txt가 없다면에 대한 예외처리도 해야함
+// 파일 읽기 'fs' 모듈을 사용해 파일 내용을 읽어와서 보내준다.
+app.post('/api/data/draw', (req ,res) => {
+  const s3 = new AWS.S3({ accessKeyId: ACCESS_KEY, secretAccessKey: SECRET_ACCESS_KEY });
+
+
+    const idx = req.body.idx // project id
+    const imageId = req.body.imageId
+
+    
+    var params = {Bucket: S3_BUCKET, Key: 'Data'+idx+'/'+imageId+'.txt'}; 
+    s3.getObject(params, function(err, data) {
+       if (err) { console.log(err, err.stack)
+        // an error occurred 
+      } else { 
+        //const datas = fs.readFileSync(data,{encoding:'utf8', flag : 'r'})
+        const datas=  data.Body.toString('utf8')
+        console.log(datas); // successful response 
+        res.json({success : true, datas:datas})
+      } });
+
+    
+})
 // app.post('/api/users/findemail',(req, res) => {
 //   User.findOne({token : req.body.tokens}, (err, users)=> {
 //     if(!users) {
@@ -181,7 +218,7 @@ app.post('/api/users/register',(req, res) => {
 app.post('/api/projects/data', (req,res) => {
  console.log(req.body.id)
   // 프로젝트 목록 가져오기
-  Project.find({"users" : [req.body.id]},(err, project)=> {
+  Project.find({users :{$all : [req.body.id]}},(err, project)=> {
 console.log("project", project)
    // return res.status(200).json(items)
        if(!project) {
@@ -213,6 +250,21 @@ app.post('/api/users/myinfo',(req, res) => {
       name : user.name,
       profile : user.profile,
       id : user.id
+  })
+  })
+})
+
+app.post('/api/projects/imagelist',(req, res) => {
+  Data.findOne({_id : req.body._id}, (err, imagelist) => {
+    if(!imagelist){
+      return res.json ({
+        Success : false,
+        message: "토큰에 해당하는 회원이 없다."
+      })
+    }
+  return res.status(200).json({
+      Success : true,
+      imagelist : imagelist.data
   })
   })
 })
@@ -344,50 +396,6 @@ app.post('/api/users/mail', (req,res)=> {
   })
 
 })
-
-
-// 팀원 초대 이메일 보내기
-app.post('/api/users/teamMail', (req,res)=> {
-let teamNum = Math.random().toString().substring(2,6);
-let emailTemplatetwo;
-ejs.renderFile(appDir + '/template/teamMail.ejs', {teamCode: teamNum}, function(err,data){
-  if(err){console.log(err)}
-  emailTemplatetwo = data;
-}
-);
-
-const transportertwo = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: Email,
-    pass: Pass
-  }
-});
-
-const options = {
-  from: Email,
-  to: req.body.email,
-  subject: "[Web Labling Service] 팀에 초대받았습니다",
-  html: emailTemplatetwo
-}
-
-transportertwo.sendMail(options, function(err, info){
-  if(err){
-    console.log(err);
-    return;
-  }
-  console.log("Sent: " + info.response);
-
-  res.send({
-    success: true,
-    number: teamNum
-  }
-  );
-  transportertwo.close()
-})
-});
-
-
 const port = process.env.PORT || 5000 // 5000번 포트를 백서버로 둔다
 
 app.listen(port, () => { // 5000번에서 이 앱을 실행한다.

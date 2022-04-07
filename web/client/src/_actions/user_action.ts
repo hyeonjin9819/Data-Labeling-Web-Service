@@ -1,5 +1,5 @@
 import axios from "axios";
-import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE, PROJECT_IMG, PROJECT_DATA,TEAMMAIL_USER} from './types';
+import {LOGIN_USER, REGISTER_USER, AUTHMAIL_USER, PROJECT_CREATE, FIND_EMAIL, MYINFO, NAMECHANGE, PROFILECHANGE, TEAM_CREATE, PROJECT_IMG, PROJECT_DATA, IMAGE_LIST, DATA_TXT, DATA_DRAW} from './types';
 
 export function loginUser(dataTosubmit: any) {
     const request = axios.post('/api/users/login',dataTosubmit)
@@ -29,18 +29,6 @@ export function authmailUser(dataTosubmit: any) {
     return {
         type: AUTHMAIL_USER,
         payload : request
-    }
-}
-
-// 팀원 추가 연결 파트
-export function teamMailUser(dataTosubmit: any){
-    
-    const request = axios.post('/api/users/teamMail', dataTosubmit)
-        .then(response => response.data)
-
-    return{
-        type: TEAMMAIL_USER,
-        payload: request
     }
 }
 
@@ -129,3 +117,34 @@ export function projectData(dataTosubmit: any) {
         payload : request
     }
 }
+
+export function imageList(dataTosubmit: any) {
+    const request = axios.post('/api/projects/imagelist', dataTosubmit)
+      .then(response =>  response.data )
+      console.log('request',request)
+    return {
+        type: IMAGE_LIST,
+        payload : request
+    }
+}
+
+export function dataTxt(dataTosubmit: any) {
+    const request = axios.post('/api/datatxt', dataTosubmit)
+      .then(response =>  response.data )
+      console.log('request',request)
+    return {
+        type: DATA_TXT,
+        payload : request
+    }
+}
+
+export function datadraw(dataTosubmit: any) {
+    const request = axios.post('/api/data/draw', dataTosubmit)
+      .then(response =>  response.data )
+      console.log('request',request)
+    return {
+        type: DATA_DRAW,
+        payload : request
+    }
+}
+

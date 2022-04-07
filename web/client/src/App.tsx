@@ -15,6 +15,7 @@ import DataPage from './components/views/DataPage/DataPage';
 import Labeling_tool from './components/views/labeltool/Labeling_tool';
 
 
+
 function App(){
   return (
     <Router>
@@ -29,10 +30,11 @@ function App(){
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
 
-        <Route path = "DataPage/:imageId/:checkId" element={<Labeling_tool/>}/>
+        <Route path = "DataPage/:imageId/:idx" element={<Labeling_tool/>}/>
        </Routes>
      </div>
    </Router>
+
   );
 }
 

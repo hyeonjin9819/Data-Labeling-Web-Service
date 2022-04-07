@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef, ChangeEvent } from 'react';
+
+import React, { useRef, useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { CloseButton } from 'react-bootstrap';
 import { createUseStyles } from 'react-jss';
 import { v4 as uuid } from 'uuid';
@@ -12,9 +13,9 @@ import save from '../../images/save.png';
 import Polygon from '../Polygon/Polygon';
 import '../../css/tool_menu.css';
 import DataPage from '../DataPage/DataPage';
-import { Notifications } from 'react-push-notification';
-import addNotification from 'react-push-notification';
-import {IMessage} from './LabelInterface';
+import { useDispatch } from 'react-redux';
+import { datadraw, dataTxt } from '../../../_actions/user_action';
+import { NumberList } from 'aws-sdk/clients/iot';
 
 export type EntryType = { // 라벨링 시 출력되는 데이터를 담는 곳 
     id: string;
@@ -23,11 +24,8 @@ export type EntryType = { // 라벨링 시 출력되는 데이터를 담는 곳
     width: number;
     height: number;
     label: string;
-  //  x:number;
-  //  y:number;
     index : any;
 };
-
 
 const useStyles = createUseStyles({ // react-jss 사용
     bBoxAnnotator: {
@@ -40,7 +38,6 @@ const useStyles = createUseStyles({ // react-jss 사용
     },
 });
 type Props = { // 타입 정의
-
     imageId : any;
     url: string; // 사진 경로 
     inputMethod: String  ; // 레이블링 이름 메소드 선택 
@@ -48,14 +45,18 @@ type Props = { // 타입 정의
     onChange: (entries: EntryType[]) => void; // left, top, width, height, label 값을 가진 EntryType
     borderWidth?: number; // 바운딩 박스 테두리 두께
     setlabels?:any ;
+    saveFun : () => void;
+    idx : any;
 };
 
-
-const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth = 2,inputMethod, labels, onChange , setlabels}, ref) => {
+const BBoxAnnotator = React.forwardRef<any, Props>(({imageId, idx ,url, borderWidth = 2,inputMethod, labels, onChange , setlabels, saveFun}, ref) => {
+    const dispatch = useDispatch<any>();
     const [number, setnumber] = useState<number>(0);
     const [multiplier, setMultiplier] = useState(1);
     const [user_Width, setuser_Width] = useState<any>(window.innerWidth);
     const [user_Heigth, setuser_Height] = useState<any>(window.innerHeight);
+    const [img_width, setImg_width] = useState<any>(0);
+    const [img_height, setImg_height] = useState<any>(0);
     const bBoxAnnotatorRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLDivElement>(null);
     const labelInputRef = useRef<HTMLDivElement>(null);
@@ -65,35 +66,7 @@ const BBoxAnnotator = React.forwardRef<any, Props>(({imageId ,url, borderWidth =
         color? : String;
         id? : Number;
     }>({}); // 업로드 이미지 스타일
-    const [message, setMessage] = useState<string>(""); // 커밋 메시지
-   const [messageList, setMessageList] = useState<IMessage[]>([]);
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>): void =>{
-        if(event.target.name === 'message'){
-            setMessage(event.target.value)
-        }
-    }
-
-    const addMesage = (): void =>{
-        const newMessage = {messageName: message}
-        setMessageList([...messageList, newMessage]);
-        console.log(messageList);
-        setMessage("");
-    }
-
-
-
-const buttonClick = () =>{
-
-    addNotification({
-        title: 'Notification',
-        subtitle: 'This is a subtitle',
-        message: "OO님이 " + imageId + " 파일의 레이블링을 완료했습니다",
-        theme: 'darkblue',
-        native: true
-    });
-}
-        
     // React.forwardRef : 부모 컴포넌트로부터 하위 컴포넌트로 ref를 전달할 수 있다.
     // 전달받은 ref를 html 요소의 속성으로 넘겨줌으로써 함수 컴포넌트 역시 ref를 통한 제어가 가능해진다.
     window.onresize = function(event){
@@ -127,6 +100,14 @@ const buttonClick = () =>{
         } & EntryType)[]
     >([]);
 
+    const [entries2, setEntries2] = useState<
+    ({
+        id: string;
+        showCloseButton: boolean;
+       
+    } & EntryType)[]
+>([]);
+
     const handleRowClick = (e:any, num : any) => {
     setnumber(num)
     entries.map((i, m)=> { 
@@ -145,7 +126,61 @@ useEffect(()=> {
     })
 },[number])
   
-        //console.log(nowImageUrl[event2])
+///////// 이미지 위에 Annotation
+// 1. 이미지 이름을 매개변수로\
+  // 이미지에 좌표 찍기
+  // project Id값이랑 image Id값 전달
+  let rect2: { id: string; showCloseButton: boolean; } & EntryType = null
+  useEffect(()=> {
+  
+    let bodys = {
+        imageId : imageId,
+        idx: idx
+
+    }
+    dispatch(datadraw(bodys))
+    .then((response: { payload: { success: any; datas : any} }) => {
+    if(response.payload.success) {
+        //alert("디비에 파일명 업로드")
+        console.log('length',JSON.parse(response.payload.datas).length )
+
+        //const label = 'ddfdf'
+       // setEntries2(datas)
+       const maxWidth = bBoxAnnotatorRef.current?.offsetWidth || 1;
+       setMultiplier(bBoxAnnotatorRef.current.clientWidth/maxWidth)
+       console.log('size', bBoxAnnotatorRef.current.clientWidth)
+     //  response.payload.datas.map((data: {name: String, data_id:any})=> {
+       // let rect = null
+        for(let i = 0 ;i<JSON.parse(response.payload.datas).length   ; i++){
+           rect2 = {
+            width: JSON.parse(response.payload.datas)[i].width * bBoxAnnotatorRef.current.clientWidth,
+            height: JSON.parse(response.payload.datas)[i].height * bBoxAnnotatorRef.current.clientHeight,
+            x: (JSON.parse(response.payload.datas)[i].x *bBoxAnnotatorRef.current.clientWidth  - (JSON.parse(response.payload.datas)[i].width * bBoxAnnotatorRef.current.clientWidth)/2 ),
+            y: (JSON.parse(response.payload.datas)[i].y * bBoxAnnotatorRef.current.clientHeight - (JSON.parse(response.payload.datas)[i].height * bBoxAnnotatorRef.current.clientHeight)/2 ),
+            index: JSON.parse(response.payload.datas)[i].index,
+            id : JSON.parse(response.payload.datas)[i].id,
+            label : JSON.parse(response.payload.datas)[i].label,
+            showCloseButton: false
+           }
+           console.log('rect2', rect2)
+           //setEntries([rect2])
+           setEntries(entries => [...entries, rect2]);
+          
+        }
+        console.log(JSON.parse(response.payload.datas)[0].width)
+
+      // setEntries(rect)
+      // setEntries(entries.concat(rect))
+      // rect = null
+    }  
+    else {
+        alert('실패')
+    }
+    })
+},([]))
+////////////
+
+     
         //setInputValue(inputValue => nowImageUrl[event2])
         //console.log({setInputValue} + "setInput 확인")
    
@@ -154,16 +189,17 @@ useEffect(()=> {
     // const [user_Heigth, setuser_Height] = useState<any>(window.innerHeight);
     useEffect(() => { // 리렌더링 될 때 마다 실행 
        // setuser_Width(window.innerWidth);
-       
         onChange(
             entries.map((entry) => ({
                 id: entry.id,
                 index : labels?.indexOf(entry.label),    
                 label: entry.label,
-                width: Math.round(entry.width * multiplier),
-                height: Math.round(entry.height * multiplier),
-                x: Math.round(entry.x * multiplier) + Math.round(entry.width * multiplier)/2 ,
-                y: Math.round(entry.y * multiplier) + Math.round(entry.height * multiplier)/2 ,
+                width: Math.round(entry.width * multiplier) / img_width, 
+                height: Math.round(entry.height * multiplier) / img_height,
+               // x: Math.round(entry.x * multiplier) / Math.round(entry.width * multiplier)/2 ,
+                x:( Math.round(entry.x * multiplier) + (Math.round(entry.width * multiplier) /2 ))/ img_width,
+                y : (Math.round(entry.y * multiplier) +  (Math.round(entry.height * multiplier) /2))/ img_height,
+                //y: Math.round(entry.y * multiplier) + Math.round(entry.height * multiplier)/2 ,
               //  top: Math.round(entry.top * multiplier)  ,
               //  left: Math.round(entry.left * multiplier) ,
                 // 바운딩 박스 시 수치와 라벨 
@@ -177,27 +213,23 @@ useEffect(()=> {
         height?: number;
         backgroundImageSrc?: string;
     }>({}); // 업로드 이미지 스타일
-   
-
-
     // const bBoxAnnotatorRef = useRef<HTMLDivElement>(null);
     // const inputRef = useRef<HTMLDivElement>(null);
     // const labelInputRef = useRef<HTMLDivElement>(null);
     // const maxHeigth = inputRef.current?.clientHeight || 1;
     useEffect(() => { // 재런더링
        const maxWidth = bBoxAnnotatorRef.current?.offsetWidth || 1;
-       
         console.log('maxWidth', maxWidth); // canvas
         // react 요소의 너비를 얻는다
         console.log('maxHeight', maxHeigth); // 레이블 도구 높이
-
-        //
        // setuser_Width(window.innerWidth);
         const imageElement = new Image(); // Image 객체 생성
         imageElement.src = url;
         imageElement.onload = function () {
             const width = imageElement.width;
+            setImg_width(width)
             const height = imageElement.height;
+            setImg_height(height);
             console.log('img size', width, height) // 실제 이미지 사이즈
             console.log('multipliter', multiplier);
             setMultiplier(width / maxWidth);
@@ -212,6 +244,7 @@ useEffect(()=> {
                 height: height / multiplier,
             });
         };
+       
         imageElement.onerror = function () {
             throw 'Invalid image URL: ' + url;
         };
@@ -249,6 +282,7 @@ useEffect(()=> {
 // ,[Window])
 
 // 컴포넌트가 처음 나타날때, 사라질때, 업데이트 될 때 특정 작업을 처리
+
 
 
     useEffect(() => {
@@ -303,9 +337,10 @@ useEffect(()=> {
                 }
         }
     };
+   
 
     const rectangle = () => {
-        const x1 = offset && pointer ? Math.min(offset.x, pointer.x) : 0; // left
+        const x1 = offset && pointer ? Math.min(offset.x, pointer.x) : 0;
         const y1 = offset && pointer ? Math.min(offset.y, pointer.y) : 0; // top
         const x2 = offset && pointer ? Math.max(offset.x, pointer.x) : 0; // 
         const y2 = offset && pointer ? Math.max(offset.y, pointer.y) : 0; // height 
@@ -327,20 +362,16 @@ useEffect(()=> {
         },
     }));
     const rect = rectangle();
-
     const a = JSON.stringify(entries);
-
-
-
-  
-   
+   // console.log('a',a)
+    
     return (
         <>
         <header>
       <title>레이블링 툴 페이지</title>
       <div className="labeling_header">
       <button title="레이블링 모드 켜기" className="header_button"><img className="check" src ={draw}></img></button>
-      <button className="header_button" onClick={buttonClick}><img className="check" src ={save}></img></button>
+      <button className="header_button" onClick = {saveFun}><img className="check" src ={save}></img></button>
           <h3>{imageId}{console.log("해당 이미지 파일 확인")}</h3>
           </div>
       </header>
@@ -562,12 +593,6 @@ useEffect(()=> {
 */}
 </ul>
 <br/>
-
-<h3>커밋 알림</h3>
-<input type="text" name = 'message' value={message} onChange={handleChange} placeholder='커밋 메시지를 입력해주세요' ></input>
-<button onClick={addMesage}>저장</button>
-<h5>이렇다 저렇다</h5>
-
 
 </div>
    <footer>
