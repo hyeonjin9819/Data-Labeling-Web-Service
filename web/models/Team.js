@@ -22,6 +22,11 @@ const teamSchema = mongoose.Schema({
         type:String,
         maxlength:500
     },
+
+    // 팀 추가 번호
+    inviteNum:{
+        type:Number
+    }
     })
 
      

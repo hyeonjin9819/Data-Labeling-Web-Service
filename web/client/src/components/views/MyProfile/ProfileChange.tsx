@@ -15,7 +15,6 @@ interface props {
 export const ProfileChange = (props:props) => {
   const {show, onHide, Image, getData } = props;
   const dispatch = useDispatch<any>();
-  const [selectedFile, setSelectedFile] = useState<any>(null);
 
 var token_name = 'x_auth'
 token_name = token_name + '='; 
@@ -30,20 +29,6 @@ let token = '';
 
     token = cookieData.substring(start, end);}
 
-    const ACCESS_KEY= '';
-    const SECRET_ACCESS_KEY= '';
-    const REGION ='ap-northeast-2'; 
-    const S3_BUCKET = 'labelingweb';
-
-    AWS.config.update({
-        accessKeyId: ACCESS_KEY,
-        secretAccessKey: SECRET_ACCESS_KEY
-    });
-
-    const myBucket = new AWS.S3({
-        params: {Bucket:S3_BUCKET},
-        region: REGION,
-    });
 
 
     token = cookieData.substring(start, end);
@@ -63,27 +48,15 @@ const myBucket = new AWS.S3({
     const fileInput = useRef<any>(null)
     const [Image2, setImage] = useState<any>(Image)
     console.log('Imageeee ', Image);
-
     
     const [selectedFile, setSelectedFile] = useState<any>(null);
-
     function uploadFile(file: any): void {
       const params = {
         ACL: 'public-read',
         Body: file,
         Bucket: S3_BUCKET,
         Key: "profile/" + file.name
-
       };
-
-    };
-      // const params = {
-      //   ACL: 'public-read',
-      //   Body: file,
-      //   Bucket: S3_BUCKET,
-      //   Key: "upload/" + file.name
-      // };
-
 
       const body = {
         token : token,
@@ -92,7 +65,6 @@ const myBucket = new AWS.S3({
 
       myBucket.putObject(params)  
       .send((err) => {
-
         if (err) {console.log(err); return err}
       })
       
@@ -107,17 +79,13 @@ const myBucket = new AWS.S3({
       })
     }
     
-    const onChange = (e:any) => {
-      const file = e.target.files[0];
-      console.log(file)
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         if(e.target.files){
                 setSelectedFile(e.target.files[0]) //DB 관련
             }else{ //업로드 취소할 시
                 setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
                 return
             }
-            setSelectedFile(file);
-
             //화면에 프로필 사진 표시
            const reader = new FileReader();
           reader.onload = () => {
@@ -170,5 +138,3 @@ const myBucket = new AWS.S3({
 
     );
 }
-
-
