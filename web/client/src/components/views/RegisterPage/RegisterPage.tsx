@@ -74,11 +74,11 @@ function RegisterPage() {
 
 
     let body = {
-      id : '',
+      id : null,
       email : Email,
       password : Password,
       name : Name,
-      profile : ''
+      profile : null
     }
 
     dispatch(registerUser(body))

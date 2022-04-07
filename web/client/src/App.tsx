@@ -29,7 +29,7 @@ function App(){
         {/* 팀 리스트 동적 라우팅 */}
         <Route path = "TeamMainView/:teamId" element={<TeamView/>}/>
 
-        <Route path = "DataPage/:imageId/:idx" element={<Labeling_tool/>}/>
+        <Route path = "DataPage/:imageId/:checkId" element={<Labeling_tool/>}/>
        </Routes>
      </div>
    </Router>

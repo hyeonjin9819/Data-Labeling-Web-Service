@@ -6,7 +6,6 @@ const teamSchema = mongoose.Schema({
     user_token:{
         type: String
     },
-    
     id : {
       type:Number
     },
@@ -14,10 +13,12 @@ const teamSchema = mongoose.Schema({
         type:String,
         maxlength:50
     },
+
     date:{
         type:String,
         maxlength:50
-    },
+    }
+   ,
     info:{
         type:String,
         maxlength:500
@@ -27,4 +28,4 @@ const teamSchema = mongoose.Schema({
      
 
 const Team =mongoose.model('Team',teamSchema)//화려한 모델이 스키마를 감싸네
-module.exports={Team}//외부 사용 가능하게
+module.exports={Team}//외부 사용 가능하게ttrr

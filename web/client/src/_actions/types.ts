@@ -10,6 +10,3 @@ export const TEAM_CREATE = "team_create"
 export const PROJECT_IMG = "project_img"
 export const PROJECT_DATA = "project_data";
 export const TEAMMAIL_USER = "teamMail_user";
-export const IMAGE_LIST = "image_list";
-export const DATA_TXT = "date_txt";
-export const DATA_DRAW = "data_draw";

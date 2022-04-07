@@ -88,7 +88,7 @@ useEffect(()=> {
       
     let body = {
       //user_token : token,
-      _id : '',
+      _id :null,
       users : [owner],
       owner : owner,
       name:pr_text?.pr_name,

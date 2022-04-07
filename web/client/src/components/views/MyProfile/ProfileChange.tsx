@@ -1,6 +1,7 @@
-import dotenv from 'dotenv';
+
 import React, {useEffect, useRef, useState} from 'react'
 import { Modal, Button } from 'react-bootstrap'
+
 import '../../css/MyProfile.css';
 import '../../css/bootstrap.min.css'
 import AWS from 'aws-sdk';
@@ -12,6 +13,11 @@ interface props {
   Image? : any;
   getData : (a : any) => void;
 }
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+const REGION = 'ap-northeast-2';
+const S3_BUCKET = 'weblabeling';
+
 export const ProfileChange = (props:props) => {
   const {show, onHide, Image, getData } = props;
   const dispatch = useDispatch<any>();
@@ -27,7 +33,6 @@ let token = '';
     start += token_name.length; 
     var end = cookieData.indexOf(';', start); 
     if(end == -1) end = cookieData.length; 
-
     token = cookieData.substring(start, end);}
 
     const ACCESS_KEY= '';
@@ -44,10 +49,6 @@ let token = '';
         params: {Bucket:S3_BUCKET},
         region: REGION,
     });
-
-
-    token = cookieData.substring(start, end);
-  }
 
 
 AWS.config.update({
@@ -72,7 +73,7 @@ const myBucket = new AWS.S3({
         ACL: 'public-read',
         Body: file,
         Bucket: S3_BUCKET,
-        Key: "profile/" + file.name
+        Key: "upload/" + file.name
 
       };
 
