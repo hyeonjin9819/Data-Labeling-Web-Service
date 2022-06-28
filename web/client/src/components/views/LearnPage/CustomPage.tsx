@@ -4,7 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import {Table} from 'react-bootstrap';
 import '../../css/CustomPage.css';
 import { setEnvironmentData } from 'worker_threads';
+
+
 const CustomPage = () => {
+
+  
+
+    
 
     const [dashboard] = useState("폼 페이지");
     const [user_name] = useState("기본 이름");
@@ -52,7 +58,14 @@ const CustomPage = () => {
         console.log(learns);
 
         nextId.current += 1
+
     }
+
+      const onDetect = async() => {
+        const res:any = await axios.get('http://localhost:5000/api/CustomPage');
+        console.log(res)
+        console.log("이건 뭘까 " + res.data)
+      }
 
 
     return (
@@ -64,6 +77,7 @@ const CustomPage = () => {
                     <body  className="view" style = {{display:'fixed'}}>
                         <div className="view_header">
                         <h2 className="dashboard" >{dashboard}</h2>
+                        <button onClick={onDetect}>버러지</button>
                         </div>
                         <form className="learnList" onSubmit={submit}>
                             <input  name="lists" className="inputClass" type="text" value={learn} placeholder="클래스 이름을 입력하세요" onChange={change}></input>

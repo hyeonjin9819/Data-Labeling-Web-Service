@@ -9,14 +9,24 @@ const DataSchema =  mongoose.Schema({
     },
     data : [
         {   _id : Number, 
-            data_id: Number,
+            project_id: Number,
             name: String,
             label : String, 
             width : Number,
             height : Number,
             x : Number,
             y: Number,
-            state : Boolean}
+            state : Boolean,
+            ing: String,
+            data_id: Number,
+        }
+    ],
+    auto_data : [
+        {   _id : Number, 
+            project_id: Number,
+            name: String,
+            ing: String,
+        }
     ],
     object : [],
 });

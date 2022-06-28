@@ -20,6 +20,7 @@ interface Props {
     labels?:  string | string[];
     onSubmit: (label: string) => void;
     setlabels?: any;
+    setaddlabel? : any;
 }
 
 const LabelBox = React.forwardRef<any, Props>(({ inputMethod, ...props }, forwardedRef) => {
@@ -39,9 +40,14 @@ const LabelBox = React.forwardRef<any, Props>(({ inputMethod, ...props }, forwar
     const keyPressHandler = (e: React.KeyboardEvent) => { //text 
         if (e.which === 13) { // enter
             props.onSubmit(value);
-            props.setlabels(props.labels?.concat(value));
-        }
+            if(!labels.includes(value)){
+                props.setlabels(props.labels?.concat(value));
+            }
+          
+            
+//            props.setaddlabel(props.labels?.concat(value));
 
+        }
         return e.which !== 13;
     };
 

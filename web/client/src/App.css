@@ -1,4 +1,4 @@
-.oevrlay-subject {
+/* .oevrlay-subject {
   font-weight: bold;
   margin: 0;
 }
@@ -27,8 +27,8 @@ body {
 
 .form-button {
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid #5050FF;
+  background-color: #5050FF;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -36,7 +36,7 @@ body {
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .form-button:active {
@@ -64,19 +64,36 @@ body {
 }
 
 .form-title {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
+
 input {
-  background-color: #eee;
-  border: none;
+  border: 2px solid white;
+  background: linear-gradient(to right, #323232	, #323232);
   padding: 12px 15px;
-  margin: 8px 0;
-  width: 85%;
-  text-align: center;
+  margin: 20px;
+  text-align: left;
   font-size: 13px;
-  border-radius: 15px;
+  font-weight: bold;
+  border-radius: 5px 2px 5px 2px;
+  outline: none; 
+  color:white;
 }
+
+input::placeholder{
+  color:white;
+}
+
+input:hover{
+  background: linear-gradient(to right, black	, black);
+  transition: 0.5s;
+  border: none;
+  border-radius: 8px 8px 8px 8px;
+  outline: none;
+  color:white;
+}
+
 
 .social-container {
   margin: 20px 0;
@@ -153,6 +170,7 @@ input {
 
 .overlay-container {
   position: absolute;
+
   top: 0;
   left: 50%;
   width: 50%;
@@ -168,8 +186,8 @@ input {
 
 .overlay {
   background: #ff416c;
-  background: -webkit-linear-gradient(to right, #ff4b2b, #ff416c);
-  background: linear-gradient(to right, #ff4b2b, #ff416c);
+  background: -webkit-linear-gradient(to right, #0A6EFF	,#5050FF);
+  background: linear-gradient(to right, #0A6EFF	, #5050FF);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 0 0;
@@ -222,9 +240,28 @@ input {
 }
 
 .auth_email {
-  border-radius: 20%;
-  margin: 5px;
-  float: right;
+  border-radius: 20px;
+  border: 1px solid #5050FF;
+  background-color: #5050FF;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  margin: 10px;
+}
+
+.auth_alert{
+  color:gray;
+  display: none;
+}
+
+.auth_alert:hover{
+  color:red;
+  text-decoration-line:underline;
+  font-weight: bolder;
 }
 
 .App {
@@ -264,4 +301,4 @@ input {
   to {
     transform: rotate(360deg);
   }
-}
+} */

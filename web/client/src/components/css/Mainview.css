@@ -20,7 +20,9 @@
 .add_team {
   width: 80px;
   float: right;
-  margin: 20px;
+  margin-top: 20px;
+  margin-bottom:20px;
+  margin-right:10px;
   background-color: #e93333;
   color: white;
   border: transparent;
@@ -32,4 +34,32 @@
 }
 .t_head {
   border: 1px;
+}
+
+.pr_assign_btn{
+  float: right;
+  margin-top: 25px;
+  margin-bottom:20px;
+  margin-right:10px;
+  background-color: #e93333;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 8em;
+}
+
+.tm_add_btn{
+  float: right;
+  margin-top: 25px;
+  margin-bottom:20px;
+  margin-right:10px;
+  background-color: #e93333;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 6em;
 }

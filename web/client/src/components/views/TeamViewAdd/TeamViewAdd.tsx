@@ -1,10 +1,11 @@
-import React, {useState, ReactElement } from 'react';
+import React, {useState, ReactElement, useEffect } from 'react';
 import { Button,Modal } from 'react-bootstrap';
 import image from '../../images/image.png';
 import box from '../../images/box.png';
 import close from '../../images/close.png';
-import { teamCreate, teamMailUser } from '../../../_actions/user_action';
+import { myInfo, teamCreate, teamMailUser } from '../../../_actions/user_action';
 import { useDispatch } from 'react-redux';
+import { NumberOfHumanWorkersPerDataObject } from 'aws-sdk/clients/sagemaker';
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props { 
@@ -21,7 +22,7 @@ const TeamViewAdd = (props: props): ReactElement => {
   let year = today.getFullYear(); // 현재 년도를 가져와주는 getFullYear 함수
   let month = today.getMonth() + 1; // 현재 월을 가져와주는 getMonth 함수
   let date = today.getDate(); //현재 일을 가져와주는 getDate 함수
-
+  const [owner, setowner] = useState(0)
   var token_name = 'x_auth'
   token_name = token_name + '='; 
   var cookieData = document.cookie; 
@@ -33,13 +34,27 @@ const TeamViewAdd = (props: props): ReactElement => {
        if(end == -1) end = cookieData.length; 
        token = cookieData.substring(start, end);
 }
+let body = {
+  token : token
+}
+useEffect(()=> {
+  dispatch(myInfo(body))
+.then((response: { payload: { Success: any; id : number;} }) => {
+  if(response.payload.Success) {
+     setowner(response.payload.id);
+     console.log('owner', owner)
+  }  
+  else {
+    alert('아이디 가져오기 실패')
+  }
+})
+},[]);
 
   const [team_text, setText] = useState<{
     team_id? : any,
     team_name?: any,
     team_de?:any,
     team_date? : any,
-
     team_inviteNum?: any
     }>();
 
@@ -64,11 +79,14 @@ const TeamViewAdd = (props: props): ReactElement => {
       getName(team_text);
 
       let body = {
-        user_token : token,
         name: team_text?.team_name,
         date: team_text?.team_date,
         info:team_text?.team_de,
         inviteNum: team_text?.team_inviteNum,
+        _id : '',
+        users : [owner],
+        owner : owner,
+        project : [0]
       }
 
       console.log("팀뷰 바디 확인" + body.name)
@@ -78,20 +96,11 @@ const TeamViewAdd = (props: props): ReactElement => {
         team_name : null,
         team_de : null,
       })
-      
-      dispatch(teamMailUser(body))
-    .them((response: {payload: {success: any;};})=>{
-      if(response.payload.success){
-        alert("성공했씁니다")
-      }
-      else{
-        alert("성공했씁니다")
-      }
-    })
 
       dispatch(teamCreate(body))
     .then((response: { payload: { success: any; }; }) => {
       if(response.payload.success) {
+        window.location.reload();
           alert("성공")
       }  
       else {

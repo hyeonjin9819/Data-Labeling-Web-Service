@@ -1,0 +1,7 @@
+---
+path: ../../../Pistols/export
+train: images
+val: images
+test: None
+nc: 1
+names: ['pistol']

@@ -1,0 +1,57 @@
+.addTodo{
+    height:40px;
+    width:60%;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.addTodoBtn{
+    height:40px;
+    width: 10%;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    
+    background-color: #f44336;
+    border-color: transparent;
+    color:white
+}
+
+.delTodobtn{
+  
+    height:40px;
+    width: 10%;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    background-color: #f44336;
+    border-color: transparent;
+    color:white
+
+}
+
+.todoText{
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 7px;
+    margin-top:2px;
+}
+
+.listBtn{
+    background-color: #f44336;
+    border-color: transparent;
+    color:white;
+    border-radius: 8px;
+}
+
+.deleteBtn{
+    position: relative;
+    float:right;
+    padding: 6px;
+    margin: 10px;
+    background-color: #f44336;
+    border-color: transparent;
+    color:white;
+    border-radius: 8px;
+}

@@ -11,11 +11,11 @@ const Pagenation = ({postsPerPage, totalPosts, paginate}:any) => {
 
     return (
         <div className="ulComponent">
-            <ul>
+            <ul className=''>
                 {pageNums.map((number:any) =>( 
-                <li key={number}>
-                    <button onClick={() => paginate(number)}></button>
-                    {number}
+                <li key={number} style={{display: 'inline-block'}}>
+                    <button className="page-link" onClick={() => paginate(number)}>{number}</button>
+                    
                 </li>
                     )
                 )}

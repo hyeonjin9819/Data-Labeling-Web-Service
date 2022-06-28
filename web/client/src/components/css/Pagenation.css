@@ -1,7 +1,6 @@
 .ulComponent {
   display: block;
   text-align: center;
-  border: 1px solid red;
 }
 .liComponent {
   float: none;

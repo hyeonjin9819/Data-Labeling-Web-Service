@@ -1,62 +1,74 @@
-import { Axios } from 'axios'
-import React, { useState, useEffect } from 'react'
-import {useDispatch} from 'react-redux'
-import {loginUser} from '../../../_actions/user_action';
-import { useNavigate } from 'react-router-dom';
-import '../../../App.css'
-import {io} from "socket.io-client"
+import { Axios } from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../_actions/user_action";
+import { useNavigate } from "react-router-dom";
+import "../../css/Login.css";
 
 function LoginPage() {
   const dispatch = useDispatch<any>();
   const Navigate = useNavigate();
-  const[Email, setEmail] = useState("")
-  const[Password, setPassword] = useState("")
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
 
+  const onEmailHandler = (e: {
+    currentTarget: { value: React.SetStateAction<string> };
+  }) => {
+    setEmail(e.currentTarget.value);
+  };
+  const onPasswordHandler = (e: {
+    currentTarget: { value: React.SetStateAction<string> };
+  }) => {
+    setPassword(e.currentTarget.value);
+  };
 
-  const onEmailHandler = (e: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
-    setEmail(e.currentTarget.value)
-  }
-  const onPasswordHandler = (e: { currentTarget: { value: React.SetStateAction<string>; }; }) => {
-    setPassword(e.currentTarget.value)
-  }
-
-  const onSubmitHandler = (e: { preventDefault: () => void; }) => {
+  const onSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    console.log('Email', Email);
-    console.log('Password', Password);
+    console.log("Email", Email);
+    console.log("Password", Password);
 
     let body = {
-      email : Email,
-      password : Password
-    }
+      email: Email,
+      password: Password,
+    };
 
-    dispatch(loginUser(body))
-      .then((response: { payload: { loginSuccess: any; }; }) => {
-        if(response.payload.loginSuccess) {
-            Navigate('/ProjectPage');
+    dispatch(loginUser(body)).then(
+      (response: { payload: { loginSuccess: any } }) => {
+        if (response.payload.loginSuccess) {
+          Navigate("/ProjectPage");
+        } else {
+          alert("Error");
         }
-        else {
-          alert('Error')
-        }
-      })
-    }
+      }
+    );
+  };
 
   return (
-<div className="form-container sign-in-container">
-        <form className="form" onSubmit = {onSubmitHandler}>
-            <h1 className="form-title">로그인</h1>
+    <div className="form-container sign-in-container">
+      <form className="form" onSubmit={onSubmitHandler}>
+        <h1 className="form-title">로그인</h1>
 
-            <input type="email" placeholder="이메일" value = {Email} onChange = {onEmailHandler}/>
-            <input type="password" placeholder="패스워드" value = {Password} onChange = {onPasswordHandler} />
+        <input
+          type="email"
+          placeholder="이메일"
+          value={Email}
+          onChange={onEmailHandler}
+        />
+        <input
+          type="password"
+          placeholder="패스워드"
+          value={Password}
+          onChange={onPasswordHandler}
+        />
 
-            <button type = "submit" className="form-button">sign in</button>
-            <a className="find-password" href="#">패스워드 찾기</a>
-        </form>
+        <button type="submit" className="form-button">
+          sign in
+        </button>
+      </form>
     </div>
 
-
-  /*
+    /*
     <div style={{
       display: 'flex', justifyContent: 'center', alignItems: 'center'
       , width: '100%', height: '100vh'
@@ -76,7 +88,7 @@ onSubmit = {onSubmitHandler}
       </form>
   </div>
   */
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

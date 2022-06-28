@@ -1,0 +1,55 @@
+.inputEmail{
+    margin-right:20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float:left;
+    width:600px;
+}
+
+.emailDeleteBtn{
+    float: right;
+    height: 20px;
+    background-color: transparent;
+    border: transparent;
+
+}
+
+.addTeamBtn{
+    float: right;
+    margin:20px;
+    background-color: #e93333;
+    border: transparent;
+    color: white;
+    margin-top:25px;
+    border-radius: 4px 4px 4px 4px;
+    height:35px;
+    width: 90px;
+    font-size: large;
+}
+
+.assignPj{
+    float: right;
+    margin:20px;
+    margin-left:5px;
+    background-color: #e93333;
+    border: transparent;
+    color: white;
+    margin-top:25px;
+    border-radius: 4px 4px 4px 4px;
+    height:35px;
+    width: 140px;
+    font-size: large;
+}
+
+.TeamMemAddBtn{
+    float: right;
+    margin:20px;
+    background-color: #e93333;
+    border: transparent;
+    color: white;
+    margin-top:15px;
+    border-radius: 4px 4px 4px 4px;
+    height:35px;
+    width: 90px;
+    font-size: large;
+}

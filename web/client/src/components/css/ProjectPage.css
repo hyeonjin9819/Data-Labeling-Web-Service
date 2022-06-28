@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap");
 
 /*Header에 대한 전반적인 디자인*/
-
 .view {
   margin-left: 150px;
 }
@@ -25,14 +24,85 @@ img {
 ul {
   list-style: none;
 }
+
 .pr_add_btn {
   float: right;
-  background-color: #e93333;
+  margin:20px;
+  background-color: #EB4646;
   border: transparent;
   color: white;
   font-weight: bold;
   border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 5em;
+  margin-top: 25px;
 }
+
+.pj_add_btn{
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 8em;
+  margin-top: 25px;
+}
+
+.checkbtn{
+  float: left;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 3.5em;
+  margin-top: 25px;
+  margin-left: 8px;
+}
+
+/* 일반 버튼 */
+.pr_btnM {
+  float: center;
+  margin:5px;
+  background-color: #EB4646;
+  height: 800px;;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 35px;
+  width: 60px;
+}
+
+.pr_btnA {
+  float: center;
+  margin:5px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 35px;
+  width: 60px;
+}
+
+.pr_btnO {
+  float: center;
+  margin:5px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 35px;
+  width: 60px;
+}
+
 /* body 클래스에 대한 css를 설정해주는 파일*/
 
 .Body {
@@ -138,4 +208,16 @@ ul {
 img {
   width: 25px;
   height: 25px;
+}
+.addMember{
+  width:200px;
+  height:40px;
+  margin-top: 20px;
+  margin-right: 10px;
+  float:left;
+}
+
+.boxs{
+  margin-top: 10px;
+  size: 15px;
 }
