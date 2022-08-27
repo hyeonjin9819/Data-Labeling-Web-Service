@@ -20,7 +20,6 @@ function SideBar(props: any) {
   };
 
   const navigate = useNavigate();
-
   const onClickHandler = () => {
     axios.get("/api/users/logout").then((response) => {
       if (response.data.success) {
@@ -40,7 +39,8 @@ function SideBar(props: any) {
     const auth = document.getElementsByClassName(
       "sidebar"
     ) as HTMLCollectionOf<HTMLElement>;
-    auth[0].style.display = "block";
+    // auth[0].style.display = "none";
+    auth[0].style.width = "50px";
   };
 
   return (

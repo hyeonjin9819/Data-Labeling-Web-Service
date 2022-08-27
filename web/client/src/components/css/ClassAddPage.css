@@ -5,8 +5,6 @@
 
 .choClass1{
     display: none;
-
-
 }
 .choClass2{
     display: none;
@@ -47,7 +45,6 @@
 }
 
 .class_subject{
-
     position: relative;
     font-size: 20px;
     font-weight: bold;
@@ -63,6 +60,11 @@
     overflow: scroll;
 }
 
+.chosen_class{
+    position:absolute;
+    left: 10px;
+}
+
 .ai_assign_btn{
     background-color: #e93333;
     color: white;
@@ -75,4 +77,8 @@
 .transports:hover{
     background-color: aqua;
     cursor: pointer;
+}
+
+.spin_show{
+    display: none;
 }

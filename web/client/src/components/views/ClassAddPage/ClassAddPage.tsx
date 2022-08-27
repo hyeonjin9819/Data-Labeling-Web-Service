@@ -16,6 +16,7 @@ import "../../css/ClassAddPage.css";
 import { python } from "../../../_actions/user_action";
 import { VoiceID } from "aws-sdk";
 import { addListener } from "process";
+import Spinner from "react-bootstrap/Spinner";
 
 /*프로젝트 생성 modal 버튼을 구현해주는 파일*/
 interface props {
@@ -301,6 +302,14 @@ const ClassAddPage = (props: props): ReactElement => {
   const pythonClick = () => {
     console.log(fileImage2 + "file2");
     console.log(indexes + "index");
+    const spin = document.getElementsByClassName(
+      "spin_show"
+    ) as HTMLCollectionOf<HTMLElement>;
+    const assign = document.getElementsByClassName(
+      "ai_assign_btn"
+    ) as HTMLCollectionOf<HTMLElement>;
+    assign[0].style.display = "none";
+    spin[0].style.display = "block";
     fileImage2.map((data: any) => {
       let body = {
         data: data,
@@ -310,7 +319,8 @@ const ClassAddPage = (props: props): ReactElement => {
       dispatch(python(body)).then(
         (response: { payload: { pythons: String; index: any } }) => {
           console.log("python_index", response.payload.index);
-          alert("자동 레이블링 완료");
+          assign[0].style.display = "block";
+          spin[0].style.display = "none";
         }
       );
     });
@@ -347,7 +357,7 @@ const ClassAddPage = (props: props): ReactElement => {
         <ul className="class_table">
           <li className="class_subject">커스텀 AI 선택</li>
           <div className="AICa">
-            {/*    <input className="ChAI" type="radio" value="1" checked={x == "1"} onClick={onClickVisible} onChange={onChangeRadio}></input>
+            {/*<input className="ChAI" type="radio" value="1" checked={x == "1"} onClick={onClickVisible} onChange={onChangeRadio}></input>
                <label> default preset </label>
                </div>
                <div className="AICa"> 
@@ -582,9 +592,13 @@ const ClassAddPage = (props: props): ReactElement => {
       </Modal.Body>
 
       <Modal.Footer>
+        <p className="chosen_class">선택된 클래스:없음</p>
         <button className="ai_assign_btn" onClick={pythonClick}>
           AI 할당
         </button>
+        <Spinner className="spin_show" animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       </Modal.Footer>
     </Modal>
   );

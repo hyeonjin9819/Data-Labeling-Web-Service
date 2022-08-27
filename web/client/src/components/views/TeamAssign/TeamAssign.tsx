@@ -8,6 +8,7 @@ import {
   projectData,
   projectInsert,
 } from "../../../_actions/user_action";
+import "../../css/TeamAssign.css";
 
 /*팀 생성 버튼에 대한 modal창을 구현하는 타입스크립트 파일*/
 interface props {
@@ -130,10 +131,11 @@ const TeamAssign = (props: props): ReactElement => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <div className="top"></div>
       <Modal.Body>
-        <div>
-          <h1 className="body_sub">프로젝트 목록</h1>
+        <div className="body_sub">
+          <h1>프로젝트 목록</h1>
+        </div>
+        <div className="body_main">
           <div>
             {projecList.map(
               (project: { pr_name: any; pr_id: any }, num: number) =>

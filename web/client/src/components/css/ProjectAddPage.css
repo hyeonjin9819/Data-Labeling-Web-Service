@@ -15,6 +15,7 @@
   margin-left: 200px;
   margin-bottom: 20px;
 }
+
 .p_a {
   width: 250px;
   height: 100px;
@@ -82,8 +83,20 @@ img {
 
 .make{
   margin: 20px;
+
 }
 
 .footer_sizes{
+
+  margin: 25px;
   height: 100px;
+
+}
+
+.category{
+  display: inline;
+  margin-top: 50px;
+  margin-right: 200px;
+  width: 50%;
+ 
 }

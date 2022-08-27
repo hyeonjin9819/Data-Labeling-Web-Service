@@ -120,3 +120,8 @@
   font-weight: bold;
 }
 
+.toggle{
+  position: absolute;
+  bottom: 5px;
+}
+

@@ -138,6 +138,7 @@ const ProjectPage = () => {
       navigate(`/ProjectPage/${name}/${id}/${label}`);
     }
   };
+
   return (
     <div>
       <nav className="sidebar">

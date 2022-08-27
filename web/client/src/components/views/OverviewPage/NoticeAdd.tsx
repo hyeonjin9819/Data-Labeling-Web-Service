@@ -72,10 +72,10 @@ const NoticeAdd = (props: props): ReactElement => {
             onChange={onChangeNotice}
           ></input>
         </div>
+        <Button className="make" variant="danger" onClick={addNotice}>
+          공지 올리기
+        </Button>
       </Modal.Body>
-      <Button className="make" variant="danger" onClick={addNotice}>
-        공지 올리기
-      </Button>
     </Modal>
   );
 };

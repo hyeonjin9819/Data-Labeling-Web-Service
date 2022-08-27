@@ -216,15 +216,13 @@ const ProjectAddPage = (props: props): ReactElement => {
       </Modal.Body>
       <h4 className="footer_sub">카테고리 선택</h4>
       <div className="te" style={{ textAlign: "center" }}>
-        <label>
+        <label className="category">
           <input
-            type="text"
-            id="as"
-            name="as"
-            className="text1"
-            style={{ display: "inlineBlock", width: "400px" }}
+            name="pr_de"
+            className="pr"
+            placeholder="카테고리를 입력하세요."
             onChange={cus_input}
-            placeholder="카테고리를 입력하세요"
+            style={{ width: "50%" }}
           ></input>
         </label>
       </div>
@@ -244,7 +242,7 @@ const ProjectAddPage = (props: props): ReactElement => {
      */}
 
       <Modal.Footer className="footer_sizes">
-        <Button onClick={add} className="make">
+        <Button onClick={add} className="make btn btn-danger">
           프로젝트 생성
         </Button>
       </Modal.Footer>

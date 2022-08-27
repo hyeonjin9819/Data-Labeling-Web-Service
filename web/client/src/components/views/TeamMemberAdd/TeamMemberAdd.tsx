@@ -127,10 +127,10 @@ const TeamMemberAdd = (props: props): ReactElement => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Body>
-        <div className="TeamMemberAdd">
-          <h4>팀원 초대</h4>
+      <Modal.Body className="TeamMemberAdd">
+        <div>
           <div className="inputContainer">
+            <h4>팀원 초대</h4>
             <input
               className="inputEmail"
               type="text"
@@ -143,7 +143,7 @@ const TeamMemberAdd = (props: props): ReactElement => {
               추가
             </button>
           </div>
-          <h4>팀원 리스트</h4>
+          <h4 className="memberList">팀원 리스트</h4>
           <div className="EmailList">
             {emailList.map((email: IEmail) => {
               return <TeamEmail email={email} deleteEmail={deleteEmail} />;
@@ -180,7 +180,9 @@ const TeamMemberAdd = (props: props): ReactElement => {
       <Modal.Footer>
         <div className="team_foot">
           <MemberAddtwo show={proModal} onHide={() => setproModal(false)} />
-          <Button onClick={sendEmail}>invite</Button>
+          <Button onClick={sendEmail} className="sendBtn btn btn-danger">
+            invite
+          </Button>
         </div>
       </Modal.Footer>
     </Modal>
