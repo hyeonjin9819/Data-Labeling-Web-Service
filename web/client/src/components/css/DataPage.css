@@ -1,0 +1,99 @@
+.inputHide {
+  display: none;
+}
+.imgThumb {
+  margin: auto;
+  width: 150px;
+  height: 150px;
+}
+.files {
+  margin: auto;
+}
+.menu {
+  float: right;
+  vertical-align: bottom;
+}
+.checks {
+  vertical-align: middle;
+  width: 130px;
+}
+.boxs {
+  width: 20px;
+  float: right;
+}
+.label_dl{
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 5.5em;
+  margin-top: 25px;
+}
+
+.label_class{
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 8em;
+  margin-top: 25px;
+}
+
+.logout{
+  float:left;
+}
+
+.addData{
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 8em;
+  margin-top: 25px;
+  margin-right: 0px;
+}
+
+.delete{
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 4em;
+  margin-top: 25px;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.codeCheckBtn{
+  float: left;
+  background-color: #e93333;
+  border: transparent;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  margin-right:10px;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+}
+
+.addText{
+  text-align: center;
+  vertical-align: middle;
+  line-height: 35px;
+}

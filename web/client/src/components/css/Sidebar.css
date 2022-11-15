@@ -1,0 +1,127 @@
+/* sidebar에 대한 전박적인 디자인 */
+
+.sidebar {
+  /*사이드바에 대한 전반적인 디자인 및 기능을 구현해주는 코드*/
+  background-color:	#EB4646;
+  height: 100%;
+  width: 150px;
+  position: fixed;
+  z-index: 1;
+  transition: 0.5;
+  display: block;
+}
+
+.fold_button{
+  width: 150px;
+  position:absolute;
+  left: 200px;
+
+}
+
+.menu{
+  position:absolute;
+  left: -50px;
+  width:100%;
+  text-align: left;
+}
+
+.icon {  
+  float:left;
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+  filter:invert();
+
+}
+.logout_img{
+  filter:invert();
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+}
+
+.logout_img:hover{
+  cursor:pointer;
+}
+
+.btn{
+  width:100%;
+
+}
+
+.logout:hover{
+  transition: 0.5s;
+  background-color: black;
+  border:1px solid transparent;
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
+}
+
+.list{
+  padding: 10px;
+  width:150px;
+
+
+}
+
+.list:hover{
+  width: 165px;
+  transition: 0.5s;
+  background-color: black;
+  color:white;
+  border:1px solid transparent;
+  border-radius: 5px 5px 5px 5px;
+}
+
+
+
+/* .sub_list {
+  background-color: transparent;
+  border: transparent;
+  margin-left: 30px;
+  color: white;
+}
+.sub_list:hover {
+  transition: background 0.2s;
+  opacity: 0.2;
+} */
+
+
+.sidebar_fold{
+  transform: scaleX(-1);
+  background-color: transparent;
+  bottom: 5%;
+  left: 75%;
+  position: absolute;
+}
+.sidebar_fold2{
+
+  background-color: transparent;
+  bottom: 10%;
+  left: 75%;
+  position: absolute;
+}
+.logout{
+  background-color: transparent;
+  bottom: 5%;
+  position: absolute;
+}
+.logout_name{
+  display: inline-block;
+  margin: 10px;
+  color:white;
+  font-weight: bold;
+}
+.menu_name{
+
+  text-align: left;
+  margin: 0px;
+  color:white;
+  font-weight: bold;
+}
+
+.toggle{
+  position: absolute;
+  bottom: 5px;
+}
+

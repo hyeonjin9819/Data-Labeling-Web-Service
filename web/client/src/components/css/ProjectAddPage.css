@@ -1,0 +1,102 @@
+/*프로젝트 생성 modal창에 대한 디자인을 해주는 css코드*/
+.Pr_add {
+  position: relative;
+  margin: 50px;
+  height: 250px;
+  text-align: center;
+}
+.pr {
+  position: relative;
+  width: 400px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px 1px 5px 1px;
+  margin-left: 200px;
+  margin-bottom: 20px;
+}
+
+.p_a {
+  width: 250px;
+  height: 100px;
+  margin-left: 25px;
+  text-align: center;
+}
+.p_ad {
+  vertical-align: middle;
+  margin-left: 20px;
+}
+.img {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+}
+
+.make {
+  text-align: center;
+}
+
+.label_list {
+  text-align: center;
+}
+.label_menu {
+  border: 1px solid white;
+  background-color: transparent;
+
+}
+.top {
+  float: left;
+}
+.cl {
+  float: right;
+  margin-left: 420px;
+}
+
+.body_sub {
+  margin-left: 40px;
+}
+.footer_sub {
+  margin-left: 60px;
+}
+img {
+  width: 25px;
+  height: 25px;
+}
+.square{
+  content:url(../images/square.png);
+  width: 25px;
+  height: 25px;
+}
+.box {
+  content:url(../images/box.png);
+  width: 25px;
+  height: 25px;
+}
+
+.te{
+  text-align: center;
+  display: inline;
+}
+.labels{
+  margin:20px;
+}
+
+.make{
+  margin: 20px;
+
+}
+
+.footer_sizes{
+
+  margin: 25px;
+  height: 100px;
+
+}
+
+.category{
+  display: inline;
+  margin-top: 50px;
+  margin-right: 200px;
+  width: 50%;
+ 
+}

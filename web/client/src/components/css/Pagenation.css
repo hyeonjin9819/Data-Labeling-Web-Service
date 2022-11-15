@@ -1,0 +1,10 @@
+.ulComponent {
+  display: block;
+  text-align: center;
+}
+.liComponent {
+  float: none;
+  display: inline;
+  margin: 5px;
+  border: 1px solid black;
+}

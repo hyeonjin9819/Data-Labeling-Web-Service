@@ -1,0 +1,84 @@
+.AICa{
+    float:left;
+    margin:20px;
+}
+
+.choClass1{
+    display: none;
+}
+.choClass2{
+    display: none;
+}
+.choClass3{
+    display: none;
+}
+.choClass4{
+    display: none;
+}
+.choClass5{
+    display: none;
+}
+.choClass6{
+    display: none;
+}
+.choClass7{
+    display: none;
+}
+.choClass8{
+    display: none;
+}
+.choClass9{
+    display: none;
+}
+.choClass10{
+    display: none;
+}
+.clsCheck{
+    
+    width:100px; 
+
+}
+.classfont{
+    font-size:5px;
+    text-align: center;
+    font-weight:bolder;
+}
+
+.class_subject{
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+    margin-right: 20px;
+    padding: 10px;
+
+}
+
+
+.classModal{
+    width: 100%;
+    overflow: scroll;
+}
+
+.chosen_class{
+    position:absolute;
+    left: 10px;
+}
+
+.ai_assign_btn{
+    background-color: #e93333;
+    color: white;
+    border: transparent;
+    border-radius: 4px 4px 4px 4px;
+    font-weight: bold;
+}
+
+
+.transports:hover{
+    background-color: aqua;
+    cursor: pointer;
+}
+
+.spin_show{
+    display: none;
+}

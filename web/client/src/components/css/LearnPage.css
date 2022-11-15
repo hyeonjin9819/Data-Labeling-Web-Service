@@ -1,0 +1,13 @@
+.upload{
+    display: none;
+}
+.uploadLabel{
+    width: 100px;
+    margin: 20px;
+    background-color: #e93333;
+    color: white;
+    border: transparent;
+    border-radius: 4px 4px 4px 4px;
+    font-weight: bold;
+    text-align: center;
+}

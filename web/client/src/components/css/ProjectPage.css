@@ -1,0 +1,223 @@
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap");
+
+/*Header에 대한 전반적인 디자인*/
+.view {
+  margin-left: 150px;
+}
+.pr_pages {
+  /*페이지 클래스에 대한 디자인*/
+  margin-bottom: 40px;
+  float: left;
+  vertical-align: middle;
+  flex-grow: 1;
+}
+.h_img {
+  float: left;
+  margin-left: 30px;
+  margin-top: 20px;
+  background-color: none;
+}
+img {
+  width: 25px;
+  height: 25px;
+}
+ul {
+  list-style: none;
+}
+
+.pr_add_btn {
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 5em;
+  margin-top: 25px;
+}
+
+.pj_add_btn{
+  float: right;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 8em;
+  margin-top: 25px;
+}
+
+.checkbtn{
+  float: left;
+  margin:20px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2em;
+  width: 3.5em;
+  margin-top: 25px;
+  margin-left: 8px;
+}
+
+/* 일반 버튼 */
+.pr_btnM {
+  float: center;
+  margin:5px;
+  background-color: #EB4646;
+  height: 800px;;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 35px;
+  width: 60px;
+}
+
+.pr_btnA {
+  float: center;
+  margin:5px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 35px;
+  width: 60px;
+}
+
+.pr_btnO {
+  float: center;
+  margin:5px;
+  background-color: #EB4646;
+  border: transparent;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 35px;
+  width: 60px;
+}
+
+/* body 클래스에 대한 css를 설정해주는 파일*/
+
+.Body {
+  /*body className에 대한 전반적인 디자인을 설정*/
+  padding: 30px;
+
+  position: relative;
+}
+
+.pro_search {
+  /*검색창에 대한 디자인 설정해주는 값, float는 수평으로 우측 배치*/
+  width: 200px;
+  height: 20px;
+  margin-left: 20px;
+  float: right;
+  border-radius: 1px 1px 1px 1px;
+}
+.add_btn {
+  background-color: #e93333;
+  color: white;
+  font-weight: bold;
+  margin-left: 155px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 5px 5px 5px 5px;
+}
+
+/*프로젝트 테이블에 대한 디자인*/
+
+.pr_table {
+  margin-right: 50px;
+
+  align-items: center;
+}
+.pr_tables {
+  margin-left: 155px;
+}
+
+/*페이지 리스트에 대한 전반적인 디자인*/
+.pr_navs {
+  text-decoration: none;
+  text-align: center;
+}
+.pr_pagenation {
+  text-decoration: none;
+  list-style: none;
+  margin-top: 20px;
+  font-family: "Sunflower", sans-serif;
+}
+.pagenation li {
+  background-color: white;
+  margin: 10px;
+}
+.pagenation a {
+  font-size: 14px;
+
+  padding: 5px 12px;
+  color: rgb(0, 0, 0);
+}
+.first {
+  margin-right: 15px;
+}
+.last {
+  margin-left: 15px;
+}
+.pagenation a.active {
+  cursor: default;
+  color: white;
+}
+.pagenation a:active {
+  outline: none;
+}
+.page_btn {
+  float: left;
+  margin: 25px;
+  text-align: center;
+}
+
+/*modal창 디자인*/
+.modal .num {
+  margin-left: 3px;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.modal .num:hover {
+  background: rosybrown;
+  color: white;
+}
+.modal .num.active,
+.modal .num:active {
+  background: royalblue;
+  cursor: pointer;
+}
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid rgb(143, 86, 40);
+}
+img {
+  width: 25px;
+  height: 25px;
+}
+.addMember{
+  width:200px;
+  height:40px;
+  margin-top: 20px;
+  margin-right: 10px;
+  float:left;
+}
+
+.boxs{
+  margin-top: 10px;
+  size: 15px;
+}

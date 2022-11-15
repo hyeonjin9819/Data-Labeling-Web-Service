@@ -1,0 +1,39 @@
+
+.labeling_header {
+  width: 100%;
+  padding:10px;
+  vertical-align: middle;
+  background-color: #f14e26;
+  
+}
+.header_button {
+  margin: 5px;
+  float:right;
+  background-color: #ffa67d;
+  border: transparent;
+  color: black;
+  font-weight: bold;    
+  border-radius: 4px 4px 4px 4px;
+ 
+}
+
+.header_button:hover{
+  transition: 0.5s;
+  background-color: white;
+  border:1px solid transparent;
+  border-radius: 5px 5px 5px 5px;
+}
+.check {
+  background-color: tra;
+  width: 25px;
+  height: 25px;
+}
+.imageId{
+  color: white;
+  text-align: center;
+}
+/* .workspace {
+  border: 2px dotted darkorange;
+} */
+
+

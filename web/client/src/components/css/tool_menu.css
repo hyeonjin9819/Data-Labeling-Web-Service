@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+.tool_menus {
+  float:left;
+  width: 20%;
+  background-color: transparent;
+  height: 100%;
+
+}
+.tool_menuss {
+
+  float: left;
+   width: 40%;
+
+   background-color: transparent;
+
+ }
+ 
+.labeling_ul {
+  list-style: none;
+}
+
+.label_selection {
+    width:150px;
+}
+
+.left_subject{
+  padding: 7px;
+  text-align: center;
+  font-weight: bold;
+  border-top: 1px solid black;
+}
+
+.obj_subject{
+  padding: 7px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+
+.commit_subject{
+  padding: 7px;
+  border-top: 2px solid black;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+
+.obj_sel{
+  width: 100%;
+  height: 10%;
+}
+
+.objs1{
+  background-color: #fdc5ab;
+  width:30%;
+  color: black;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  margin-right: 5%;
+  margin-left: 18%;
+  margin-top: 3%;
+  height: 70%;
+}
+
+.objs2{
+  background-color: #fdc5ab;
+  width:30%;
+  color: black;
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 70%;
+}
+
+.objs:hover{
+  opacity: 0.5;
+  transition: 0.5;
+}
+
+.commit_type{
+  width: 350px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 4px 4px 4px 4px;
+  margin: 5px;
+  text-align: center;
+  height: 2.5em;
+}
+
+.commit_save{
+  background-color: #e93333;
+  border: transparent;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  border-radius: 4px 4px 4px 4px;
+  height: 2.5em;
+  width: 4em;
+}
+
+.commit_save:hover{
+  transition: 0.5s;
+  background-color: bisque;
+  border:1px solid transparent;
+  border-radius: 5px 5px 5px 5px;
+}
+
+a{
+  text-decoration: none;
+}
+
+
+.imageId{
+  text-align: left;
+  font-family: 'Do Hyeon', sans-serif;
+  letter-spacing: 2px;
+}

@@ -1,0 +1,17 @@
+.make{
+    width: 200px;
+}
+
+.body_sub{
+    margin: auto;
+    margin-bottom: 30px;
+    border-bottom: 1px solid lightgray;
+}
+
+.team_foot{
+    width: 500px;
+
+}
+.body_main{
+    height: 250px;
+}
